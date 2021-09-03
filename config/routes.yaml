@@ -1,7 +1,4 @@
 #index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+ # path: /
+  #controller: App\Controller\DefaultController::index
 
-# CraueFormFlowDemoBundle:
-# resource: '@CraueFormFlowDemoBundle/Controller/'
-#  type: annotation
