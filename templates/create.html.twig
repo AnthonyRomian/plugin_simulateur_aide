@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello Utilisateur Controller!{% endblock %}
+
+
+{% block body %}
+
+        {# todo afficher formulaire #}
+    <div class="container">
+        <h3>Simulateur d'aide</h3>
+
+        {{ form_start(utilisateurForm) }}
+            {{ form_row(utilisateurForm.nom) }}
+            {{ form_row(utilisateurForm.prenom) }}
+            {{ form_row(utilisateurForm.tel) }}
+            {{ form_row(utilisateurForm.email) }}
+            {{ form_row(utilisateurForm.code_postal) }}
+            {{ form_row(utilisateurForm.ville) }}
+            {{ form_row(utilisateurForm.proprietaire) }}
+            {{ form_row(utilisateurForm.type_bien) }}
+            {{ form_row(utilisateurForm.ancienneteEligible) }}
+            {{ form_row(utilisateurForm.produit_vise) }}
+            {{ form_row(utilisateurForm.nbre_salle_bain) }}
+            {{ form_row(utilisateurForm.chauffage) }}
+            {{ form_row(utilisateurForm.energie) }}
+            {{ form_row(utilisateurForm.nbre_pers_foyer) }}
+            {{ form_row(utilisateurForm.revenu_fiscal) }}
+        {{ form_start(utilisateurForm) }}
+            <button type="submit" class="btn btn-info">Valider</button>
+
+        </div>
+
+    </div>
+    <script src="../public/assets/js/script.js" type="text/javascript" ></script>
+{% endblock %}
