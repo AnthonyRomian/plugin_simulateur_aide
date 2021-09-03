@@ -31,24 +31,36 @@ class UtilisateurController extends AbstractController
 
         $utilisateurForm = $this->createForm(UtilisateurType::class, $utilisateur);
 
-        $calculateur->calculerAide($utilisateur, $entityManager);
+
 
         $utilisateurForm->handleRequest($request);
-        $entityManager = $this->getDoctrine()->getManager();
+        $calculateur->calculerAide($utilisateur, $entityManager);
 
-        var_dump($utilisateur);
-        if ($utilisateurForm->isSubmitted() && $utilisateurForm->isValid()){
-            var_dump($utilisateur);
+        if ($utilisateurForm->isSubmitted() && $utilisateurForm->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+
             $entityManager->persist($utilisateur);
             $entityManager->flush();
+            $this->addFlash('success', 'Utilisateur créé avec succès');
 
-
-
-            //$this->addFlash('success', 'Utilisateur créé avec succès');
-            //return $this->redirectToRoute("resultat");
         }
         return $this->render('create.html.twig', [
             'utilisateurForm' => $utilisateurForm->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/resultat/{id}", name="resultat")
+     */
+    public function resultat(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        Calculateur $calculateur
+    ): Response
+    {
+
+        return $this->render('/resultat.html.twig', [
+            'resultat' => $resultat->createView(),
         ]);
     }
 

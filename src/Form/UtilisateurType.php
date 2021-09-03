@@ -37,8 +37,8 @@ class UtilisateurType extends AbstractType
             ->add('proprietaire', ChoiceType::class,[
                 'label' => 'Etes-vous propriétaire ?',
                 'choices' => [
-                    'Oui' => 'Oui',
-                    'Non' => 'Non'
+                    'Oui' => true,
+                    'Non' => false
                 ],
                 'multiple' => false,
                 'expanded' => true
@@ -57,8 +57,8 @@ class UtilisateurType extends AbstractType
             ->add('ancienneteEligible', ChoiceType::class,[
                 'label' => 'Votre logement a t-il plus de 2 ans ?',
                 'choices' => [
-                    'Oui' => 'Oui',
-                    'Non' => 'Non'
+                    'Oui' => true,
+                    'Non' => false
                 ],
                 'multiple' => false,
                 'expanded' => true

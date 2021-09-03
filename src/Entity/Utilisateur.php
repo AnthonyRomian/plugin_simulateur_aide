@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Utilisateur
 {
     /**
-     * @ORM\Id_utilisateur
+     * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */

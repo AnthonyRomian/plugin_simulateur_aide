@@ -6,8 +6,9 @@ namespace App\Service;
 use App\Entity\Resultat;
 use App\Entity\Utilisateur;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class Calculateur
+class Calculateur extends AbstractController
 {
 
 
@@ -25,6 +26,7 @@ class Calculateur
         $rfi = $utilisateur->getRevenuFiscal();
         $cp = $utilisateur->getCodePostal();
         $anciennete = $utilisateur->getAncienneteEligible();
+        $proprietaireOk = $utilisateur->getProprietaire();
 
         //-------------PRIME RENOV---------//
         $renov_Jaune = 14000;
@@ -45,11 +47,19 @@ class Calculateur
         $pouce_Bleu = 2500;
 
         $dep = substr($cp, -5, 2);
-
         $resultat = new Resultat();
 
-        if ($anciennete == 1){
+
+        /*var_dump($anciennete);
+        var_dump($anciennete == true);
+
+        var_dump($proprietaireOk);
+        var_dump($proprietaireOk == true);*/
+
+
+        if ($anciennete == true && $proprietaireOk == true ){
             #todo il est elligible aux aides
+            var_dump($utilisateur);
 
             #todo si code postal ile de france
             if ( $dep == 75|| $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95 ){
@@ -189,8 +199,11 @@ class Calculateur
                 $entityManager->persist($resultat);
                 $entityManager->flush();
 
-            } else {
+                var_dump($resultat);
 
+                return $this->redirectToRoute('resultat');
+
+            } else {
                 #hors ile de france
                 switch ($nbre_pers_foy) {
                     case 1:
@@ -326,13 +339,16 @@ class Calculateur
                 }
                 $entityManager->persist($resultat);
                 $entityManager->flush();
+                var_dump($resultat);
+                return $this->redirectToRoute('resultat');
             }
         }
         else {
             #todo il n est pas elligible aux aides
-            var_dump($resultat);
+            #afficher page pour dire non aux aides
 
         }
+
 
     }
 
