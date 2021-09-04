@@ -201,7 +201,7 @@ class Calculateur extends AbstractController
 
                 var_dump($resultat);
 
-                return $this->redirectToRoute('resultat');
+                //return $this->redirectToRoute('resultat');
 
             } else {
                 #hors ile de france
@@ -340,7 +340,7 @@ class Calculateur extends AbstractController
                 $entityManager->persist($resultat);
                 $entityManager->flush();
                 var_dump($resultat);
-                return $this->redirectToRoute('resultat');
+                //return $this->redirectToRoute('resultat');
             }
         }
         else {

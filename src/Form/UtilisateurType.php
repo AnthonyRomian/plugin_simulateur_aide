@@ -72,6 +72,7 @@ class UtilisateurType extends AbstractType
                 ],
                 'multiple' => false,
                 'expanded' => true
+
             ])
             ->add('nbre_salle_bain', IntegerType::class, [
                 'label' => 'Nombre de salle de bain :'
@@ -83,16 +84,26 @@ class UtilisateurType extends AbstractType
                     'Electricité' => 'Electricité',
                     'Bois_granule' => 'Bois / granule',
                 ],
-                'multiple' => false
+                'multiple' => false,
+                'row_attr' => [
+                    'id' => 'ElemChauffage1',
+                    'style' => 'display: none'
+                ],
             ])
             ->add('chauffage', ChoiceType::class,[
                 'choices' => [
+                    '--Choisissez--' => '--Choisissez--',
                     'radiateur à eau' => 'radiateur à eau',
                     'radiateur electrique' => 'radiateur electrique',
                     'plancher chauffant' => 'plancher chauffant',
                     'Autres' => 'Autres',
                 ],
-                'multiple' => false
+                'multiple' => true,
+                'expanded' => true,
+                'row_attr' => [
+                    'id' => 'ElemChauffage2',
+                    'style' => 'display: none'
+                ],
             ])
             ->add('nbre_pers_foyer', IntegerType::class, [
                 'label' => 'Nombre de personne au foyer :'
