@@ -41,7 +41,8 @@ class UtilisateurController extends AbstractController
 
             $entityManager->persist($utilisateur);
             $entityManager->flush();
-            $this->addFlash('success', 'Utilisateur créé avec succès');
+
+           $this->addFlash('success', 'Simulation réalisée avec succès');
 
         }
         return $this->render('create.html.twig', [

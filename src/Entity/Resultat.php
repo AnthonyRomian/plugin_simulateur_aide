@@ -41,7 +41,7 @@ class Resultat
      * @ORM\OneToOne(targetEntity=Utilisateur::class, inversedBy="resultat", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $utilisateur;
+    private $utilisateur_simulation;
 
 
     public function getId(): ?int
@@ -97,14 +97,14 @@ class Resultat
         return $this;
     }
 
-    public function getUtilisateur(): ?Utilisateur
+    public function getUtilisateurSimulation(): ?Utilisateur
     {
-        return $this->utilisateur;
+        return $this->utilisateur_simulation;
     }
 
-    public function setUtilisateur(Utilisateur $utilisateur): self
+    public function setUtilisateurSimulation(Utilisateur $utilisateur_simulation): self
     {
-        $this->utilisateur = $utilisateur;
+        $this->utilisateur_simulation = $utilisateur_simulation;
 
         return $this;
     }

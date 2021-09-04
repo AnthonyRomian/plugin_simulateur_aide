@@ -15,7 +15,7 @@ class Utilisateur
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id_utilisateur;
+    private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -98,14 +98,14 @@ class Utilisateur
     private $revenu_fiscal;
 
     /**
-     * @ORM\OneToOne(targetEntity=Resultat::class, mappedBy="utilisateur", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Resultat::class, mappedBy="utilisateur_simulation", cascade={"persist", "remove"})
      */
     private $resultat;
 
 
     public function getId(): ?int
     {
-        return $this->id_utilisateur;
+        return $this->id;
     }
 
     public function getNom(): ?string
@@ -309,8 +309,8 @@ class Utilisateur
     public function setResultat(Resultat $resultat): self
     {
         // set the owning side of the relation if necessary
-        if ($resultat->getUtilisateur() !== $this) {
-            $resultat->setUtilisateur($this);
+        if ($resultat->getUtilisateurSimulation() !== $this) {
+            $resultat->setUtilisateurSimulation($this);
         }
 
         $this->resultat = $resultat;
