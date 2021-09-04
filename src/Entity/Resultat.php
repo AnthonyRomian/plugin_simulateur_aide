@@ -37,6 +37,12 @@ class Resultat
      */
     private $montant_total;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Utilisateur::class, inversedBy="resultat", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $utilisateur;
+
 
     public function getId(): ?int
     {
@@ -87,6 +93,18 @@ class Resultat
     public function setMontantTotal(int $montant_total): self
     {
         $this->montant_total = $montant_total;
+
+        return $this;
+    }
+
+    public function getUtilisateur(): ?Utilisateur
+    {
+        return $this->utilisateur;
+    }
+
+    public function setUtilisateur(Utilisateur $utilisateur): self
+    {
+        $this->utilisateur = $utilisateur;
 
         return $this;
     }

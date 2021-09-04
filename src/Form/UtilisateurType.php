@@ -13,6 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UtilisateurType extends AbstractType
 {
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -71,7 +72,8 @@ class UtilisateurType extends AbstractType
                     'Eau chaude sanitaire et chauffage' => 'Eau chaude sanitaire et chauffage'
                 ],
                 'multiple' => false,
-                'expanded' => true
+                'expanded' => true,
+                'data' => 'Eau chaude sanitaire'
 
             ])
             ->add('nbre_salle_bain', IntegerType::class, [
@@ -92,7 +94,6 @@ class UtilisateurType extends AbstractType
             ])
             ->add('chauffage', ChoiceType::class,[
                 'choices' => [
-                    '--Choisissez--' => '--Choisissez--',
                     'radiateur à eau' => 'radiateur à eau',
                     'radiateur electrique' => 'radiateur electrique',
                     'plancher chauffant' => 'plancher chauffant',

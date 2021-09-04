@@ -78,9 +78,9 @@ class Utilisateur
     private $nbre_salle_bain;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="json")
      */
-    private $chauffage;
+    private $chauffage = [];
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -96,6 +96,11 @@ class Utilisateur
      * @ORM\Column(type="integer", length=255)
      */
     private $revenu_fiscal;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Resultat::class, mappedBy="utilisateur", cascade={"persist", "remove"})
+     */
+    private $resultat;
 
 
     public function getId(): ?int
@@ -248,12 +253,12 @@ class Utilisateur
         return $this;
     }
 
-    public function getChauffage(): ?string
+    public function getChauffage(): ?array
     {
         return $this->chauffage;
     }
 
-    public function setChauffage(string $chauffage): self
+    public function setChauffage(array $chauffage): self
     {
         $this->chauffage = $chauffage;
 
@@ -292,6 +297,23 @@ class Utilisateur
     public function setRevenuFiscal(string $revenu_fiscal): self
     {
         $this->revenu_fiscal = $revenu_fiscal;
+
+        return $this;
+    }
+
+    public function getResultat(): ?Resultat
+    {
+        return $this->resultat;
+    }
+
+    public function setResultat(Resultat $resultat): self
+    {
+        // set the owning side of the relation if necessary
+        if ($resultat->getUtilisateur() !== $this) {
+            $resultat->setUtilisateur($this);
+        }
+
+        $this->resultat = $resultat;
 
         return $this;
     }
