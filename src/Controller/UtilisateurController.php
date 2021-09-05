@@ -27,23 +27,55 @@ class UtilisateurController extends AbstractController
     {
         $utilisateur = new Utilisateur();
 
-        $utilisateur->setDateSimulation(new \DateTime('now'));
 
         $utilisateurForm = $this->createForm(UtilisateurType::class, $utilisateur);
 
+        $utilisateur->setDateSimulation(new \DateTime('now'));
 
 
         $utilisateurForm->handleRequest($request);
         $calculateur->calculerAide($utilisateur, $entityManager);
+        $agree = $utilisateur->getAgreeTerms();
+        var_dump($agree);
+        $agreeEmail = $utilisateur->getAgreeEmail();
+        var_dump(sizeof($agreeEmail));
 
         if ($utilisateurForm->isSubmitted() && $utilisateurForm->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            if ( sizeof($agree) == 1) {
+                if ( sizeof($agreeEmail) == 1) {
+                    // ENVOIE MAIL OK
 
-            $entityManager->persist($utilisateur);
-            $entityManager->flush();
+                    $entityManager = $this->getDoctrine()->getManager();
+                    $entityManager->persist($utilisateur);
+                    $entityManager->flush();
 
-           $this->addFlash('success', 'Simulation réalisée avec succès');
+                    $this->addFlash('success', 'Simulation réalisée avec succès');
+                    $this->addFlash('success', 'Mail envoyé');
 
+                    return $this->redirectToRoute('resultat', [
+                        'id' => $utilisateur->getId()
+                    ]);
+                    #TODO FAIRE ENVOIE DE MAIL
+
+                } else {
+
+                    #TODO ENVOIE MAIL NON
+                    $entityManager = $this->getDoctrine()->getManager();
+                    $entityManager->persist($utilisateur);
+                    $entityManager->flush();
+                    var_dump($utilisateur);
+                    $this->addFlash('success', 'Simulation réalisée avec succès');
+                    return $this->redirectToRoute('resultat', [
+                        'id' => $utilisateur->getId()
+                    ]);
+                }
+            } else {
+                //n accepte pas le traitement des données
+                $this->addFlash('message', 'veuillez accepter l\'utilisation de vos données');
+                return $this->render('create.html.twig', [
+                    'utilisateurForm' => $utilisateurForm->createView(),
+                ]);
+            }
         }
         return $this->render('create.html.twig', [
             'utilisateurForm' => $utilisateurForm->createView(),
@@ -51,17 +83,13 @@ class UtilisateurController extends AbstractController
     }
 
     /**
-     * @Route("/resultat/{id}", name="resultat")
+     * @Route("/resultat/{id}", name="resultat", methods={"GET"})
      */
-    public function resultat(
-        Request $request,
-        EntityManagerInterface $entityManager,
-        Calculateur $calculateur
-    ): Response
+    public function resultat(Utilisateur $utilisateur): Response
     {
 
-        return $this->render('/resultat.html.twig', [
-            'resultat' => $resultat->createView(),
+        return $this->render('resultat.html.twig', [
+            'utilisateur' => $utilisateur,
         ]);
     }
 

@@ -4,12 +4,14 @@ namespace App\Form;
 
 use App\Entity\Utilisateur;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\IsTrue;
 
 class UtilisateurType extends AbstractType
 {
@@ -74,7 +76,6 @@ class UtilisateurType extends AbstractType
                 'multiple' => false,
                 'expanded' => true,
                 'data' => 'Eau chaude sanitaire'
-
             ])
             ->add('nbre_salle_bain', IntegerType::class, [
                 'label' => 'Nombre de salle de bain :'
@@ -111,6 +112,24 @@ class UtilisateurType extends AbstractType
             ])
             ->add('revenu_fiscal', IntegerType::class, [
                 'label' => 'Votre revenu fiscal de référence :'
+            ])
+            ->add('agreeTerms', ChoiceType::class,[
+                'label' => ' ',
+                'choices' => [
+                    'J\'autorise l\'utilisation de mes informations personnelles pour le calcul des mes aides' => true,
+                ],
+                'multiple' => true,
+                'expanded' => true,
+                'data' => [true],
+            ])
+            ->add('agreeEmail', ChoiceType::class,[
+                'label' => ' ',
+                'choices' => [
+                    'Je désire recevoir le resultat de ma simulation par mail' => true,
+                ],
+                'multiple' => true,
+                'expanded' => true,
+                //'data' => [true],
             ])
         ;
         ;

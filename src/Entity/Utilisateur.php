@@ -102,6 +102,49 @@ class Utilisateur
      */
     private $resultat;
 
+    /**
+     * @var array (type="boolean" , "mapped=false)
+     */
+    private $agreeTerms = [];
+
+    /**
+     * @return array
+     */
+    public function getAgreeTerms(): ?array
+    {
+        return $this->agreeTerms;
+    }
+
+    /**
+     * @param array $agreeTerms
+     */
+    public function setAgreeTerms(array $agreeTerms): void
+    {
+        $this->agreeTerms = $agreeTerms;
+    }
+
+    /**
+     * @var array (type="boolean" , "mapped=false)
+     */
+    private $agreeEmail = [];
+
+    /**
+     * @return array
+     */
+    public function getAgreeEmail(): ?array
+    {
+        return $this->agreeEmail;
+    }
+
+    /**
+     * @param array $agreeEmail
+     */
+    public function setAgreeEmail(array $agreeEmail): void
+    {
+        $this->agreeTerms = $agreeEmail;
+    }
+
+
 
     public function getId(): ?int
     {

@@ -9,9 +9,30 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <h2>Mr {{ utilisateur.nom }}</h2>
+    <h3>Voici le résultat de votre simulation</h3>
+    <p>Selon les informations que vous nous avez fournies, vous avez le droit aux aides suivantes</p>
 
-    This friendly message is coming from:
+    <table class="table">
+        <thead>
+        <tr class="row">
+            <th >Resultat prime renov</th>
+            <th >{{ utilisateur.resultat.PrimeRenov }} €</th>
+        </tr>
+        <tr class="row">
+            <th >Resultat CEE</th>
+            <th >{{ utilisateur.resultat.cee }} €</th>
 
+        </tr>
+        <tr class="row">
+            <th >Coup de pouce fioul</th>
+            <th >{{ utilisateur.resultat.CdpChauffage }} €</th>
+        </tr>
+        <tr class="row">
+            <th >Montant Total</th>
+            <th >{{ utilisateur.resultat.MontantTotal }} €</th>
+        </tr>
+        </thead>
+    </table>
 </div>
 {% endblock %}
