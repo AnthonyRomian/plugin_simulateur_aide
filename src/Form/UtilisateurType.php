@@ -111,7 +111,7 @@ class UtilisateurType extends AbstractType
                 'label' => 'Nombre de personne au foyer :'
             ])
             ->add('revenu_fiscal', IntegerType::class, [
-                'label' => 'Votre revenu fiscal de référence :'
+                'label' => 'Revenu fiscal de référence :'
             ])
             ->add('agreeTerms', ChoiceType::class,[
                 'label' => ' ',

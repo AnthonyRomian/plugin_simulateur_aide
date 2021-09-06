@@ -6,8 +6,8 @@ namespace App\Service;
 use App\Entity\Resultat;
 use App\Entity\Utilisateur;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 
 class Calculateur extends AbstractController
 {
@@ -31,24 +31,40 @@ class Calculateur extends AbstractController
         $cp = $utilisateur->getCodePostal();
         $anciennete = $utilisateur->getAncienneteEligible();
         $proprietaireOk = $utilisateur->getProprietaire();
-        $produitVise =  $utilisateur->getProduitVise();
+        $produitVise = $utilisateur->getProduitVise();
+        $energie = $utilisateur->getEnergie();
 
-        $simulHeure = $utilisateur->getDateSimulation();
-        $simulHeureObj = $simulHeure->format('Y-m-d H:i:s');
+        //$simulHeure = $utilisateur->getDateSimulation();
+        //$simulHeureObj = $simulHeure->format('Y-m-d H:i:s');
 
         //-------------PRIME RENOV---------//
-        $renov_Jaune = 14000;
-        $renov_Gris = 11000;
-        $renov_Rouge = 6000;
-        $renov_Bleu = 0;
+        //---------CESI------//
+        $renov_cesi_Jaune = 4000;
+        $renov_cesi_Gris = 3000;
+        $renov_cesi_Rouge = 2000;
+        $renov_cesi_Bleu = 0;
         $renov_non = 0;
 
+        //---------SSC------//
+        $renov_ssc_Jaune = 10000;
+        $renov_ssc_Gris = 8000;
+        $renov_ssc_Rouge = 4000;
+        $renov_ssc_Bleu = 0;
+
+
         //-------------CEE-----------------//
-        $cee_Jaune = 1675;
-        $cee_Gris = 1537;
-        $cee_Rouge = 787;
-        $cee_Bleu = 787;
-        $cee_non= 0;
+        //---------CESI------//
+        $cee_cesi_Jaune = 275;
+        $cee_cesi_Gris = 137;
+        $cee_cesi_Rouge = 137;
+        $cee_cesi_Bleu = 137;
+        $cee_non = 0;
+
+        //---------SSC------//
+        $cee_ssc_Jaune = 1400;
+        $cee_ssc_Gris = 1400;
+        $cee_ssc_Rouge = 650;
+        $cee_ssc_Bleu = 650;
 
         //------Coup de pouce fioul--------//
         $pouce_Jaune = 4000;
@@ -59,708 +75,283 @@ class Calculateur extends AbstractController
 
         $dep = substr($cp, -5, 2);
         $resultat = new Resultat();
-        /*var_dump($anciennete);
-        var_dump($anciennete == true);
-        var_dump($proprietaireOk);
-        var_dump($proprietaireOk == true);*/
 
         $resultat->setUtilisateurSimulation($utilisateur);
         //var_dump($this->entityManager->getRepository(Utilisateur::class)->findByExampleField($utilisateur->getDateSimulation()));
 
-
-        if ($anciennete == true && $proprietaireOk == true ){
+        // ($anciennete == true && $proprietaireOk == true)
+        if ($anciennete == true ) {
             //il est elligible aux aides
             //si code postal ile de france
-            if ( $dep == 75|| $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95 ){
+            if ( $dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95 ) {
+
                 # ile de france
-                switch ($nbre_pers_foy) {
-                    case 1:
-                        if ($produitVise == 'Eau chaude sanitaire'){
-                            if ($rfi > 0 && $rfi < 20593 ) {
-                                $resultat->setPrimeRenov($renov_Jaune);
-                                $resultat->setCee($cee_Jaune);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_Jaune+$cee_Jaune);
-                                break;
-                            } elseif ($rfi > 20593 && $rfi < 25068) {
-                                $resultat->setPrimeRenov($renov_Gris);
-                                $resultat->setCee($cee_Gris);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_Gris+$cee_Gris);
-                                break;
-                            } elseif ($rfi > 25068 && $rfi < 38184) {
-                                $resultat->setPrimeRenov($renov_Rouge);
-                                $resultat->setCee($cee_Rouge);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_Rouge+$cee_Rouge);
-                                break;
-                            } elseif ($rfi > 38184) {
-                                $resultat->setPrimeRenov($renov_Bleu);
-                                $resultat->setCee($cee_Bleu);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_Bleu+$cee_Bleu);
-                                break;
-                            } else {
-                                $resultat->setPrimeRenov($renov_non);
-                                $resultat->setCee($cee_non);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_non+$cee_non);
-                                break;
-                            }
-                        }
-                        if ($produitVise == 'Eau chaude sanitaire et chauffage') {
-                            if ($rfi > 0 && $rfi < 20593) {
-                                $resultat->setPrimeRenov($renov_Jaune);
-                                $resultat->setCee($cee_Jaune);
-                                $resultat->setCdpChauffage($pouce_Jaune);
-                                $resultat->setMontantTotal($renov_Jaune + $cee_Jaune + $pouce_Jaune);
-                                break;
-                            } elseif ($rfi > 20593 && $rfi < 25068) {
-                                $resultat->setPrimeRenov($renov_Gris);
-                                $resultat->setCee($cee_Gris);
-                                $resultat->setCdpChauffage($pouce_Gris);
-                                $resultat->setMontantTotal($renov_Gris + $cee_Gris + $pouce_Gris);
-                                break;
-                            } elseif ($rfi > 25068 && $rfi < 38184) {
-                                $resultat->setPrimeRenov($renov_Rouge);
-                                $resultat->setCee($cee_Rouge);
-                                $resultat->setCdpChauffage($pouce_Rouge);
-                                $resultat->setMontantTotal($renov_Rouge + $cee_Rouge + $pouce_Rouge);
-                                break;
-                            } elseif ($rfi > 38184) {
-                                $resultat->setPrimeRenov($renov_Bleu);
-                                $resultat->setCee($cee_Bleu);
-                                $resultat->setCdpChauffage($pouce_Bleu);
-                                $resultat->setMontantTotal($renov_Bleu + $cee_Bleu + $pouce_Bleu);
-                                break;
-                            } else {
-                                $resultat->setPrimeRenov($renov_non);
-                                $resultat->setCee($cee_non);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_non + $cee_non + $pouce_Non);
-                                break;
-                            }
-                        }
-                    case 2:
-                        if ($produitVise == 'Eau chaude sanitaire'){
-                            if ($rfi > 0 && $rfi < 30225) {
-                                $resultat->setPrimeRenov($renov_Jaune);
-                                $resultat->setCee($cee_Jaune);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_Jaune+$cee_Jaune);
-                                break;
-                            } elseif ($rfi > 30225 && $rfi < 36792) {
-                                $resultat->setPrimeRenov($renov_Gris);
-                                $resultat->setCee($cee_Gris);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_Gris+$cee_Gris);
-                                break;
-                            } elseif ($rfi > 36792 && $rfi < 56130) {
-                                $resultat->setPrimeRenov($renov_Rouge);
-                                $resultat->setCee($cee_Rouge);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_Rouge+$cee_Rouge);
-                                break;
-                            } elseif ($rfi > 56130) {
-                                $resultat->setPrimeRenov($renov_Bleu);
-                                $resultat->setCee($cee_Bleu);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_Bleu+$cee_Bleu);
-                                break;
-                            }
-                            else {
-                                $resultat->setPrimeRenov($renov_non);
-                                $resultat->setCee($cee_non);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_non+$cee_non);
-                                break;
-                            }
-                        }
-                        if ($produitVise == 'Eau chaude sanitaire et chauffage'){
-                            if ($rfi > 0 && $rfi < 30225) {
-                                $resultat->setPrimeRenov($renov_Jaune);
-                                $resultat->setCee($cee_Jaune);
-                                $resultat->setCdpChauffage($pouce_Jaune);
-                                $resultat->setMontantTotal($renov_Jaune+$cee_Jaune+$pouce_Jaune);
-                                break;
-                            } elseif ($rfi > 30225 && $rfi < 36792) {
-                                $resultat->setPrimeRenov($renov_Gris);
-                                $resultat->setCee($cee_Gris);
-                                $resultat->setCdpChauffage($pouce_Gris);
-                                $resultat->setMontantTotal($renov_Gris+$cee_Gris+$pouce_Gris);
-                                break;
-                            } elseif ($rfi > 36792 && $rfi < 56130) {
-                                $resultat->setPrimeRenov($renov_Rouge);
-                                $resultat->setCee($cee_Rouge);
-                                $resultat->setCdpChauffage($pouce_Rouge);
-                                $resultat->setMontantTotal($renov_Rouge+$cee_Rouge+$pouce_Rouge);
-                                break;
-                            } elseif ($rfi > 56130) {
-                                $resultat->setPrimeRenov($renov_Bleu);
-                                $resultat->setCee($cee_Bleu);
-                                $resultat->setCdpChauffage($pouce_Bleu);
-                                $resultat->setMontantTotal($renov_Bleu+$cee_Bleu+$pouce_Bleu);
-                                break;
-                            }else {
-                                $resultat->setPrimeRenov($renov_non);
-                                $resultat->setCee($cee_non);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_non + $cee_non + $pouce_Non);
-                                break;
-                            }
-                        }
-                    case 3:
-                        if ($produitVise == 'Eau chaude sanitaire'){
-                            if ($rfi > 0 && $rfi < 36297) {
-                                $resultat->setPrimeRenov($renov_Jaune);
-                                $resultat->setCee($cee_Jaune);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_Jaune+$cee_Jaune);
-                                break;
-                            } elseif ($rfi > 36297 && $rfi < 44188) {
-                                $resultat->setPrimeRenov($renov_Gris);
-                                $resultat->setCee($cee_Gris);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_Gris+$cee_Gris);
-                                break;
-                            } elseif ($rfi > 44188 && $rfi < 67585) {
-                                $resultat->setPrimeRenov($renov_Rouge);
-                                $resultat->setCee($cee_Rouge);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_Rouge+$cee_Rouge);
-                                break;
-                            } elseif ($rfi > 67585) {
-                                $resultat->setPrimeRenov($renov_Bleu);
-                                $resultat->setCee($cee_Bleu);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_Bleu+$cee_Bleu);
-                                break;
-                            } else {
-                                $resultat->setPrimeRenov($renov_non);
-                                $resultat->setCee($cee_non);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_non+$cee_non);
-                                break;
-                            }
-                        }
-                        if ($produitVise == 'Eau chaude sanitaire et chauffage'){
-                            if ($rfi > 0 && $rfi < 36297) {
-                                $resultat->setPrimeRenov($renov_Jaune);
-                                $resultat->setCee($cee_Jaune);
-                                $resultat->setCdpChauffage($pouce_Jaune);
-                                $resultat->setMontantTotal($renov_Jaune+$cee_Jaune+$pouce_Jaune);
-                                break;
-                            } elseif ($rfi > 36297 && $rfi < 44188) {
-                                $resultat->setPrimeRenov($renov_Gris);
-                                $resultat->setCee($cee_Gris);
-                                $resultat->setCdpChauffage($pouce_Gris);
-                                $resultat->setMontantTotal($renov_Gris+$cee_Gris+$pouce_Gris);
-                                break;
-                            } elseif ($rfi > 44188 && $rfi < 67585) {
-                                $resultat->setPrimeRenov($renov_Rouge);
-                                $resultat->setCee($cee_Rouge);
-                                $resultat->setCdpChauffage($pouce_Rouge);
-                                $resultat->setMontantTotal($renov_Rouge+$cee_Rouge+$pouce_Rouge);
-                                break;
-                            } elseif ($rfi > 67585) {
-                                $resultat->setPrimeRenov($renov_Bleu);
-                                $resultat->setCee($cee_Bleu);
-                                $resultat->setCdpChauffage($pouce_Bleu);
-                                $resultat->setMontantTotal($renov_Bleu+$cee_Bleu+$pouce_Bleu);
-                                break;
-                            } else {
-                                $resultat->setPrimeRenov($renov_non);
-                                $resultat->setCee($cee_non);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_non + $cee_non + $pouce_Non);
-                                break;
-                            }
-                        }
-                    case 4:
-                        if ($produitVise == 'Eau chaude sanitaire'){
-                            if ($rfi > 0 && $rfi < 42381) {
-                                $resultat->setPrimeRenov($renov_Jaune);
-                                $resultat->setCee($cee_Jaune);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_Jaune+$cee_Jaune);
-                                break;
-                            } elseif ($rfi > 42381 && $rfi < 51597) {
-                                $resultat->setPrimeRenov($renov_Gris);
-                                $resultat->setCee($cee_Gris);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_Gris+$cee_Gris);
-                                break;
-                            } elseif ($rfi > 51597 && $rfi < 79041) {
-                                $resultat->setPrimeRenov($renov_Rouge);
-                                $resultat->setCee($cee_Rouge);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_Rouge+$cee_Rouge);
-                                break;
-                            } elseif ($rfi > 79041) {
-                                $resultat->setPrimeRenov($renov_Bleu);
-                                $resultat->setCee($cee_Bleu);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_Bleu+$cee_Bleu);
-                                break;
-                            } else {
-                                $resultat->setPrimeRenov($renov_non);
-                                $resultat->setCee($cee_non);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_non+$cee_non);
-                                break;
-                            }
-                        }
-                        if ($produitVise == 'Eau chaude sanitaire et chauffage'){
-                            if ($rfi > 0 && $rfi < 42381) {
-                                $resultat->setPrimeRenov($renov_Jaune);
-                                $resultat->setCee($cee_Jaune);
-                                $resultat->setCdpChauffage($pouce_Jaune);
-                                $resultat->setMontantTotal($renov_Jaune+$cee_Jaune+$pouce_Jaune);
-                                break;
-                            } elseif ($rfi > 42381 && $rfi < 51597) {
-                                $resultat->setPrimeRenov($renov_Gris);
-                                $resultat->setCee($cee_Gris);
-                                $resultat->setCdpChauffage($pouce_Gris);
-                                $resultat->setMontantTotal($renov_Gris+$cee_Gris+$pouce_Gris);
-                                break;
-                            } elseif ($rfi > 51597 && $rfi < 79041) {
-                                $resultat->setPrimeRenov($renov_Rouge);
-                                $resultat->setCee($cee_Rouge);
-                                $resultat->setCdpChauffage($pouce_Rouge);
-                                $resultat->setMontantTotal($renov_Rouge+$cee_Rouge+$pouce_Rouge);
-                                break;
-                            } elseif ($rfi > 79041) {
-                                $resultat->setPrimeRenov($renov_Bleu);
-                                $resultat->setCee($cee_Bleu);
-                                $resultat->setCdpChauffage($pouce_Bleu);
-                                $resultat->setMontantTotal($renov_Bleu+$cee_Bleu+$pouce_Bleu);
-                                break;
-                            } else {
-                                $resultat->setPrimeRenov($renov_non);
-                                $resultat->setCee($cee_non);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_non + $cee_non + $pouce_Non);
-                                break;
-                            }
-                        }
-                    case 5:
-                        if ($produitVise == 'Eau chaude sanitaire'){
-                            if ($rfi > 0 && $rfi < 48488) {
-                                $resultat->setPrimeRenov($renov_Jaune);
-                                $resultat->setCee($cee_Jaune);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_Jaune+$cee_Jaune);
-                                break;
-                            } elseif ($rfi > 48488 && $rfi < 59026) {
-                                $resultat->setPrimeRenov($renov_Gris);
-                                $resultat->setCee($cee_Gris);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_Gris+$cee_Gris);
-                                break;
-                            } elseif ($rfi > 59026 && $rfi < 90496) {
-                                $resultat->setPrimeRenov($renov_Rouge);
-                                $resultat->setCee($cee_Rouge);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_Rouge+$cee_Rouge);
-                                break;
-                            } elseif ($rfi > 90496) {
-                                $resultat->setPrimeRenov($renov_Bleu);
-                                $resultat->setCee($cee_Bleu);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_Bleu+$cee_Bleu);
-                                break;
-                            } else {
-                                $resultat->setPrimeRenov($renov_non);
-                                $resultat->setCee($cee_non);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_non+$cee_non);
-                                break;
-                            }
-                        }
-                        if ($produitVise == 'Eau chaude sanitaire et chauffage'){
-                            if ($rfi > 0 && $rfi < 48488) {
-                                $resultat->setPrimeRenov($renov_Jaune);
-                                $resultat->setCee($cee_Jaune);
-                                $resultat->setCdpChauffage($pouce_Jaune);
-                                $resultat->setMontantTotal($renov_Jaune+$cee_Jaune+$pouce_Jaune);
-                                break;
-                            } elseif ($rfi > 48488 && $rfi < 59026) {
-                                $resultat->setPrimeRenov($renov_Gris);
-                                $resultat->setCee($cee_Gris);
-                                $resultat->setCdpChauffage($pouce_Gris);
-                                $resultat->setMontantTotal($renov_Gris+$cee_Gris+$pouce_Gris);
-                                break;
-                            } elseif ($rfi > 59026 && $rfi < 90496) {
-                                $resultat->setPrimeRenov($renov_Rouge);
-                                $resultat->setCee($cee_Rouge);
-                                $resultat->setCdpChauffage($pouce_Rouge);
-                                $resultat->setMontantTotal($renov_Rouge+$cee_Rouge+$pouce_Rouge);
-                                break;
-                            } elseif ($rfi > 90496) {
-                                $resultat->setPrimeRenov($renov_Bleu);
-                                $resultat->setCee($cee_Bleu);
-                                $resultat->setCdpChauffage($pouce_Bleu);
-                                $resultat->setMontantTotal($renov_Bleu+$cee_Bleu+$pouce_Bleu);
-                                break;
-                            } else {
-                                $resultat->setPrimeRenov($renov_non);
-                                $resultat->setCee($cee_non);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_non + $cee_non + $pouce_Non);
-                                break;
-                            }
-                        }
-                }
-                $entityManager->persist($resultat);
-                $entityManager->flush();
+                $plafond_prime_renov_1_1 = 20593;
+                $plafond_prime_renov_1_2 = 25068;
+                $plafond_prime_renov_1_3 = 38184;
 
-                return $resultat;
+                $plafond_prime_renov_2_1 = 30225;
+                $plafond_prime_renov_2_2 = 36792;
+                $plafond_prime_renov_2_3 = 56130;
+
+                $plafond_prime_renov_3_1 = 36297;
+                $plafond_prime_renov_3_2 = 44188;
+                $plafond_prime_renov_3_3 = 67585;
+
+                $plafond_prime_renov_4_1 = 42381;
+                $plafond_prime_renov_4_2 = 51597;
+                $plafond_prime_renov_4_3 = 79041;
+
+                $plafond_prime_renov_5_1 = 42381;
+                $plafond_prime_renov_5_2 = 51597;
+                $plafond_prime_renov_5_3 = 79041;
+
+                $plafond_prime_renov_6_1 = 34993+(($nbre_pers_foy-5)*6096);
+                $plafond_prime_renov_6_2 = 44860+(($nbre_pers_foy-5)*7422);
+                $plafond_prime_renov_6_3 = 69081+(($nbre_pers_foy-5)*11455);
+
+                if ($rfi > 0 && $rfi < $plafond_prime_renov_1_1 && $nbre_pers_foy == 1 ||
+                    $rfi > 0 && $rfi < $plafond_prime_renov_2_1 && $nbre_pers_foy == 2 ||
+                    $rfi > 0 && $rfi < $plafond_prime_renov_3_1 && $nbre_pers_foy == 3 ||
+                    $rfi > 0 && $rfi < $plafond_prime_renov_4_1 && $nbre_pers_foy == 4 ||
+                    $rfi > 0 && $rfi < $plafond_prime_renov_5_1 && $nbre_pers_foy == 5 ||
+                    $rfi > 0 && $rfi < $plafond_prime_renov_6_1 && $nbre_pers_foy >= 6 ) {
+
+                    if ($produitVise == 'Eau chaude sanitaire') {
+                        $resultat->setPrimeRenov($renov_cesi_Jaune);
+                        $resultat->setCee($cee_cesi_Jaune);
+                        $resultat->setCdpChauffage($pouce_Non);
+                        $resultat->setMontantTotal($renov_cesi_Jaune + $cee_cesi_Jaune + $pouce_Non);
+
+                    } elseif ($produitVise == 'Eau chaude sanitaire et chauffage' && $energie == 'Fioul') {
+                        $resultat->setPrimeRenov($renov_ssc_Jaune);
+                        $resultat->setCee($cee_ssc_Jaune);
+                        $resultat->setCdpChauffage($pouce_Jaune);
+                        $resultat->setMontantTotal($renov_ssc_Jaune + $cee_ssc_Jaune + $pouce_Jaune);
+                    } elseif ($produitVise == 'Eau chaude sanitaire et chauffage' && $energie != 'Fioul') {
+                        $resultat->setPrimeRenov($renov_ssc_Jaune);
+                        $resultat->setCee($cee_ssc_Jaune);
+                        $resultat->setCdpChauffage($pouce_Non);
+                        $resultat->setMontantTotal($renov_ssc_Jaune + $cee_ssc_Jaune + $pouce_Non);
+                    }
+                    $entityManager->persist($resultat);
+                    $entityManager->flush();
+                    return $resultat;
+
+                } elseif ($rfi > $plafond_prime_renov_1_1 && $rfi < $plafond_prime_renov_1_2 && $nbre_pers_foy == 1 ||
+                    $rfi > $plafond_prime_renov_2_1 && $rfi < $plafond_prime_renov_2_2 && $nbre_pers_foy == 2 ||
+                    $rfi > $plafond_prime_renov_3_1 && $rfi < $plafond_prime_renov_3_2 && $nbre_pers_foy == 3 ||
+                    $rfi > $plafond_prime_renov_4_1 && $rfi < $plafond_prime_renov_4_2 && $nbre_pers_foy == 4 ||
+                    $rfi > $plafond_prime_renov_5_1 && $rfi < $plafond_prime_renov_5_2 && $nbre_pers_foy == 5 ||
+                    $rfi > $plafond_prime_renov_6_1 && $rfi < $plafond_prime_renov_6_2 && $nbre_pers_foy >= 6) {
+                    if ($produitVise == 'Eau chaude sanitaire') {
+                        $resultat->setPrimeRenov($renov_cesi_Gris);
+                        $resultat->setCee($cee_cesi_Gris);
+                        $resultat->setCdpChauffage($pouce_Non);
+                        $resultat->setMontantTotal($renov_cesi_Gris + $cee_cesi_Gris + $pouce_Non);
+
+                    } elseif ($produitVise == 'Eau chaude sanitaire et chauffage' && $energie == 'Fioul') {
+                        $resultat->setPrimeRenov($renov_ssc_Gris);
+                        $resultat->setCee($cee_ssc_Gris);
+                        $resultat->setCdpChauffage($pouce_Gris);
+                        $resultat->setMontantTotal($renov_ssc_Gris + $cee_ssc_Gris + $pouce_Gris);
+                    } elseif ($produitVise == 'Eau chaude sanitaire et chauffage' && $energie != 'Fioul') {
+                        $resultat->setPrimeRenov($renov_ssc_Gris);
+                        $resultat->setCee($cee_ssc_Gris);
+                        $resultat->setCdpChauffage($pouce_Non);
+                        $resultat->setMontantTotal($renov_ssc_Gris + $cee_ssc_Gris + $pouce_Non);
+                    }
+                    $entityManager->persist($resultat);
+                    $entityManager->flush();
+                    return $resultat;
+                } elseif ($rfi > $plafond_prime_renov_1_2 && $rfi < $plafond_prime_renov_1_3 && $nbre_pers_foy == 1 ||
+                    $rfi > $plafond_prime_renov_2_2 && $rfi < $plafond_prime_renov_2_3 && $nbre_pers_foy == 2 ||
+                    $rfi > $plafond_prime_renov_3_2 && $rfi < $plafond_prime_renov_3_3 && $nbre_pers_foy == 3 ||
+                    $rfi > $plafond_prime_renov_4_2 && $rfi < $plafond_prime_renov_4_3 && $nbre_pers_foy == 4 ||
+                    $rfi > $plafond_prime_renov_5_2 && $rfi < $plafond_prime_renov_5_3 && $nbre_pers_foy == 5 ||
+                    $rfi > $plafond_prime_renov_6_2 && $rfi < $plafond_prime_renov_6_3 && $nbre_pers_foy >= 6) {
+                    if ($produitVise == 'Eau chaude sanitaire') {
+                        $resultat->setPrimeRenov($renov_cesi_Rouge);
+                        $resultat->setCee($cee_cesi_Rouge);
+                        $resultat->setCdpChauffage($pouce_Non);
+                        $resultat->setMontantTotal($renov_cesi_Rouge + $cee_cesi_Rouge + $pouce_Non);
+
+                    } elseif ($produitVise == 'Eau chaude sanitaire et chauffage' && $energie == 'Fioul') {
+                        $resultat->setPrimeRenov($renov_ssc_Rouge);
+                        $resultat->setCee($cee_ssc_Rouge);
+                        $resultat->setCdpChauffage($pouce_Rouge);
+                        $resultat->setMontantTotal($renov_ssc_Rouge + $cee_ssc_Rouge + $pouce_Rouge);
+                    } elseif ($produitVise == 'Eau chaude sanitaire et chauffage' && $energie != 'Fioul') {
+                        $resultat->setPrimeRenov($renov_ssc_Rouge);
+                        $resultat->setCee($cee_ssc_Rouge);
+                        $resultat->setCdpChauffage($pouce_Non);
+                        $resultat->setMontantTotal($renov_ssc_Rouge + $cee_ssc_Rouge + $pouce_Non);
+                    }
+                    $entityManager->persist($resultat);
+                    $entityManager->flush();
+                    return $resultat;
+                } elseif ($rfi > $plafond_prime_renov_1_3 && $nbre_pers_foy == 1 ||
+                    $rfi > $plafond_prime_renov_2_3 && $nbre_pers_foy == 2 ||
+                    $rfi > $plafond_prime_renov_3_3 && $nbre_pers_foy == 3 ||
+                    $rfi > $plafond_prime_renov_4_3 && $nbre_pers_foy == 4 ||
+                    $rfi > $plafond_prime_renov_5_3 && $nbre_pers_foy == 5 ||
+                    $rfi > $plafond_prime_renov_6_3 && $nbre_pers_foy >= 6) {
+                    if ($produitVise == 'Eau chaude sanitaire') {
+                        $resultat->setPrimeRenov($renov_cesi_Bleu);
+                        $resultat->setCee($cee_cesi_Bleu);
+                        $resultat->setCdpChauffage($pouce_Non);
+                        $resultat->setMontantTotal($renov_cesi_Bleu + $cee_cesi_Bleu + $pouce_Non);
+                    } elseif ($produitVise == 'Eau chaude sanitaire et chauffage' && $energie == 'Fioul') {
+                        $resultat->setPrimeRenov($renov_ssc_Bleu);
+                        $resultat->setCee($cee_ssc_Bleu);
+                        $resultat->setCdpChauffage($pouce_Bleu);
+                        $resultat->setMontantTotal($renov_ssc_Bleu + $cee_ssc_Bleu + $pouce_Bleu);
+                    } elseif ($produitVise == 'Eau chaude sanitaire et chauffage' && $energie != 'Fioul') {
+                        $resultat->setPrimeRenov($renov_ssc_Bleu);
+                        $resultat->setCee($cee_ssc_Bleu);
+                        $resultat->setCdpChauffage($pouce_Non);
+                        $resultat->setMontantTotal($renov_ssc_Bleu + $cee_ssc_Bleu + $pouce_Non);
+                    }
+
+                    $entityManager->persist($resultat);
+                    $entityManager->flush();
+                    return $resultat;
+                }
             } else {
-                #hors ile de france
-                switch ($nbre_pers_foy) {
-                    case 1:
-                        if ($produitVise == 'Eau chaude sanitaire'){
-                            if ($rfi > 0 && $rfi < 14879 ) {
-                                $resultat->setPrimeRenov($renov_Jaune);
-                                $resultat->setCee($cee_Jaune);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_Jaune+$cee_Jaune);
-                                break;
-                            } elseif ($rfi > 14879 && $rfi < 19074) {
-                                $resultat->setPrimeRenov($renov_Gris);
-                                $resultat->setCee($cee_Gris);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_Gris+$cee_Gris);
-                                break;
-                            } elseif ($rfi > 19074 && $rfi < 29148) {
-                                $resultat->setPrimeRenov($renov_Rouge);
-                                $resultat->setCee($cee_Rouge);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_Rouge+$cee_Rouge);
-                                break;
-                            } elseif ($rfi > 29148) {
-                                $resultat->setPrimeRenov($renov_Bleu);
-                                $resultat->setCee($cee_Bleu);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_Bleu+$cee_Bleu);
-                                break;
-                            } else {
-                                $resultat->setPrimeRenov($renov_non);
-                                $resultat->setCee($cee_non);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_non+$cee_non);
-                                break;
-                            }
-                        }
-                        if ($produitVise == 'Eau chaude sanitaire et chauffage') {
-                            if ($rfi > 0 && $rfi < 14879) {
-                                $resultat->setPrimeRenov($renov_Jaune);
-                                $resultat->setCee($cee_Jaune);
-                                $resultat->setCdpChauffage($pouce_Jaune);
-                                $resultat->setMontantTotal($renov_Jaune + $cee_Jaune + $pouce_Jaune);
-                                break;
-                            } elseif ($rfi > 14879 && $rfi < 19074) {
-                                $resultat->setPrimeRenov($renov_Gris);
-                                $resultat->setCee($cee_Gris);
-                                $resultat->setCdpChauffage($pouce_Gris);
-                                $resultat->setMontantTotal($renov_Gris + $cee_Gris + $pouce_Gris);
-                                break;
-                            } elseif ($rfi > 19074 && $rfi < 29148) {
-                                $resultat->setPrimeRenov($renov_Rouge);
-                                $resultat->setCee($cee_Rouge);
-                                $resultat->setCdpChauffage($pouce_Rouge);
-                                $resultat->setMontantTotal($renov_Rouge + $cee_Rouge + $pouce_Rouge);
-                                break;
-                            } elseif ($rfi > 29148) {
-                                $resultat->setPrimeRenov($renov_Bleu);
-                                $resultat->setCee($cee_Bleu);
-                                $resultat->setCdpChauffage($pouce_Bleu);
-                                $resultat->setMontantTotal($renov_Bleu + $cee_Bleu + $pouce_Bleu);
-                                break;
-                            } else {
-                                $resultat->setPrimeRenov($renov_non);
-                                $resultat->setCee($cee_non);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_non + $cee_non + $pouce_Non);
-                                break;
-                            }
-                        }
-                    case 2:
-                        if ($produitVise == 'Eau chaude sanitaire'){
-                            if ($rfi > 0 && $rfi < 21760) {
-                                $resultat->setPrimeRenov($renov_Jaune);
-                                $resultat->setCee($cee_Jaune);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_Jaune+$cee_Jaune);
-                                break;
-                            } elseif ($rfi > 21760 && $rfi < 27896) {
-                                $resultat->setPrimeRenov($renov_Gris);
-                                $resultat->setCee($cee_Gris);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_Gris+$cee_Gris);
-                                break;
-                            } elseif ($rfi > 27896 && $rfi < 42848) {
-                                $resultat->setPrimeRenov($renov_Rouge);
-                                $resultat->setCee($cee_Rouge);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_Rouge+$cee_Rouge);
-                                break;
-                            } elseif ($rfi > 42848) {
-                                $resultat->setPrimeRenov($renov_Bleu);
-                                $resultat->setCee($cee_Bleu);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_Bleu+$cee_Bleu);
-                                break;
-                            } else {
-                                $resultat->setPrimeRenov($renov_non);
-                                $resultat->setCee($cee_non);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_non+$cee_non);
-                                break;
-                            }
-                        }
-                        if ($produitVise == 'Eau chaude sanitaire et chauffage'){
-                            if ($rfi > 0 && $rfi < 21760) {
-                                $resultat->setPrimeRenov($renov_Jaune);
-                                $resultat->setCee($cee_Jaune);
-                                $resultat->setCdpChauffage($pouce_Jaune);
-                                $resultat->setMontantTotal($renov_Jaune+$cee_Jaune+$pouce_Jaune);
-                                break;
-                            } elseif ($rfi > 21760 && $rfi < 27896) {
-                                $resultat->setPrimeRenov($renov_Gris);
-                                $resultat->setCee($cee_Gris);
-                                $resultat->setCdpChauffage($pouce_Gris);
-                                $resultat->setMontantTotal($renov_Gris+$cee_Gris+$pouce_Gris);
-                                break;
-                            } elseif ($rfi > 27896 && $rfi < 42848) {
-                                $resultat->setPrimeRenov($renov_Rouge);
-                                $resultat->setCee($cee_Rouge);
-                                $resultat->setCdpChauffage($pouce_Rouge);
-                                $resultat->setMontantTotal($renov_Rouge+$cee_Rouge+$pouce_Rouge);
-                                break;
-                            } elseif ($rfi > 42848) {
-                                $resultat->setPrimeRenov($renov_Bleu);
-                                $resultat->setCee($cee_Bleu);
-                                $resultat->setCdpChauffage($pouce_Bleu);
-                                $resultat->setMontantTotal($renov_Bleu+$cee_Bleu+$pouce_Bleu);
-                                break;
-                            } else {
-                                $resultat->setPrimeRenov($renov_non);
-                                $resultat->setCee($cee_non);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_non + $cee_non + $pouce_Non);
-                                break;
-                            }
-                        }
-                    case 3:
-                        if ($produitVise == 'Eau chaude sanitaire'){
-                            if ($rfi > 0 && $rfi < 26170) {
-                                $resultat->setPrimeRenov($renov_Jaune);
-                                $resultat->setCee($cee_Jaune);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_Jaune+$cee_Jaune);
-                                break;
-                            } elseif ($rfi > 26170 && $rfi < 33547) {
-                                $resultat->setPrimeRenov($renov_Gris);
-                                $resultat->setCee($cee_Gris);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_Gris+$cee_Gris);
-                                break;
-                            } elseif ($rfi > 33547 && $rfi < 51592) {
-                                $resultat->setPrimeRenov($renov_Rouge);
-                                $resultat->setCee($cee_Rouge);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_Rouge+$cee_Rouge);
-                                break;
-                            } elseif ($rfi > 51592) {
-                                $resultat->setPrimeRenov($renov_Bleu);
-                                $resultat->setCee($cee_Bleu);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_Bleu+$cee_Bleu);
-                                break;
-                            } else {
-                                $resultat->setPrimeRenov($renov_non);
-                                $resultat->setCee($cee_non);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_non+$cee_non);
-                                break;
-                            }
-                        }
-                        if ($produitVise == 'Eau chaude sanitaire et chauffage'){
-                            if ($rfi > 0 && $rfi < 26170) {
-                                $resultat->setPrimeRenov($renov_Jaune);
-                                $resultat->setCee($cee_Jaune);
-                                $resultat->setCdpChauffage($pouce_Jaune);
-                                $resultat->setMontantTotal($renov_Jaune+$cee_Jaune+$pouce_Jaune);
-                                break;
-                            } elseif ($rfi > 26170 && $rfi < 33547) {
-                                $resultat->setPrimeRenov($renov_Gris);
-                                $resultat->setCee($cee_Gris);
-                                $resultat->setCdpChauffage($pouce_Gris);
-                                $resultat->setMontantTotal($renov_Gris+$cee_Gris+$pouce_Gris);
-                                break;
-                            } elseif ($rfi > 33547 && $rfi < 51592) {
-                                $resultat->setPrimeRenov($renov_Rouge);
-                                $resultat->setCee($cee_Rouge);
-                                $resultat->setCdpChauffage($pouce_Rouge);
-                                $resultat->setMontantTotal($renov_Rouge+$cee_Rouge+$pouce_Rouge);
-                                break;
-                            } elseif ($rfi > 51592) {
-                                $resultat->setPrimeRenov($renov_Bleu);
-                                $resultat->setCee($cee_Bleu);
-                                $resultat->setCdpChauffage($pouce_Bleu);
-                                $resultat->setMontantTotal($renov_Bleu+$cee_Bleu+$pouce_Bleu);
-                                break;
-                            } else {
-                                $resultat->setPrimeRenov($renov_non);
-                                $resultat->setCee($cee_non);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_non + $cee_non + $pouce_Non);
-                                break;
-                            }
-                        }
-                    case 4:
-                        if ($produitVise == 'Eau chaude sanitaire'){
-                            if ($rfi > 0 && $rfi < 30572) {
-                                $resultat->setPrimeRenov($renov_Jaune);
-                                $resultat->setCee($cee_Jaune);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_Jaune+$cee_Jaune);
-                                break;
-                            } elseif ($rfi > 30572 && $rfi < 39192) {
-                                $resultat->setPrimeRenov($renov_Gris);
-                                $resultat->setCee($cee_Gris);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_Gris+$cee_Gris);
-                                break;
-                            } elseif ($rfi > 39192 && $rfi < 60336) {
-                                $resultat->setPrimeRenov($renov_Rouge);
-                                $resultat->setCee($cee_Rouge);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_Rouge+$cee_Rouge);
-                                break;
-                            } elseif ($rfi > 60336) {
-                                $resultat->setPrimeRenov($renov_Bleu);
-                                $resultat->setCee($cee_Bleu);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_Bleu+$cee_Bleu);
-                                break;
-                            } else {
-                                $resultat->setPrimeRenov($renov_non);
-                                $resultat->setCee($cee_non);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_non+$cee_non);
-                                break;
-                            }
-                        }
-                        if ($produitVise == 'Eau chaude sanitaire et chauffage'){
-                            if ($rfi > 0 && $rfi < 30572) {
-                                $resultat->setPrimeRenov($renov_Jaune);
-                                $resultat->setCee($cee_Jaune);
-                                $resultat->setCdpChauffage($pouce_Jaune);
-                                $resultat->setMontantTotal($renov_Jaune+$cee_Jaune+$pouce_Jaune);
-                                break;
-                            } elseif ($rfi > 30572 && $rfi < 39192) {
-                                $resultat->setPrimeRenov($renov_Gris);
-                                $resultat->setCee($cee_Gris);
-                                $resultat->setCdpChauffage($pouce_Gris);
-                                $resultat->setMontantTotal($renov_Gris+$cee_Gris+$pouce_Gris);
-                                break;
-                            } elseif ($rfi > 39192 && $rfi < 60336) {
-                                $resultat->setPrimeRenov($renov_Rouge);
-                                $resultat->setCee($cee_Rouge);
-                                $resultat->setCdpChauffage($pouce_Rouge);
-                                $resultat->setMontantTotal($renov_Rouge+$cee_Rouge+$pouce_Rouge);
-                                break;
-                            } elseif ($rfi > 60336) {
-                                $resultat->setPrimeRenov($renov_Bleu);
-                                $resultat->setCee($cee_Bleu);
-                                $resultat->setCdpChauffage($pouce_Bleu);
-                                $resultat->setMontantTotal($renov_Bleu+$cee_Bleu+$pouce_Bleu);
-                                break;
-                            } else {
-                                $resultat->setPrimeRenov($renov_non);
-                                $resultat->setCee($cee_non);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_non + $cee_non + $pouce_Non);
-                                break;
-                            }
-                        }
-                    case 5:
-                        if ($produitVise == 'Eau chaude sanitaire'){
-                            if ($rfi > 0 && $rfi < 34993) {
-                                $resultat->setPrimeRenov($renov_Jaune);
-                                $resultat->setCee($cee_Jaune);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_Jaune+$cee_Jaune);
-                                break;
-                            } elseif ($rfi > 34993 && $rfi < 44860) {
-                                $resultat->setPrimeRenov($renov_Gris);
-                                $resultat->setCee($cee_Gris);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_Gris+$cee_Gris);
-                                break;
-                            } elseif ($rfi > 44860 && $rfi < 69081) {
-                                $resultat->setPrimeRenov($renov_Rouge);
-                                $resultat->setCee($cee_Rouge);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_Rouge+$cee_Rouge);
-                                break;
-                            } elseif ($rfi > 69081) {
-                                $resultat->setPrimeRenov($renov_Bleu);
-                                $resultat->setCee($cee_Bleu);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_Bleu+$cee_Bleu);
-                                break;
-                            } else {
-                                $resultat->setPrimeRenov($renov_non);
-                                $resultat->setCee($cee_non);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_non+$cee_non);
-                                break;
-                            }
-                        }
-                        if ($produitVise == 'Eau chaude sanitaire et chauffage'){
-                            if ($rfi > 0 && $rfi < 34993) {
-                                $resultat->setPrimeRenov($renov_Jaune);
-                                $resultat->setCee($cee_Jaune);
-                                $resultat->setCdpChauffage($pouce_Jaune);
-                                $resultat->setMontantTotal($renov_Jaune+$cee_Jaune+$pouce_Jaune);
-                                break;
-                            } elseif ($rfi > 34993 && $rfi < 44860) {
-                                $resultat->setPrimeRenov($renov_Gris);
-                                $resultat->setCee($cee_Gris);
-                                $resultat->setCdpChauffage($pouce_Gris);
-                                $resultat->setMontantTotal($renov_Gris+$cee_Gris+$pouce_Gris);
-                                break;
-                            } elseif ($rfi > 44860 && $rfi < 69081) {
-                                $resultat->setPrimeRenov($renov_Rouge);
-                                $resultat->setCee($cee_Rouge);
-                                $resultat->setCdpChauffage($pouce_Rouge);
-                                $resultat->setMontantTotal($renov_Rouge+$cee_Rouge+$pouce_Rouge);
-                                break;
-                            } elseif ($rfi > 69081) {
-                                $resultat->setPrimeRenov($renov_Bleu);
-                                $resultat->setCee($cee_Bleu);
-                                $resultat->setCdpChauffage($pouce_Bleu);
-                                $resultat->setMontantTotal($renov_Bleu+$cee_Bleu+$pouce_Bleu);
-                                break;
-                            } else {
-                                $resultat->setPrimeRenov($renov_non);
-                                $resultat->setCee($cee_non);
-                                $resultat->setCdpChauffage($pouce_Non);
-                                $resultat->setMontantTotal($renov_non + $cee_non + $pouce_Non);
-                                break;
-                            }
-                        }
-                }
-                $entityManager->persist($resultat);
-                $entityManager->flush();
 
-                return $resultat;
+                # HORS ile de france
+                $plafond_prime_renov_province_1_1 = 14879;
+                $plafond_prime_renov_province_1_2 = 19074;
+                $plafond_prime_renov_province_1_3 = 29148;
+
+                $plafond_prime_renov_province_2_1 = 21760;
+                $plafond_prime_renov_province_2_2 = 27896;
+                $plafond_prime_renov_province_2_3 = 42848;
+
+                $plafond_prime_renov_province_3_1 = 26170;
+                $plafond_prime_renov_province_3_2 = 33547;
+                $plafond_prime_renov_province_3_3 = 51592;
+
+                $plafond_prime_renov_province_4_1 = 30572;
+                $plafond_prime_renov_province_4_2 = 39192;
+                $plafond_prime_renov_province_4_3 = 60336;
+
+                $plafond_prime_renov_province_5_1 = 34993;
+                $plafond_prime_renov_province_5_2 = 44860;
+                $plafond_prime_renov_province_5_3 = 69081;
+
+                $plafond_prime_renov_province_6_1 = 34993+(($nbre_pers_foy-5)*4412);
+                $plafond_prime_renov_province_6_2 = 44860+(($nbre_pers_foy-5)*5651);
+                $plafond_prime_renov_province_6_3 = 69081+(($nbre_pers_foy-5)*8744);
+
+                if ($rfi > 0 && $rfi < $plafond_prime_renov_province_1_1 && $nbre_pers_foy == 1 ||
+                    $rfi > 0 && $rfi < $plafond_prime_renov_province_2_1 && $nbre_pers_foy == 2 ||
+                    $rfi > 0 && $rfi < $plafond_prime_renov_province_3_1 && $nbre_pers_foy == 3 ||
+                    $rfi > 0 && $rfi < $plafond_prime_renov_province_4_1 && $nbre_pers_foy == 4 ||
+                    $rfi > 0 && $rfi < $plafond_prime_renov_province_5_1 && $nbre_pers_foy == 5 ||
+                    $rfi > 0 && $rfi < $plafond_prime_renov_province_6_1 && $nbre_pers_foy >= 6) {
+
+                    if ($produitVise == 'Eau chaude sanitaire') {
+                        $resultat->setPrimeRenov($renov_cesi_Jaune);
+                        $resultat->setCee($cee_cesi_Jaune);
+                        $resultat->setCdpChauffage($pouce_Non);
+                        $resultat->setMontantTotal($renov_cesi_Jaune + $cee_cesi_Jaune + $pouce_Non);
+
+                    } elseif ($produitVise == 'Eau chaude sanitaire et chauffage' && $energie == 'Fioul') {
+                        $resultat->setPrimeRenov($renov_ssc_Jaune);
+                        $resultat->setCee($cee_ssc_Jaune);
+                        $resultat->setCdpChauffage($pouce_Jaune);
+                        $resultat->setMontantTotal($renov_ssc_Jaune + $cee_ssc_Jaune + $pouce_Jaune);
+                    } elseif ($produitVise == 'Eau chaude sanitaire et chauffage' && $energie != 'Fioul') {
+                        $resultat->setPrimeRenov($renov_ssc_Jaune);
+                        $resultat->setCee($cee_ssc_Jaune);
+                        $resultat->setCdpChauffage($pouce_Non);
+                        $resultat->setMontantTotal($renov_ssc_Jaune + $cee_ssc_Jaune + $pouce_Non);
+                    }
+                    $entityManager->persist($resultat);
+                    $entityManager->flush();
+                    return $resultat;
+
+                } elseif ($rfi > $plafond_prime_renov_province_1_1 && $rfi < $plafond_prime_renov_province_1_2 && $nbre_pers_foy == 1 ||
+                    $rfi > $plafond_prime_renov_province_2_1 && $rfi < $plafond_prime_renov_province_2_2 && $nbre_pers_foy == 2 ||
+                    $rfi > $plafond_prime_renov_province_3_1 && $rfi < $plafond_prime_renov_province_3_2 && $nbre_pers_foy == 3 ||
+                    $rfi > $plafond_prime_renov_province_4_1 && $rfi < $plafond_prime_renov_province_4_2 && $nbre_pers_foy == 4 ||
+                    $rfi > $plafond_prime_renov_province_5_1 && $rfi < $plafond_prime_renov_province_5_2 && $nbre_pers_foy == 5 ||
+                    $rfi > $plafond_prime_renov_province_6_1 && $rfi < $plafond_prime_renov_province_6_2 && $nbre_pers_foy >= 6 ) {
+                    if ($produitVise == 'Eau chaude sanitaire') {
+                        $resultat->setPrimeRenov($renov_cesi_Gris);
+                        $resultat->setCee($cee_cesi_Gris);
+                        $resultat->setCdpChauffage($pouce_Non);
+                        $resultat->setMontantTotal($renov_cesi_Gris + $cee_cesi_Gris + $pouce_Non);
+
+                    } elseif ($produitVise == 'Eau chaude sanitaire et chauffage' && $energie == 'Fioul') {
+                        $resultat->setPrimeRenov($renov_ssc_Gris);
+                        $resultat->setCee($cee_ssc_Gris);
+                        $resultat->setCdpChauffage($pouce_Bleu);
+                        $resultat->setMontantTotal($renov_ssc_Gris + $cee_ssc_Gris + $pouce_Bleu);
+                    } elseif ($produitVise == 'Eau chaude sanitaire et chauffage' && $energie != 'Fioul') {
+                        $resultat->setPrimeRenov($renov_ssc_Gris);
+                        $resultat->setCee($cee_ssc_Gris);
+                        $resultat->setCdpChauffage($pouce_Non);
+                        $resultat->setMontantTotal($renov_ssc_Gris + $cee_ssc_Gris + $pouce_Non);
+                    }
+                    $entityManager->persist($resultat);
+                    $entityManager->flush();
+                    return $resultat;
+                } elseif ($rfi > $plafond_prime_renov_province_1_2 && $rfi < $plafond_prime_renov_province_1_3 && $nbre_pers_foy == 1 ||
+                    $rfi > $plafond_prime_renov_province_2_2 && $rfi < $plafond_prime_renov_province_2_3 && $nbre_pers_foy == 2 ||
+                    $rfi > $plafond_prime_renov_province_3_2 && $rfi < $plafond_prime_renov_province_3_3 && $nbre_pers_foy == 3 ||
+                    $rfi > $plafond_prime_renov_province_4_2 && $rfi < $plafond_prime_renov_province_4_3 && $nbre_pers_foy == 4 ||
+                    $rfi > $plafond_prime_renov_province_5_2 && $rfi < $plafond_prime_renov_province_5_3 && $nbre_pers_foy == 5 ||
+                    $rfi > $plafond_prime_renov_province_6_2 && $rfi < $plafond_prime_renov_province_6_3 && $nbre_pers_foy >= 6 ) {
+                    if ($produitVise == 'Eau chaude sanitaire') {
+                        $resultat->setPrimeRenov($renov_cesi_Rouge);
+                        $resultat->setCee($cee_cesi_Rouge);
+                        $resultat->setCdpChauffage($pouce_Non);
+                        $resultat->setMontantTotal($renov_cesi_Rouge + $cee_cesi_Rouge + $pouce_Non);
+
+                    } elseif ($produitVise == 'Eau chaude sanitaire et chauffage' && $energie == 'Fioul') {
+                        $resultat->setPrimeRenov($renov_ssc_Rouge);
+                        $resultat->setCee($cee_ssc_Rouge);
+                        $resultat->setMontantTotal($renov_ssc_Rouge + $cee_ssc_Rouge + $pouce_Rouge);
+                    } elseif ($produitVise == 'Eau chaude sanitaire et chauffage' && $energie != 'Fioul') {
+                        $resultat->setPrimeRenov($renov_ssc_Rouge);
+                        $resultat->setCee($cee_ssc_Rouge);
+                        $resultat->setCdpChauffage($pouce_Non);
+                        $resultat->setMontantTotal($renov_ssc_Rouge + $cee_ssc_Rouge + $pouce_Non);
+                    }
+                    $entityManager->persist($resultat);
+                    $entityManager->flush();
+                    return $resultat;
+                } elseif ($rfi > $plafond_prime_renov_province_1_3 && $nbre_pers_foy == 1 ||
+                    $rfi > $plafond_prime_renov_province_2_3 && $nbre_pers_foy == 2 ||
+                    $rfi > $plafond_prime_renov_province_3_3 && $nbre_pers_foy == 3 ||
+                    $rfi > $plafond_prime_renov_province_4_3 && $nbre_pers_foy == 4 ||
+                    $rfi > $plafond_prime_renov_province_5_3 && $nbre_pers_foy == 5 ||
+                    $rfi > $plafond_prime_renov_province_6_3 && $nbre_pers_foy >= 6) {
+                    if ($produitVise == 'Eau chaude sanitaire') {
+                        $resultat->setPrimeRenov($renov_cesi_Bleu);
+                        $resultat->setCee($cee_cesi_Bleu);
+                        $resultat->setCdpChauffage($pouce_Non);
+                        $resultat->setMontantTotal($renov_cesi_Bleu + $cee_cesi_Bleu + $pouce_Non);
+                    } elseif ($produitVise == 'Eau chaude sanitaire et chauffage' && $energie == 'Fioul') {
+                        $resultat->setPrimeRenov($renov_ssc_Bleu);
+                        $resultat->setCee($cee_ssc_Bleu);
+                        $resultat->setMontantTotal($renov_ssc_Bleu + $cee_ssc_Bleu + $pouce_Rouge);
+                    } elseif ($produitVise == 'Eau chaude sanitaire et chauffage' && $energie != 'Fioul') {
+                        $resultat->setPrimeRenov($renov_ssc_Bleu);
+                        $resultat->setCee($cee_ssc_Bleu);
+                        $resultat->setCdpChauffage($pouce_Non);
+                        $resultat->setMontantTotal($renov_ssc_Bleu + $cee_ssc_Bleu + $pouce_Non );
+                    }
+
+                    $entityManager->persist($resultat);
+                    $entityManager->flush();
+                    return $resultat;
+                }
             }
-        }
-        else {
+        } else {
+            #todo il n est pas elligible aux aides = ZERO
             $resultat->setUtilisateurSimulation($utilisateur);
             $resultat->setPrimeRenov($renov_non);
             $resultat->setCee($cee_non);
@@ -770,16 +361,15 @@ class Calculateur extends AbstractController
             try {
                 $entityManager->persist($resultat);
                 $entityManager->flush();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
 
                 return $this->redirectToRoute('create');
-
-
             }
 
-            #todo il n est pas elligible aux aides = ZERO
-            return $resultat;
+
+
         }
+        return $resultat;
     }
 
 }

@@ -36,9 +36,9 @@ class UtilisateurController extends AbstractController
         $utilisateurForm->handleRequest($request);
         $calculateur->calculerAide($utilisateur, $entityManager);
         $agree = $utilisateur->getAgreeTerms();
-        var_dump($agree);
+        //var_dump($agree);
         $agreeEmail = $utilisateur->getAgreeEmail();
-        var_dump(sizeof($agreeEmail));
+        //var_dump(sizeof($agreeEmail));
 
         if ($utilisateurForm->isSubmitted() && $utilisateurForm->isValid()) {
             if ( sizeof($agree) == 1) {
