@@ -93,6 +93,8 @@ class UtilisateurController extends AbstractController
     public function resultat(Utilisateur $utilisateur, MailerService $mailerService): Response
     {
 
+        $agreeT = $utilisateur->getAgreeTerms();
+        dd($agreeT);
 
         $email = $utilisateur->getEmail();
 
