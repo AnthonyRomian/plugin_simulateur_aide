@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Resultat;
 use App\Entity\Utilisateur;
 use App\Form\UtilisateurType;
 use App\Service\Calculateur;
@@ -58,7 +57,8 @@ class UtilisateurController extends AbstractController
                     $this->addFlash('success', 'Mail envoyé');
 
                     return $this->redirectToRoute('resultat', [
-                        'id' => $utilisateur->getId()
+                        'id' => $utilisateur->getId(),
+                        'utilisateur' => $utilisateur
                     ]);
                     #TODO FAIRE ENVOIE DE MAIL
 
@@ -68,7 +68,6 @@ class UtilisateurController extends AbstractController
                     $entityManager = $this->getDoctrine()->getManager();
                     $entityManager->persist($utilisateur);
                     $entityManager->flush();
-                    var_dump($utilisateur);
                     $this->addFlash('success', 'Simulation réalisée avec succès');
                     return $this->redirectToRoute('resultat', [
                         'id' => $utilisateur->getId()
@@ -93,22 +92,6 @@ class UtilisateurController extends AbstractController
     public function resultat(Utilisateur $utilisateur, MailerService $mailerService): Response
     {
 
-        $agreeT = $utilisateur->getAgreeTerms();
-        dd($agreeT);
-
-        $email = $utilisateur->getEmail();
-
-        $mailerService->send(
-            "Votre simulation",
-            "contact@top-enr.com",
-            $email,
-            "email/contact.html.twig",
-            [
-                "name" => $utilisateur->getNom(),
-                "total" => $utilisateur->getResultat()->getMontantTotal(),
-            ]
-
-        );
 
         return $this->render('resultat.html.twig', [
             'utilisateur' => $utilisateur,

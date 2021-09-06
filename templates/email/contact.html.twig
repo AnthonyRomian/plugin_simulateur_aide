@@ -4,9 +4,32 @@
     <title>Page Title</title>
 </head>
 <body>
+<div class="example-wrapper">
+    <h3>Mr {{ name }}</h3>
+    <h4>Voici le résultat de votre simulation</h4>
+    <p>Selon les informations que vous nous avez fournies, vous avez le droit aux aides suivantes</p>
 
-<h2>NOM DE FAMILLE {{ name }}</h2>
-<p>total {{ total }}</p>
+    <table class="table">
+        <thead>
+        <tr class="row">
+            <th >Prime renov</th>
+            <th >{{ prime_renov }} €</th>
+        </tr>
+        <tr class="row">
+            <th >Resultat CEE</th>
+            <th > {{ prime_cee }}€</th>
 
+        </tr>
+        <tr class="row">
+            <th >Coup de pouce fioul</th>
+            <th >{{ prime_fioul }} €</th>
+        </tr>
+        <tr class="row">
+            <th >Montant Total</th>
+            <th >{{ total }} €</th>
+        </tr>
+        </thead>
+    </table>
+</div>
 </body>
 </html>
