@@ -129,11 +129,8 @@ class UtilisateurType extends AbstractType
                 ],
                 'multiple' => true,
                 'expanded' => true,
-                //'data' => [true],
-            ])
-        ;
-        ;
-        //->add('date_simulation')
+                'data' => [true],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -108,6 +108,11 @@ class Utilisateur
     private $agreeTerms = [];
 
     /**
+     * @var array (type="boolean" , "mapped=false)
+     */
+    private $agreeEmail = [];
+
+    /**
      * @return array
      */
     public function getAgreeTerms(): ?array
@@ -124,11 +129,6 @@ class Utilisateur
     }
 
     /**
-     * @var array (type="boolean" , "mapped=false)
-     */
-    private $agreeEmail = [];
-
-    /**
      * @return array
      */
     public function getAgreeEmail(): ?array
@@ -141,10 +141,8 @@ class Utilisateur
      */
     public function setAgreeEmail(array $agreeEmail): void
     {
-        $this->agreeTerms = $agreeEmail;
+        $this->agreeEmail = $agreeEmail;
     }
-
-
 
     public function getId(): ?int
     {

@@ -6,6 +6,7 @@ use App\Entity\Resultat;
 use App\Entity\Utilisateur;
 use App\Form\UtilisateurType;
 use App\Service\Calculateur;
+use App\Service\MailerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,19 +23,19 @@ class UtilisateurController extends AbstractController
     public function create(
         Request $request,
         EntityManagerInterface $entityManager,
-        Calculateur $calculateur
+        Calculateur $calculateur,
+        MailerService $mailerService
+
     ): Response
     {
         $utilisateur = new Utilisateur();
 
-
         $utilisateurForm = $this->createForm(UtilisateurType::class, $utilisateur);
-
         $utilisateur->setDateSimulation(new \DateTime('now'));
 
-
         $utilisateurForm->handleRequest($request);
-        $calculateur->calculerAide($utilisateur, $entityManager);
+
+
         $agree = $utilisateur->getAgreeTerms();
         //var_dump($agree);
         $agreeEmail = $utilisateur->getAgreeEmail();
@@ -42,12 +43,16 @@ class UtilisateurController extends AbstractController
 
         if ($utilisateurForm->isSubmitted() && $utilisateurForm->isValid()) {
             if ( sizeof($agree) == 1) {
+
                 if ( sizeof($agreeEmail) == 1) {
                     // ENVOIE MAIL OK
+                    $calculateur->calculerAide($utilisateur, $entityManager, $mailerService);
 
                     $entityManager = $this->getDoctrine()->getManager();
                     $entityManager->persist($utilisateur);
                     $entityManager->flush();
+
+
 
                     $this->addFlash('success', 'Simulation réalisée avec succès');
                     $this->addFlash('success', 'Mail envoyé');
@@ -58,7 +63,7 @@ class UtilisateurController extends AbstractController
                     #TODO FAIRE ENVOIE DE MAIL
 
                 } else {
-
+                    $calculateur->calculerAide($utilisateur, $entityManager, $mailerService);
                     #TODO ENVOIE MAIL NON
                     $entityManager = $this->getDoctrine()->getManager();
                     $entityManager->persist($utilisateur);
@@ -85,8 +90,23 @@ class UtilisateurController extends AbstractController
     /**
      * @Route("/resultat/{id}", name="resultat", methods={"GET"})
      */
-    public function resultat(Utilisateur $utilisateur): Response
+    public function resultat(Utilisateur $utilisateur, MailerService $mailerService): Response
     {
+
+
+        $email = $utilisateur->getEmail();
+
+        $mailerService->send(
+            "Votre simulation",
+            "contact@top-enr.com",
+            $email,
+            "email/contact.html.twig",
+            [
+                "name" => $utilisateur->getNom(),
+                "total" => $utilisateur->getResultat()->getMontantTotal(),
+            ]
+
+        );
 
         return $this->render('resultat.html.twig', [
             'utilisateur' => $utilisateur,
