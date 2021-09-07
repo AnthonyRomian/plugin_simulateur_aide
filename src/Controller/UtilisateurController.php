@@ -33,12 +33,8 @@ class UtilisateurController extends AbstractController
         $utilisateur->setDateSimulation(new \DateTime('now'));
 
         $utilisateurForm->handleRequest($request);
-
-
         $agree = $utilisateur->getAgreeTerms();
-        //var_dump($agree);
         $agreeEmail = $utilisateur->getAgreeEmail();
-        //var_dump(sizeof($agreeEmail));
 
         if ($utilisateurForm->isSubmitted() && $utilisateurForm->isValid()) {
             if ( sizeof($agree) == 1) {
@@ -54,7 +50,7 @@ class UtilisateurController extends AbstractController
 
 
                     $this->addFlash('success', 'Simulation réalisée avec succès');
-                    $this->addFlash('success', 'Mail envoyé');
+
 
                     return $this->redirectToRoute('resultat', [
                         'id' => $utilisateur->getId(),
@@ -86,16 +82,14 @@ class UtilisateurController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/resultat/{id}", name="resultat", methods={"GET"})
-     */
-    public function resultat(Utilisateur $utilisateur, MailerService $mailerService): Response
+
+    /*public function resultat(Utilisateur $utilisateur, MailerService $mailerService): Response
     {
 
 
         return $this->render('resultat.html.twig', [
             'utilisateur' => $utilisateur,
         ]);
-    }
+    }*/
 
 }

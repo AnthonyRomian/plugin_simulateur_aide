@@ -9,6 +9,10 @@ use App\Entity\Utilisateur;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 class Calculateur extends AbstractController
 {
@@ -25,10 +29,10 @@ class Calculateur extends AbstractController
     }
 
     /**
-     * @throws \Twig\Error\SyntaxError
-     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\LoaderError
+     * @throws SyntaxError
+     * @throws TransportExceptionInterface
+     * @throws RuntimeError
+     * @throws LoaderError
      */
     public function calculerAide(Utilisateur $utilisateur, EntityManagerInterface $entityManager, MailerService $mailerService)
     {
@@ -85,34 +89,36 @@ class Calculateur extends AbstractController
         $resultat->setUtilisateurSimulation($utilisateur);
         $agreeEmail = $utilisateur->getAgreeEmail();
 
-        if ($anciennete == true ) {
+
+
+        if ($anciennete == true) {
             //il est elligible aux aides
             //si code postal ile de france
 
-                # ile de france
-                $plafond_prime_renov_1_1 = 20593;
-                $plafond_prime_renov_1_2 = 25068;
-                $plafond_prime_renov_1_3 = 38184;
+            # ile de france
+            $plafond_prime_renov_1_1 = 20593;
+            $plafond_prime_renov_1_2 = 25068;
+            $plafond_prime_renov_1_3 = 38184;
 
-                $plafond_prime_renov_2_1 = 30225;
-                $plafond_prime_renov_2_2 = 36792;
-                $plafond_prime_renov_2_3 = 56130;
+            $plafond_prime_renov_2_1 = 30225;
+            $plafond_prime_renov_2_2 = 36792;
+            $plafond_prime_renov_2_3 = 56130;
 
-                $plafond_prime_renov_3_1 = 36297;
-                $plafond_prime_renov_3_2 = 44188;
-                $plafond_prime_renov_3_3 = 67585;
+            $plafond_prime_renov_3_1 = 36297;
+            $plafond_prime_renov_3_2 = 44188;
+            $plafond_prime_renov_3_3 = 67585;
 
-                $plafond_prime_renov_4_1 = 42381;
-                $plafond_prime_renov_4_2 = 51597;
-                $plafond_prime_renov_4_3 = 79041;
+            $plafond_prime_renov_4_1 = 42381;
+            $plafond_prime_renov_4_2 = 51597;
+            $plafond_prime_renov_4_3 = 79041;
 
-                $plafond_prime_renov_5_1 = 42381;
-                $plafond_prime_renov_5_2 = 51597;
-                $plafond_prime_renov_5_3 = 79041;
+            $plafond_prime_renov_5_1 = 42381;
+            $plafond_prime_renov_5_2 = 51597;
+            $plafond_prime_renov_5_3 = 79041;
 
-                $plafond_prime_renov_6_1 = 34993+(($nbre_pers_foy-5)*6096);
-                $plafond_prime_renov_6_2 = 44860+(($nbre_pers_foy-5)*7422);
-                $plafond_prime_renov_6_3 = 69081+(($nbre_pers_foy-5)*11455);
+            $plafond_prime_renov_6_1 = 34993 + (($nbre_pers_foy - 5) * 6096);
+            $plafond_prime_renov_6_2 = 44860 + (($nbre_pers_foy - 5) * 7422);
+            $plafond_prime_renov_6_3 = 69081 + (($nbre_pers_foy - 5) * 11455);
 
             # HORS ile de france
             $plafond_prime_renov_province_1_1 = 14879;
@@ -135,165 +141,233 @@ class Calculateur extends AbstractController
             $plafond_prime_renov_province_5_2 = 44860;
             $plafond_prime_renov_province_5_3 = 69081;
 
-            $plafond_prime_renov_province_6_1 = 34993+(($nbre_pers_foy-5)*4412);
-            $plafond_prime_renov_province_6_2 = 44860+(($nbre_pers_foy-5)*5651);
-            $plafond_prime_renov_province_6_3 = 69081+(($nbre_pers_foy-5)*8744);
+            $plafond_prime_renov_province_6_1 = 34993 + (($nbre_pers_foy - 5) * 4412);
+            $plafond_prime_renov_province_6_2 = 44860 + (($nbre_pers_foy - 5) * 5651);
+            $plafond_prime_renov_province_6_3 = 69081 + (($nbre_pers_foy - 5) * 8744);
 
-                if ($rfi > 0 && $rfi < $plafond_prime_renov_1_1 && $nbre_pers_foy == 1 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95)||
-                    $rfi > 0 && $rfi < $plafond_prime_renov_2_1 && $nbre_pers_foy == 2 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95)||
-                    $rfi > 0 && $rfi < $plafond_prime_renov_3_1 && $nbre_pers_foy == 3 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95)||
-                    $rfi > 0 && $rfi < $plafond_prime_renov_4_1 && $nbre_pers_foy == 4 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95)||
-                    $rfi > 0 && $rfi < $plafond_prime_renov_5_1 && $nbre_pers_foy == 5 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95)||
-                    $rfi > 0 && $rfi < $plafond_prime_renov_6_1 && $nbre_pers_foy >= 6 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95)||
-                    $rfi > 0 && $rfi < $plafond_prime_renov_province_1_1 && $nbre_pers_foy == 1 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95)||
-                    $rfi > 0 && $rfi < $plafond_prime_renov_province_2_1 && $nbre_pers_foy == 2 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95)||
-                    $rfi > 0 && $rfi < $plafond_prime_renov_province_3_1 && $nbre_pers_foy == 3 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95)||
-                    $rfi > 0 && $rfi < $plafond_prime_renov_province_4_1 && $nbre_pers_foy == 4 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95)||
-                    $rfi > 0 && $rfi < $plafond_prime_renov_province_5_1 && $nbre_pers_foy == 5 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95)||
-                    $rfi > 0 && $rfi < $plafond_prime_renov_province_6_1 && $nbre_pers_foy >= 6 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95)) {
+            if ($rfi > 0 && $rfi < $plafond_prime_renov_1_1 && $nbre_pers_foy == 1 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
+                $rfi > 0 && $rfi < $plafond_prime_renov_2_1 && $nbre_pers_foy == 2 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
+                $rfi > 0 && $rfi < $plafond_prime_renov_3_1 && $nbre_pers_foy == 3 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
+                $rfi > 0 && $rfi < $plafond_prime_renov_4_1 && $nbre_pers_foy == 4 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
+                $rfi > 0 && $rfi < $plafond_prime_renov_5_1 && $nbre_pers_foy == 5 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
+                $rfi > 0 && $rfi < $plafond_prime_renov_6_1 && $nbre_pers_foy >= 6 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
+                $rfi > 0 && $rfi < $plafond_prime_renov_province_1_1 && $nbre_pers_foy == 1 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95) ||
+                $rfi > 0 && $rfi < $plafond_prime_renov_province_2_1 && $nbre_pers_foy == 2 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95) ||
+                $rfi > 0 && $rfi < $plafond_prime_renov_province_3_1 && $nbre_pers_foy == 3 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95) ||
+                $rfi > 0 && $rfi < $plafond_prime_renov_province_4_1 && $nbre_pers_foy == 4 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95) ||
+                $rfi > 0 && $rfi < $plafond_prime_renov_province_5_1 && $nbre_pers_foy == 5 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95) ||
+                $rfi > 0 && $rfi < $plafond_prime_renov_province_6_1 && $nbre_pers_foy >= 6 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95)) {
 
-                    if ($produitVise == 'Eau chaude sanitaire') {
-                        $resultat->setPrimeRenov($renov_cesi_Jaune);
-                        $resultat->setCee($cee_cesi_Jaune);
-                        $resultat->setCdpChauffage($pouce_Non);
-                        $resultat->setMontantTotal($renov_cesi_Jaune + $cee_cesi_Jaune + $pouce_Non);
+                if ($produitVise == 'Eau chaude sanitaire') {
+                    $resultat->setPrimeRenov($renov_cesi_Jaune);
+                    $resultat->setCee($cee_cesi_Jaune);
+                    $resultat->setCdpChauffage($pouce_Non);
+                    $resultat->setMontantTotal($renov_cesi_Jaune + $cee_cesi_Jaune + $pouce_Non);
 
-                    } elseif ($produitVise == 'Eau chaude sanitaire et chauffage' && $energie == 'Fioul') {
-                        $resultat->setPrimeRenov($renov_ssc_Jaune);
-                        $resultat->setCee($cee_ssc_Jaune);
-                        $resultat->setCdpChauffage($pouce_Jaune);
-                        $resultat->setMontantTotal($renov_ssc_Jaune + $cee_ssc_Jaune + $pouce_Jaune);
-                    } elseif ($produitVise == 'Eau chaude sanitaire et chauffage' && $energie != 'Fioul') {
-                        $resultat->setPrimeRenov($renov_ssc_Jaune);
-                        $resultat->setCee($cee_ssc_Jaune);
-                        $resultat->setCdpChauffage($pouce_Non);
-                        $resultat->setMontantTotal($renov_ssc_Jaune + $cee_ssc_Jaune + $pouce_Non);
-                    }
-                    $entityManager->persist($resultat);
-                    $entityManager->flush();
-                    //dd($utilisateur);
-
-                    if (sizeof($agreeEmail) == 0){
-
-                        $email = $utilisateur->getEmail();
-
-                        $mailerService->send(
-                            "Votre simulation",
-                            "contact@top-enr.com",
-                            $email,
-                            "email/contact.html.twig",
-                            [
-                                // ajouter tout les infos resultats
-                                "name" => $utilisateur->getNom(),
-                                "prime_renov" => $utilisateur->getResultat()->getPrimeRenov(),
-                                "prime_cee" => $utilisateur->getResultat()->getCee(),
-                                "prime_fioul" => $utilisateur->getResultat()->getCdpChauffage(),
-                                "total" => $utilisateur->getResultat()->getMontantTotal(),
-                            ]
-
-                        );
-
-                    }
-                    return $resultat;
-
-
-                } elseif ($rfi > $plafond_prime_renov_1_1 && $rfi < $plafond_prime_renov_1_2 && $nbre_pers_foy == 1 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95)||
-                    $rfi > $plafond_prime_renov_2_1 && $rfi < $plafond_prime_renov_2_2 && $nbre_pers_foy == 2 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95)||
-                    $rfi > $plafond_prime_renov_3_1 && $rfi < $plafond_prime_renov_3_2 && $nbre_pers_foy == 3 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95)||
-                    $rfi > $plafond_prime_renov_4_1 && $rfi < $plafond_prime_renov_4_2 && $nbre_pers_foy == 4 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95)||
-                    $rfi > $plafond_prime_renov_5_1 && $rfi < $plafond_prime_renov_5_2 && $nbre_pers_foy == 5 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95)||
-                    $rfi > $plafond_prime_renov_6_1 && $rfi < $plafond_prime_renov_6_2 && $nbre_pers_foy >= 6 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95)||
-                    $rfi > $plafond_prime_renov_province_1_1 && $rfi < $plafond_prime_renov_province_1_2 && $nbre_pers_foy == 1 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95)||
-                    $rfi > $plafond_prime_renov_province_2_1 && $rfi < $plafond_prime_renov_province_2_2 && $nbre_pers_foy == 2 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95)||
-                    $rfi > $plafond_prime_renov_province_3_1 && $rfi < $plafond_prime_renov_province_3_2 && $nbre_pers_foy == 3 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95)||
-                    $rfi > $plafond_prime_renov_province_4_1 && $rfi < $plafond_prime_renov_province_4_2 && $nbre_pers_foy == 4 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95)||
-                    $rfi > $plafond_prime_renov_province_5_1 && $rfi < $plafond_prime_renov_province_5_2 && $nbre_pers_foy == 5 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95)||
-                    $rfi > $plafond_prime_renov_province_6_1 && $rfi < $plafond_prime_renov_province_6_2 && $nbre_pers_foy >= 6 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95)){
-                    if ($produitVise == 'Eau chaude sanitaire') {
-                        $resultat->setPrimeRenov($renov_cesi_Gris);
-                        $resultat->setCee($cee_cesi_Gris);
-                        $resultat->setCdpChauffage($pouce_Non);
-                        $resultat->setMontantTotal($renov_cesi_Gris + $cee_cesi_Gris + $pouce_Non);
-
-                    } elseif ($produitVise == 'Eau chaude sanitaire et chauffage' && $energie == 'Fioul') {
-                        $resultat->setPrimeRenov($renov_ssc_Gris);
-                        $resultat->setCee($cee_ssc_Gris);
-                        $resultat->setCdpChauffage($pouce_Gris);
-                        $resultat->setMontantTotal($renov_ssc_Gris + $cee_ssc_Gris + $pouce_Gris);
-                    } elseif ($produitVise == 'Eau chaude sanitaire et chauffage' && $energie != 'Fioul') {
-                        $resultat->setPrimeRenov($renov_ssc_Gris);
-                        $resultat->setCee($cee_ssc_Gris);
-                        $resultat->setCdpChauffage($pouce_Non);
-                        $resultat->setMontantTotal($renov_ssc_Gris + $cee_ssc_Gris + $pouce_Non);
-                    }
-                    $entityManager->persist($resultat);
-                    $entityManager->flush();
-                    return $resultat;
-                } elseif ($rfi > $plafond_prime_renov_1_2 && $rfi < $plafond_prime_renov_1_3 && $nbre_pers_foy == 1 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95)||
-                    $rfi > $plafond_prime_renov_2_2 && $rfi < $plafond_prime_renov_2_3 && $nbre_pers_foy == 2 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95)||
-                    $rfi > $plafond_prime_renov_3_2 && $rfi < $plafond_prime_renov_3_3 && $nbre_pers_foy == 3 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95)||
-                    $rfi > $plafond_prime_renov_4_2 && $rfi < $plafond_prime_renov_4_3 && $nbre_pers_foy == 4 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95)||
-                    $rfi > $plafond_prime_renov_5_2 && $rfi < $plafond_prime_renov_5_3 && $nbre_pers_foy == 5 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95)||
-                    $rfi > $plafond_prime_renov_6_2 && $rfi < $plafond_prime_renov_6_3 && $nbre_pers_foy >= 6 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95)||
-                    $rfi > $plafond_prime_renov_province_1_2 && $rfi < $plafond_prime_renov_province_1_3 && $nbre_pers_foy == 1 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95)||
-                    $rfi > $plafond_prime_renov_province_2_2 && $rfi < $plafond_prime_renov_province_2_3 && $nbre_pers_foy == 2 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95)||
-                    $rfi > $plafond_prime_renov_province_3_2 && $rfi < $plafond_prime_renov_province_3_3 && $nbre_pers_foy == 3 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95)||
-                    $rfi > $plafond_prime_renov_province_4_2 && $rfi < $plafond_prime_renov_province_4_3 && $nbre_pers_foy == 4 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95)||
-                    $rfi > $plafond_prime_renov_province_5_2 && $rfi < $plafond_prime_renov_province_5_3 && $nbre_pers_foy == 5 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95)||
-                    $rfi > $plafond_prime_renov_province_6_2 && $rfi < $plafond_prime_renov_province_6_3 && $nbre_pers_foy >= 6 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95)) {
-                    if ($produitVise == 'Eau chaude sanitaire') {
-                        $resultat->setPrimeRenov($renov_cesi_Rouge);
-                        $resultat->setCee($cee_cesi_Rouge);
-                        $resultat->setCdpChauffage($pouce_Non);
-                        $resultat->setMontantTotal($renov_cesi_Rouge + $cee_cesi_Rouge + $pouce_Non);
-
-                    } elseif ($produitVise == 'Eau chaude sanitaire et chauffage' && $energie == 'Fioul') {
-                        $resultat->setPrimeRenov($renov_ssc_Rouge);
-                        $resultat->setCee($cee_ssc_Rouge);
-                        $resultat->setCdpChauffage($pouce_Rouge);
-                        $resultat->setMontantTotal($renov_ssc_Rouge + $cee_ssc_Rouge + $pouce_Rouge);
-                    } elseif ($produitVise == 'Eau chaude sanitaire et chauffage' && $energie != 'Fioul') {
-                        $resultat->setPrimeRenov($renov_ssc_Rouge);
-                        $resultat->setCee($cee_ssc_Rouge);
-                        $resultat->setCdpChauffage($pouce_Non);
-                        $resultat->setMontantTotal($renov_ssc_Rouge + $cee_ssc_Rouge + $pouce_Non);
-                    }
-                    $entityManager->persist($resultat);
-                    $entityManager->flush();
-                    return $resultat;
-                } elseif (  $rfi > $plafond_prime_renov_1_3 && $nbre_pers_foy == 1 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95)||
-                    $rfi > $plafond_prime_renov_2_3 && $nbre_pers_foy == 2 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95)||
-                    $rfi > $plafond_prime_renov_3_3 && $nbre_pers_foy == 3 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95)||
-                    $rfi > $plafond_prime_renov_4_3 && $nbre_pers_foy == 4 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95)||
-                    $rfi > $plafond_prime_renov_5_3 && $nbre_pers_foy == 5 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95)||
-                    $rfi > $plafond_prime_renov_6_3 && $nbre_pers_foy >= 6 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95)||
-                    $rfi > $plafond_prime_renov_province_1_3 && $nbre_pers_foy == 1 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95)||
-                    $rfi > $plafond_prime_renov_province_2_3 && $nbre_pers_foy == 2 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95)||
-                    $rfi > $plafond_prime_renov_province_3_3 && $nbre_pers_foy == 3 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95)||
-                    $rfi > $plafond_prime_renov_province_4_3 && $nbre_pers_foy == 4 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95)||
-                    $rfi > $plafond_prime_renov_province_5_3 && $nbre_pers_foy == 5 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95)||
-                    $rfi > $plafond_prime_renov_province_6_3 && $nbre_pers_foy >= 6 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95)) {
-                    if ($produitVise == 'Eau chaude sanitaire') {
-                        $resultat->setPrimeRenov($renov_cesi_Bleu);
-                        $resultat->setCee($cee_cesi_Bleu);
-                        $resultat->setCdpChauffage($pouce_Non);
-                        $resultat->setMontantTotal($renov_cesi_Bleu + $cee_cesi_Bleu + $pouce_Non);
-                    } elseif ($produitVise == 'Eau chaude sanitaire et chauffage' && $energie == 'Fioul') {
-                        $resultat->setPrimeRenov($renov_ssc_Bleu);
-                        $resultat->setCee($cee_ssc_Bleu);
-                        $resultat->setCdpChauffage($pouce_Bleu);
-                        $resultat->setMontantTotal($renov_ssc_Bleu + $cee_ssc_Bleu + $pouce_Bleu);
-                    } elseif ($produitVise == 'Eau chaude sanitaire et chauffage' && $energie != 'Fioul') {
-                        $resultat->setPrimeRenov($renov_ssc_Bleu);
-                        $resultat->setCee($cee_ssc_Bleu);
-                        $resultat->setCdpChauffage($pouce_Non);
-                        $resultat->setMontantTotal($renov_ssc_Bleu + $cee_ssc_Bleu + $pouce_Non);
-                    }
-
-                    $entityManager->persist($resultat);
-                    $entityManager->flush();
-                    return $resultat;
+                } elseif ($produitVise == 'Eau chaude sanitaire et chauffage' && $energie == 'Fioul') {
+                    $resultat->setPrimeRenov($renov_ssc_Jaune);
+                    $resultat->setCee($cee_ssc_Jaune);
+                    $resultat->setCdpChauffage($pouce_Jaune);
+                    $resultat->setMontantTotal($renov_ssc_Jaune + $cee_ssc_Jaune + $pouce_Jaune);
+                } elseif ($produitVise == 'Eau chaude sanitaire et chauffage' && $energie != 'Fioul') {
+                    $resultat->setPrimeRenov($renov_ssc_Jaune);
+                    $resultat->setCee($cee_ssc_Jaune);
+                    $resultat->setCdpChauffage($pouce_Non);
+                    $resultat->setMontantTotal($renov_ssc_Jaune + $cee_ssc_Jaune + $pouce_Non);
                 }
+                $entityManager->persist($resultat);
+                $entityManager->flush();
+
+
+                if (sizeof($agreeEmail) == 1) {
+                    $email = $utilisateur->getEmail();
+
+                    $mailerService->send(
+                        "Votre simulation",
+                        "contact@top-enr.com",
+                        $email,
+                        "email/contact.html.twig",
+                        [
+                            // ajouter tout les infos resultats
+                            "name" => $utilisateur->getNom(),
+                            "prime_renov" => $resultat->getPrimeRenov(),
+                            "prime_cee" => $resultat->getCee(),
+                            "prime_fioul" => $resultat->getCdpChauffage(),
+                            "total" => $resultat->getMontantTotal(),
+                        ]
+
+                    );
+                    $this->addFlash('success', 'Mail envoyé');
+
+                }
+                return $resultat;
+
+            } elseif ($rfi > $plafond_prime_renov_1_1 && $rfi < $plafond_prime_renov_1_2 && $nbre_pers_foy == 1 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
+                $rfi > $plafond_prime_renov_2_1 && $rfi < $plafond_prime_renov_2_2 && $nbre_pers_foy == 2 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
+                $rfi > $plafond_prime_renov_3_1 && $rfi < $plafond_prime_renov_3_2 && $nbre_pers_foy == 3 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
+                $rfi > $plafond_prime_renov_4_1 && $rfi < $plafond_prime_renov_4_2 && $nbre_pers_foy == 4 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
+                $rfi > $plafond_prime_renov_5_1 && $rfi < $plafond_prime_renov_5_2 && $nbre_pers_foy == 5 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
+                $rfi > $plafond_prime_renov_6_1 && $rfi < $plafond_prime_renov_6_2 && $nbre_pers_foy >= 6 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
+                $rfi > $plafond_prime_renov_province_1_1 && $rfi < $plafond_prime_renov_province_1_2 && $nbre_pers_foy == 1 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95) ||
+                $rfi > $plafond_prime_renov_province_2_1 && $rfi < $plafond_prime_renov_province_2_2 && $nbre_pers_foy == 2 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95) ||
+                $rfi > $plafond_prime_renov_province_3_1 && $rfi < $plafond_prime_renov_province_3_2 && $nbre_pers_foy == 3 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95) ||
+                $rfi > $plafond_prime_renov_province_4_1 && $rfi < $plafond_prime_renov_province_4_2 && $nbre_pers_foy == 4 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95) ||
+                $rfi > $plafond_prime_renov_province_5_1 && $rfi < $plafond_prime_renov_province_5_2 && $nbre_pers_foy == 5 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95) ||
+                $rfi > $plafond_prime_renov_province_6_1 && $rfi < $plafond_prime_renov_province_6_2 && $nbre_pers_foy >= 6 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95)) {
+                if ($produitVise == 'Eau chaude sanitaire') {
+                    $resultat->setPrimeRenov($renov_cesi_Gris);
+                    $resultat->setCee($cee_cesi_Gris);
+                    $resultat->setCdpChauffage($pouce_Non);
+                    $resultat->setMontantTotal($renov_cesi_Gris + $cee_cesi_Gris + $pouce_Non);
+
+                } elseif ($produitVise == 'Eau chaude sanitaire et chauffage' && $energie == 'Fioul') {
+                    $resultat->setPrimeRenov($renov_ssc_Gris);
+                    $resultat->setCee($cee_ssc_Gris);
+                    $resultat->setCdpChauffage($pouce_Gris);
+                    $resultat->setMontantTotal($renov_ssc_Gris + $cee_ssc_Gris + $pouce_Gris);
+                } elseif ($produitVise == 'Eau chaude sanitaire et chauffage' && $energie != 'Fioul') {
+                    $resultat->setPrimeRenov($renov_ssc_Gris);
+                    $resultat->setCee($cee_ssc_Gris);
+                    $resultat->setCdpChauffage($pouce_Non);
+                    $resultat->setMontantTotal($renov_ssc_Gris + $cee_ssc_Gris + $pouce_Non);
+                }
+                $entityManager->persist($resultat);
+                $entityManager->flush();
+
+                if (sizeof($agreeEmail) == 1) {
+
+                    $email = $utilisateur->getEmail();
+
+                    $mailerService->send(
+                        "Votre simulation",
+                        "contact@top-enr.com",
+                        $email,
+                        "email/contact.html.twig",
+                        [
+                            // ajouter tout les infos resultats
+                            "name" => $utilisateur->getNom(),
+                            "prime_renov" => $utilisateur->getResultat()->getPrimeRenov(),
+                            "prime_cee" => $utilisateur->getResultat()->getCee(),
+                            "prime_fioul" => $utilisateur->getResultat()->getCdpChauffage(),
+                            "total" => $utilisateur->getResultat()->getMontantTotal(),
+                        ]
+
+                    );
+                    $this->addFlash('success', 'Mail envoyé');
+
+                }
+                return $resultat;
+            } elseif ($rfi > $plafond_prime_renov_1_2 && $rfi < $plafond_prime_renov_1_3 && $nbre_pers_foy == 1 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
+                $rfi > $plafond_prime_renov_2_2 && $rfi < $plafond_prime_renov_2_3 && $nbre_pers_foy == 2 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
+                $rfi > $plafond_prime_renov_3_2 && $rfi < $plafond_prime_renov_3_3 && $nbre_pers_foy == 3 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
+                $rfi > $plafond_prime_renov_4_2 && $rfi < $plafond_prime_renov_4_3 && $nbre_pers_foy == 4 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
+                $rfi > $plafond_prime_renov_5_2 && $rfi < $plafond_prime_renov_5_3 && $nbre_pers_foy == 5 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
+                $rfi > $plafond_prime_renov_6_2 && $rfi < $plafond_prime_renov_6_3 && $nbre_pers_foy >= 6 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
+                $rfi > $plafond_prime_renov_province_1_2 && $rfi < $plafond_prime_renov_province_1_3 && $nbre_pers_foy == 1 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95) ||
+                $rfi > $plafond_prime_renov_province_2_2 && $rfi < $plafond_prime_renov_province_2_3 && $nbre_pers_foy == 2 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95) ||
+                $rfi > $plafond_prime_renov_province_3_2 && $rfi < $plafond_prime_renov_province_3_3 && $nbre_pers_foy == 3 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95) ||
+                $rfi > $plafond_prime_renov_province_4_2 && $rfi < $plafond_prime_renov_province_4_3 && $nbre_pers_foy == 4 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95) ||
+                $rfi > $plafond_prime_renov_province_5_2 && $rfi < $plafond_prime_renov_province_5_3 && $nbre_pers_foy == 5 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95) ||
+                $rfi > $plafond_prime_renov_province_6_2 && $rfi < $plafond_prime_renov_province_6_3 && $nbre_pers_foy >= 6 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95)) {
+                if ($produitVise == 'Eau chaude sanitaire') {
+                    $resultat->setPrimeRenov($renov_cesi_Rouge);
+                    $resultat->setCee($cee_cesi_Rouge);
+                    $resultat->setCdpChauffage($pouce_Non);
+                    $resultat->setMontantTotal($renov_cesi_Rouge + $cee_cesi_Rouge + $pouce_Non);
+
+                } elseif ($produitVise == 'Eau chaude sanitaire et chauffage' && $energie == 'Fioul') {
+                    $resultat->setPrimeRenov($renov_ssc_Rouge);
+                    $resultat->setCee($cee_ssc_Rouge);
+                    $resultat->setCdpChauffage($pouce_Rouge);
+                    $resultat->setMontantTotal($renov_ssc_Rouge + $cee_ssc_Rouge + $pouce_Rouge);
+                } elseif ($produitVise == 'Eau chaude sanitaire et chauffage' && $energie != 'Fioul') {
+                    $resultat->setPrimeRenov($renov_ssc_Rouge);
+                    $resultat->setCee($cee_ssc_Rouge);
+                    $resultat->setCdpChauffage($pouce_Non);
+                    $resultat->setMontantTotal($renov_ssc_Rouge + $cee_ssc_Rouge + $pouce_Non);
+                }
+                $entityManager->persist($resultat);
+                $entityManager->flush();
+
+                if (sizeof($agreeEmail) == 1) {
+
+                    $email = $utilisateur->getEmail();
+
+                    $mailerService->send(
+                        "Votre simulation",
+                        "contact@top-enr.com",
+                        $email,
+                        "email/contact.html.twig",
+                        [
+                            // ajouter tout les infos resultats
+                            "name" => $utilisateur->getNom(),
+                            "prime_renov" => $utilisateur->getResultat()->getPrimeRenov(),
+                            "prime_cee" => $utilisateur->getResultat()->getCee(),
+                            "prime_fioul" => $utilisateur->getResultat()->getCdpChauffage(),
+                            "total" => $utilisateur->getResultat()->getMontantTotal(),
+                        ]
+
+                    );
+                    $this->addFlash('success', 'Mail envoyé');
+
+                }
+                return $resultat;
+            } elseif ($rfi > $plafond_prime_renov_1_3 && $nbre_pers_foy == 1 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
+                $rfi > $plafond_prime_renov_2_3 && $nbre_pers_foy == 2 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
+                $rfi > $plafond_prime_renov_3_3 && $nbre_pers_foy == 3 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
+                $rfi > $plafond_prime_renov_4_3 && $nbre_pers_foy == 4 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
+                $rfi > $plafond_prime_renov_5_3 && $nbre_pers_foy == 5 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
+                $rfi > $plafond_prime_renov_6_3 && $nbre_pers_foy >= 6 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
+                $rfi > $plafond_prime_renov_province_1_3 && $nbre_pers_foy == 1 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95) ||
+                $rfi > $plafond_prime_renov_province_2_3 && $nbre_pers_foy == 2 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95) ||
+                $rfi > $plafond_prime_renov_province_3_3 && $nbre_pers_foy == 3 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95) ||
+                $rfi > $plafond_prime_renov_province_4_3 && $nbre_pers_foy == 4 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95) ||
+                $rfi > $plafond_prime_renov_province_5_3 && $nbre_pers_foy == 5 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95) ||
+                $rfi > $plafond_prime_renov_province_6_3 && $nbre_pers_foy >= 6 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95)) {
+                if ($produitVise == 'Eau chaude sanitaire') {
+                    $resultat->setPrimeRenov($renov_cesi_Bleu);
+                    $resultat->setCee($cee_cesi_Bleu);
+                    $resultat->setCdpChauffage($pouce_Non);
+                    $resultat->setMontantTotal($renov_cesi_Bleu + $cee_cesi_Bleu + $pouce_Non);
+                } elseif ($produitVise == 'Eau chaude sanitaire et chauffage' && $energie == 'Fioul') {
+                    $resultat->setPrimeRenov($renov_ssc_Bleu);
+                    $resultat->setCee($cee_ssc_Bleu);
+                    $resultat->setCdpChauffage($pouce_Bleu);
+                    $resultat->setMontantTotal($renov_ssc_Bleu + $cee_ssc_Bleu + $pouce_Bleu);
+                } elseif ($produitVise == 'Eau chaude sanitaire et chauffage' && $energie != 'Fioul') {
+                    $resultat->setPrimeRenov($renov_ssc_Bleu);
+                    $resultat->setCee($cee_ssc_Bleu);
+                    $resultat->setCdpChauffage($pouce_Non);
+                    $resultat->setMontantTotal($renov_ssc_Bleu + $cee_ssc_Bleu + $pouce_Non);
+                }
+
+                $entityManager->persist($resultat);
+                $entityManager->flush();
+
+                if (sizeof($agreeEmail) == 1) {
+
+                    $email = $utilisateur->getEmail();
+
+                    $mailerService->send(
+                        "Votre simulation",
+                        "contact@top-enr.com",
+                        $email,
+                        "email/contact.html.twig",
+                        [
+                            // ajouter tout les infos resultats
+                            "name" => $utilisateur->getNom(),
+                            "prime_renov" => $utilisateur->getResultat()->getPrimeRenov(),
+                            "prime_cee" => $utilisateur->getResultat()->getCee(),
+                            "prime_fioul" => $utilisateur->getResultat()->getCdpChauffage(),
+                            "total" => $utilisateur->getResultat()->getMontantTotal(),
+                        ]
+
+                    );
+                    $this->addFlash('success', 'Mail envoyé');
+
+                }
+                return $resultat;
+            }
 
         } else {
             #todo il n est pas elligible aux aides = ZERO
@@ -303,20 +377,29 @@ class Calculateur extends AbstractController
             $resultat->setCdpChauffage($pouce_Non);
             $resultat->setMontantTotal($renov_non + $cee_non + $pouce_Non);
 
-            try {
-                $entityManager->persist($resultat);
-                $entityManager->flush();
-            } catch (Exception $e) {
+            if (sizeof($agreeEmail) == 1) {
 
-                return $this->redirectToRoute('create');
+                $email = $utilisateur->getEmail();
+
+                $mailerService->send(
+                    "Votre simulation",
+                    "contact@top-enr.com",
+                    $email,
+                    "email/contact.html.twig",
+                    [
+                        // ajouter tout les infos resultats
+                        "name" => $utilisateur->getNom(),
+                        "prime_renov" => $utilisateur->getResultat()->getPrimeRenov(),
+                        "prime_cee" => $utilisateur->getResultat()->getCee(),
+                        "prime_fioul" => $utilisateur->getResultat()->getCdpChauffage(),
+                        "total" => $utilisateur->getResultat()->getMontantTotal(),
+                    ]
+
+                );
+                $this->addFlash('success', 'Mail envoyé');
+
             }
-
-
-
-
-
+            return $resultat;
         }
-        return $resultat;
     }
-
 }
