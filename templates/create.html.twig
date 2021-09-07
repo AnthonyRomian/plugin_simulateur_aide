@@ -4,19 +4,137 @@
 
 
 {% block body %}
-    <style>
-        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-    </style>
 
-    <div class="example-wrapper">
         {# todo afficher formulaire #}
+    <div class="container">
+        <h3>Simulateur d'aide</h3>
+        <div class="progress-bar">
+            <div class="step">
+                <p>Contact</p>
+                <div class="bullet">
+                    <span>1</span>
+                </div>
+                <div class="check fas fa-check"></div>
+            </div>
+            <div class="step">
+                <p>Informations</p>
+                <div class="bullet">
+                    <span>2</span>
+                </div>
+                <div class="check fas fa-check"></div>
+            </div>
+        </div>
+        <p>Renseignez les informations demandées afin d'obtenir votre droit aux différentes aides</p>
+
+        <div class="form-outer">
+        {{ form_start(utilisateurForm, { 'id' : "registerForm", 'class': "container"}) }}
+        <div class="page slide-page">
+            <div class="title">Contact</div>
+            <div class="field">
+                {{ form_label(utilisateurForm.nom) }}
+                {{ form_widget(utilisateurForm.nom) }}
+            </div>
+            <div class="field">
+                {{ form_label(utilisateurForm.prenom) }}
+                {{ form_widget(utilisateurForm.prenom) }}
+            </div>
+            <div class="field">
+                {{ form_label(utilisateurForm.tel) }}
+                {{ form_widget(utilisateurForm.tel) }}
+            </div>
+            <div class="field">
+                {{ form_label(utilisateurForm.email) }}
+                {{ form_widget(utilisateurForm.email) }}
+            </div>
+            <div class="field">
+                {{ form_label(utilisateurForm.code_postal) }}
+                {{ form_widget(utilisateurForm.code_postal) }}
+            </div>
+            <div class="field">
+                {{ form_label(utilisateurForm.ville) }}
+                {{ form_widget(utilisateurForm.ville) }}
+            </div>
+            <div class="field-2">
+                {{ form_label(utilisateurForm.proprietaire) }}
+                {{ form_widget(utilisateurForm.proprietaire) }}
+            </div>
+            <div class="field-2">
+                {{ form_label(utilisateurForm.type_bien) }}
+                {{ form_widget(utilisateurForm.type_bien) }}
+            </div>
+            <div class="field-2">
+                {{ form_label(utilisateurForm.ancienneteEligible) }}
+                {{ form_widget(utilisateurForm.ancienneteEligible) }}
+            </div>
+            <div class="field">
+                <button  class="firstNext next">Suivant</button>
+            </div>
+        </div>
+        <div class="page">
+            <div class="title">Info</div>
+            <div class="field-3" id="menu-deroulant">
+                {{ form_label(utilisateurForm.produit_vise) }}
+                {{ form_widget(utilisateurForm.produit_vise) }}
+                {{ form_row(utilisateurForm.energie) }}
+                {{ form_row(utilisateurForm.chauffage) }}
+            </div>
+            <div class="field">
+                {{ form_label(utilisateurForm.nbre_salle_bain) }}
+                {{ form_widget(utilisateurForm.nbre_salle_bain) }}
+            </div>
+            <div class="field">
+                {{ form_label(utilisateurForm.nbre_pers_foyer) }}
+                {{ form_widget(utilisateurForm.nbre_pers_foyer) }}
+            </div>
+            <div class="field">
+                {{ form_label(utilisateurForm.revenu_fiscal) }}
+                {{ form_widget(utilisateurForm.revenu_fiscal) }}
+            </div>
+            <div class="field-4">
+                {{ form_label(utilisateurForm.agreeTerms) }}
+                {{ form_widget(utilisateurForm.agreeTerms) }}
+                {{ form_label(utilisateurForm.agreeEmail) }}
+                {{ form_widget(utilisateurForm.agreeEmail) }}
+            </div>
+            {#{{ form_row(utilisateurForm.produit_vise) }}
+
+            {{ form_row(utilisateurForm.energie) }}
+            {{ form_row(utilisateurForm.chauffage) }}
+
+            {{ form_row(utilisateurForm.nbre_salle_bain) }}
+
+            {{ form_row(utilisateurForm.nbre_pers_foyer) }}
+            {{ form_row(utilisateurForm.revenu_fiscal) }}
+
+            {{ form_row(utilisateurForm.agreeTerms) }}
+            {{ form_row(utilisateurForm.agreeEmail) }}#}
+
+            {{ form_row(utilisateurForm._token) }}
+
+            {{ form_start(utilisateurForm) }}
+            <div id="button-2" class="button-2 btns">
+                <button id="button" class="prev-1 prev">Précédent</button>
+                <button id="button" type="submit" class="submit btn btn-info">Calculer</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    </div>
+    </div>
+
+
+
+    {#<div class="example-wrapper">
+        #}{# todo afficher formulaire #}{#
     <div class="container">
         <h3>Simulateur d'aide</h3>
         <p>Renseignez les informations demandées afin d'obtenir votre droit aux différentes aides</p>
 
         {{ form_start(utilisateurForm) }}
+
             {{ form_row(utilisateurForm.nom) }}
+            {{ form_errors(utilisateurForm.nom) }}
             {{ form_row(utilisateurForm.prenom) }}
             {{ form_row(utilisateurForm.tel) }}
             {{ form_row(utilisateurForm.email) }}
@@ -48,7 +166,7 @@
         </div>
 
     </div>
-    </div>
+    </div>#}
 
     <script src="../public/assets/js/script.js" type="text/javascript" ></script>
 {% endblock %}

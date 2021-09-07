@@ -1,0 +1,294 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    outline: none;
+    font-family: 'Poppins', sans-serif;
+}
+body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+    overflow: hidden;
+    height: 100%;
+    background: url("bg.png"), -webkit-linear-gradient(bottom, #3bc436, #070707);
+}
+::selection{
+    color: #fff;
+    background: #3BC436FF;
+}
+.container{
+    width: 330px;
+    background: #fff;
+    border-radius: 5px;
+    padding: 20px;
+}
+p {
+    font-size: 12px;
+}
+.container header{
+    font-size: 35px;
+    font-weight: 600;
+    margin: 0 0 30px 0;
+}
+.container .form-outer{
+    width: 100%;
+    overflow: hidden;
+}
+.container .form-outer form{
+    display: flex;
+    width: 400%;
+}
+.form-outer form .page{
+    width: 25%;
+    transition: margin-left 0.3s ease-in-out;
+}
+.form-outer form .page .title{
+    text-align: left;
+    font-size: 25px;
+    font-weight: 500;
+}
+.form-outer form .page .field{
+    height: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0px;
+    margin-bottom: 20px;
+
+}
+
+form .page .field .label{
+    display: block;
+    font-weight: 500;
+
+}
+form .page .field input{
+    display: block;
+    width: 100%;
+}
+form .page .field select{
+
+}
+
+.form-outer form .page .field-2{
+    height: 40px;
+    display: flex;
+    flex-direction: column;
+    padding: 0px;
+    margin-bottom: 20px;
+    align-content: space-between;
+
+}
+form .page .field-2 .label{
+    display: block;
+    font-weight: 500;
+    width: 100%;
+
+}
+form .page .field-2 input{
+    margin: 0 20px;
+
+}
+#utilisateur_proprietaire #utilisateur_type_bien #utilisateur_ancienneteEligible {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+
+}
+.form-outer form .page .field-3{
+    height: 50px;
+    display: flex;
+    flex-direction: column;
+    padding: 0px;
+    margin-bottom: 20px;
+    align-content: space-between;
+
+}
+form .page .field-3 label{
+    display: block;
+    font-weight: 500;
+    width: 95%;
+
+
+}
+form .page .field-3 input{
+    margin: 5px 7px;
+    width: 16px;
+
+}
+#utilisateur_produit_vise {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-content: flex-start;
+
+}
+
+#utilisateur_produit_vise label {
+    width: 260px;
+    font-weight: 100;
+    font-size: 15px;
+
+
+}
+
+#utilisateur_chauffage {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-content: flex-start;
+}
+#utilisateur_chauffage label{
+    width: 260px;
+    font-weight: 200;
+    font-size: 15px;
+
+
+}
+#utilisateur_chauffage input{
+
+
+}
+
+.form-outer form .page .field-4{
+
+
+}
+form .page .field-4 label{
+    font-size: 12px;
+    width: 260px;
+}
+form .page .field-4 input{
+    margin: 5px 7px;
+    width: 15px;
+
+}
+form .page .field button{
+    width: 100%;
+    height: calc(100% + 5px);
+    border: none;
+    background: #070707FF;
+    margin-top: 0px;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: 0.5s ease;
+}
+form .page .btns button {
+    margin-top: -20px !important;
+}
+#button-2{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    margin-top: 25px;
+
+}
+#button {
+    width: 50%;
+    height: 35px;
+    border: none;
+    background: #070707FF;
+    margin-top: 0px;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: 0.5s ease;
+}
+
+form .page .btns button.next{
+    margin-left: 3px;
+}
+.container .progress-bar{
+    display: flex;
+    margin: 10px 0;
+    user-select: none;
+}
+.container .progress-bar .step{
+    text-align: center;
+    width: 100%;
+    position: relative;
+}
+.container .progress-bar .step p{
+    font-weight: 500;
+    font-size: 18px;
+    color: #000;
+    margin-bottom: 8px;
+}
+.progress-bar .step .bullet{
+    height: 25px;
+    width: 25px;
+    border: 2px solid #000;
+    display: inline-block;
+    border-radius: 50%;
+    position: relative;
+    transition: 0.2s;
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 25px;
+}
+.progress-bar .step .bullet.active{
+    border-color: #3BC436FF;
+    background: #3BC436FF;
+}
+.progress-bar .step .bullet span{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.progress-bar .step .bullet.active span{
+    display: none;
+}
+.progress-bar .step .bullet:before,
+.progress-bar .step .bullet:after{
+    position: absolute;
+    content: '';
+    bottom: 9px;
+    right: -124px;
+    height: 3px;
+    width: 124px;
+    background: #262626;
+}
+.progress-bar .step .bullet.active:after{
+    background: #3BC436FF;
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: animate 0.3s linear forwards;
+}
+@keyframes animate {
+    100%{
+        transform: scaleX(1);
+    }
+}
+.progress-bar .step:last-child .bullet:before,
+.progress-bar .step:last-child .bullet:after{
+    display: none;
+}
+.progress-bar .step p.active{
+    color: #3BC436FF;
+    transition: 0.2s linear;
+}
+.progress-bar .step .check{
+    position: absolute;
+    left: 50%;
+    top: 70%;
+    font-size: 15px;
+    transform: translate(-50%, -50%);
+    display: none;
+}
+.progress-bar .step .check.active{
+    display: block;
+    color: #fff;
+}

@@ -4,14 +4,13 @@ namespace App\Form;
 
 use App\Entity\Utilisateur;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\IsTrue;
+
 
 class UtilisateurType extends AbstractType
 {
@@ -20,24 +19,45 @@ class UtilisateurType extends AbstractType
     {
         $builder
             ->add('nom', TextType::class, [
-                'label' => 'Nom : '
-                ])
+                'label_attr' => [
+                    'class' => 'label'
+                ],
+                'label' => 'Nom : ',
+            ])
             ->add('prenom', TextType::class, [
-                'label' => 'Prénom : '
+                'label_attr' => [
+                    'class' => 'label'
+                ],
+                'label' => 'Prénom : ',
             ])
             ->add('code_postal', TextType::class, [
-                    'label' => 'Code postal : '
+                'label_attr' => [
+                    'class' => 'label'
+                ],
+                'label' => 'Code postal : ',
             ])
             ->add('ville', TextType::class, [
-                'label' => 'Ville : '
+                'label_attr' => [
+                    'class' => 'label'
+                ],
+                'label' => 'Ville : ',
             ])
             ->add('tel', TextType::class, [
-                'label' => 'Tel : '
+                    'label_attr' => [
+                        'class' => 'label'
+                    ],
+                'label' => 'Tel : ',
             ])
             ->add('email', EmailType::class, [
-                'label' => 'Email : '
+                'label_attr' => [
+                    'class' => 'label'
+                ],
+                'label' => 'Email : ',
             ])
             ->add('proprietaire', ChoiceType::class,[
+                'label_attr' => [
+                    'class' => 'label'
+                ],
                 'label' => 'Etes-vous propriétaire ?',
                 'choices' => [
                     'Oui' => true,
@@ -48,6 +68,9 @@ class UtilisateurType extends AbstractType
 
             ])
             ->add('type_bien', ChoiceType::class,[
+                'label_attr' => [
+                    'class' => 'label'
+                ],
                 'label' => 'Votre logement est une : ',
                 'choices' => [
                     'Maison' => 'Maison',
@@ -58,7 +81,10 @@ class UtilisateurType extends AbstractType
 
             ])
             ->add('ancienneteEligible', ChoiceType::class,[
-                'label' => 'Votre logement a t-il plus de 2 ans ?',
+                'label_attr' => [
+                    'class' => 'label'
+                ],
+                'label' => 'Votre bien a t-il plus de 2 ans ?',
                 'choices' => [
                     'Oui' => true,
                     'Non' => false
@@ -68,6 +94,9 @@ class UtilisateurType extends AbstractType
 
             ])
             ->add('produit_vise', ChoiceType::class,[
+                'label_attr' => [
+                    'class' => 'label'
+                ],
                 'label' => 'Produit désiré : ',
                 'choices' => [
                     'Eau chaude sanitaire' => 'Eau chaude sanitaire',
@@ -78,9 +107,15 @@ class UtilisateurType extends AbstractType
                 'data' => 'Eau chaude sanitaire'
             ])
             ->add('nbre_salle_bain', IntegerType::class, [
+                'label_attr' => [
+                    'class' => 'label'
+                ],
                 'label' => 'Nombre de salle de bain :'
             ])
             ->add('energie', ChoiceType::class,[
+                'label_attr' => [
+                    'class' => 'label'
+                ],
                 'choices' => [
                     'Fioul' => 'Fioul',
                     'Gaz' => 'Gaz',
@@ -94,6 +129,9 @@ class UtilisateurType extends AbstractType
                 ],
             ])
             ->add('chauffage', ChoiceType::class,[
+                'label_attr' => [
+                    'class' => 'label'
+                ],
                 'choices' => [
                     'radiateur à eau' => 'radiateur à eau',
                     'radiateur electrique' => 'radiateur electrique',
@@ -108,15 +146,21 @@ class UtilisateurType extends AbstractType
                 ],
             ])
             ->add('nbre_pers_foyer', IntegerType::class, [
+                'label_attr' => [
+                    'class' => 'label'
+                ],
                 'label' => 'Nombre de personne au foyer :'
             ])
             ->add('revenu_fiscal', IntegerType::class, [
+                'label_attr' => [
+                    'class' => 'label'
+                ],
                 'label' => 'Revenu fiscal de référence :'
             ])
             ->add('agreeTerms', ChoiceType::class,[
                 'label' => ' ',
                 'choices' => [
-                    'J\'autorise l\'utilisation de mes informations personnelles pour le calcul des mes aides' => true,
+                    'J\'autorise l\'utilisation de mes informations pour le calcul de mes aides' => true,
                 ],
                 'multiple' => true,
                 'expanded' => true,
@@ -125,7 +169,7 @@ class UtilisateurType extends AbstractType
             ->add('agreeEmail', ChoiceType::class,[
                 'label' => ' ',
                 'choices' => [
-                    'Je désire recevoir le resultat de ma simulation par mail' => true,
+                    'Je veux recevoir le résultat de ma simulation par mail' => true,
                 ],
                 'multiple' => true,
                 'expanded' => true,

@@ -3,7 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\UtilisateurRepository;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UtilisateurRepository::class)
@@ -18,31 +20,42 @@ class Utilisateur
     private $id;
 
     /**
+     * @Assert\NotBlank(message="Veuillez renseigner votre nom")
      * @ORM\Column(type="string", length=255)
      */
     private $nom;
 
     /**
+     * @Assert\NotBlank(message="Veuillez renseigner votre prénom")
      * @ORM\Column(type="string", length=255)
      */
     private $prenom;
 
     /**
+     * @Assert\NotBlank(message="Veuillez renseigner votre code postal")
      * @ORM\Column(type="string", length=5)
      */
     private $code_postal;
 
     /**
+     * @Assert\NotBlank(message="Veuillez renseigner votre ville")
      * @ORM\Column(type="string", length=255)
      */
     private $ville;
 
     /**
-     * @ORM\Column(type="string", length=10)
+     * @Assert\NotBlank(message="Veuillez remplir votre numero de telephone")
+     * @Assert\Length(
+     *     min=10,
+     *     max=13,
+     * )
+     * @ORM\Column(type="string", length=13)
      */
     private $tel;
 
     /**
+     * @Assert\NotBlank
+     * @Assert\Email(message="saisissez un email valide")
      * @ORM\Column(type="string", length=255)
      */
     private $email;
@@ -53,26 +66,31 @@ class Utilisateur
     private $date_simulation;
 
     /**
+     * @Assert\NotBlank(message="Veuillez renseigner si vous etes propriétaire ou locataire")
      * @ORM\Column(type="boolean")
      */
     private $proprietaire;
 
     /**
+     * @Assert\NotBlank(message="Veuillez renseigner votre bien")
      * @ORM\Column(type="string", length=15)
      */
     private $type_bien;
 
     /**
+     * @Assert\NotBlank(message="Veuillez renseigner l'anciennetée de votre bien")
      * @ORM\Column(type="boolean")
      */
     private $ancienneteEligible;
 
     /**
+     * @Assert\NotBlank(message="Veuillez renseigner le produit voulu")
      * @ORM\Column(type="string", length=255)
      */
     private $produit_vise;
 
     /**
+     * @Assert\NotBlank(message="Veuillez renseigner le nombre de vos salles bain")
      * @ORM\Column(type="integer", length=255)
      */
     private $nbre_salle_bain;
@@ -88,11 +106,13 @@ class Utilisateur
     private $energie;
 
     /**
+     * @Assert\NotBlank(message="Veuillez renseigner le nombre de personne de votre foyer")
      * @ORM\Column(type="integer", length=255)
      */
     private $nbre_pers_foyer;
 
     /**
+     * @Assert\NotBlank(message="Veuillez renseigner votre revenu fiscal de référence")
      * @ORM\Column(type="integer", length=255)
      */
     private $revenu_fiscal;
@@ -221,12 +241,12 @@ class Utilisateur
         return $this;
     }
 
-    public function getDateSimulation(): ?\DateTimeInterface
+    public function getDateSimulation(): ?DateTimeInterface
     {
         return $this->date_simulation;
     }
 
-    public function setDateSimulation(\DateTimeInterface $date_simulation): self
+    public function setDateSimulation(DateTimeInterface $date_simulation): self
     {
         $this->date_simulation = $date_simulation;
 
