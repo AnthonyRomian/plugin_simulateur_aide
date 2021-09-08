@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -6,168 +7,236 @@
     outline: none;
     font-family: 'Poppins', sans-serif;
 }
-body{
+
+body {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
     margin: 20px 0;
-    overflow: hidden;
-    height: 100%;
+    overflow: auto;
+    height: 1700px;
     background: url("bg.png"), -webkit-linear-gradient(bottom, #3bc436, #070707);
 }
-::selection{
+
+::selection {
     color: #fff;
     background: #3BC436FF;
 }
-.container{
-    width: 330px;
+
+.container {
+    width: 100%;
     background: #fff;
     border-radius: 5px;
     padding: 20px;
 }
-p {
-    font-size: 12px;
+
+h3 {
+    font-size: 5em;
 }
-.container header{
+
+p {
+    display: none;
+    font-size: 3em;
+}
+
+.title {
+    text-align: center;
+    font-size: 3em;
+}
+
+
+.container header {
     font-size: 35px;
     font-weight: 600;
     margin: 0 0 30px 0;
 }
-.container .form-outer{
+
+.container .form-outer {
     width: 100%;
     overflow: hidden;
 }
-.container .form-outer form{
+
+.container .form-outer form {
     display: flex;
     width: 400%;
 }
-.form-outer form .page{
+
+.form-outer form .page {
     width: 25%;
     transition: margin-left 0.3s ease-in-out;
 }
-.form-outer form .page .title{
-    text-align: left;
-    font-size: 25px;
-    font-weight: 500;
-}
-.form-outer form .page .field{
-    height: 30px;
+
+.coordonnees {
     display: flex;
     flex-wrap: wrap;
-    padding: 0px;
-    margin-bottom: 20px;
-
-}
-
-form .page .field .label{
-    display: block;
-    font-weight: 500;
-
-}
-form .page .field input{
-    display: block;
+    flex-direction: column;
     width: 100%;
 }
-form .page .field select{
 
+.field {
+    height: 10em;
+    width: 100%;
 }
 
-.form-outer form .page .field-2{
-    height: 40px;
+.field .label {
+    display: block;
+    font-weight: 500;
+    font-size: 2.5em;
+    margin: 5px 30px 10px 5px;
+}
+
+.field input {
+    font-size: 3em;
+    width: 95%;
+    margin: 5px 10px 5px 10px;
+}
+
+.logement {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    width: 100%;
+}
+
+.form-outer form .page .field-2 {
+    width: 100%;
+    font-size: 1em;
+    height: 8em;
     display: flex;
     flex-direction: column;
-    padding: 0px;
     margin-bottom: 20px;
     align-content: space-between;
 
 }
-form .page .field-2 .label{
+
+.logement .field-2 .label {
     display: block;
     font-weight: 500;
-    width: 100%;
-
+    font-size: 2.5em;
+    margin: 5px 30px 10px 5px;
 }
-form .page .field-2 input{
-    margin: 0 20px;
 
-}
-#utilisateur_proprietaire #utilisateur_type_bien #utilisateur_ancienneteEligible {
+
+
+.field-2 div {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
-
 }
-.form-outer form .page .field-3{
-    height: 50px;
-    display: flex;
-    flex-direction: column;
-    padding: 0px;
-    margin-bottom: 20px;
-    align-content: space-between;
-
+form .page .field-2 input {
+    margin: 0 20px;
+    height: 3em;
+    width: 5%;
 }
-form .page .field-3 label{
-    display: block;
-    font-weight: 500;
-    width: 95%;
 
-
+.field-2 div label {
+    font-size: 2em;
+    width: 35%;
+    margin: 5px 0px 5px 5px;
 }
-form .page .field-3 input{
-    margin: 5px 7px;
-    width: 16px;
 
-}
-#utilisateur_produit_vise {
+.enquete {
     display: flex;
     flex-wrap: wrap;
-    flex-direction: row;
-    align-content: flex-start;
+    flex-direction: column;
+    width: 100%;
+}
 
+.form-outer form .page .field-3 {
+    height: 10em;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    align-content: space-between;
+    width: 100%;
+}
+form .page .field-3 label {
+    font-size: 3em;
+    display: block;
+    font-weight: 500;
+    width: 85%;
+    margin: 5px 0;
+}
+
+form .page .field-3 input {
+    margin: 5px 20px;
+    height: 2em;
+    width: 5%;
 }
 
 #utilisateur_produit_vise label {
-    width: 260px;
-    font-weight: 100;
-    font-size: 15px;
-
-
+    font-size: 2em;
 }
 
-#utilisateur_chauffage {
+.field-3 div {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     align-content: flex-start;
-}
-#utilisateur_chauffage label{
-    width: 260px;
-    font-weight: 200;
-    font-size: 15px;
-
-
-}
-#utilisateur_chauffage input{
-
-
+    margin: 15px 10px;
 }
 
-.form-outer form .page .field-4{
-
-
+form .page .field-3 div label {
+    font-size: 3em;
 }
-form .page .field-4 label{
-    font-size: 12px;
-    width: 260px;
+
+form .page .field-3 div div label {
+    font-size: 2em;
 }
-form .page .field-4 input{
+
+select {
     margin: 5px 7px;
-    width: 15px;
+    width: 95%;
+    font-size: 2em;
+}
+
+select option {
+    font-size: 2em;
+}
+.foyer {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    width: 100%;
+}
+
+.accord {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    width: 100%;
+}
+
+.accord .field-4 {
+    height: 10em;
+    width: 100%;
 
 }
-form .page .field button{
+
+form .page .field-4 label {
+    font-size: 2em;
+    width: 260px;
+}
+
+form .page .field-4 input {
+    margin: 5px 7px;
+    width: 2em;
+    height: 2em;
+
+}
+
+#button-2 {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    margin-top: 25px;
+    height: 5em;
+
+}
+
+form .page .button-solo button {
     width: 100%;
     height: calc(100% + 5px);
     border: none;
@@ -176,119 +245,249 @@ form .page .field button{
     border-radius: 5px;
     color: #fff;
     cursor: pointer;
-    font-size: 18px;
+    font-size: 4em;
     font-weight: 500;
     letter-spacing: 1px;
     text-transform: uppercase;
     transition: 0.5s ease;
 }
+
 form .page .btns button {
     margin-top: -20px !important;
 }
-#button-2{
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    margin-top: 25px;
 
-}
 #button {
     width: 50%;
-    height: 35px;
+    height: 100%;
     border: none;
     background: #070707FF;
     margin-top: 0px;
     border-radius: 5px;
     color: #fff;
     cursor: pointer;
-    font-size: 18px;
+    font-size: 4em;
     font-weight: 500;
     letter-spacing: 1px;
     text-transform: uppercase;
     transition: 0.5s ease;
 }
 
-form .page .btns button.next{
+form .page .btns button.next {
     margin-left: 3px;
 }
-.container .progress-bar{
-    display: flex;
-    margin: 10px 0;
-    user-select: none;
-}
-.container .progress-bar .step{
-    text-align: center;
-    width: 100%;
-    position: relative;
-}
-.container .progress-bar .step p{
-    font-weight: 500;
-    font-size: 18px;
-    color: #000;
-    margin-bottom: 8px;
-}
-.progress-bar .step .bullet{
-    height: 25px;
-    width: 25px;
-    border: 2px solid #000;
-    display: inline-block;
-    border-radius: 50%;
-    position: relative;
-    transition: 0.2s;
-    font-weight: 500;
-    font-size: 17px;
-    line-height: 25px;
-}
-.progress-bar .step .bullet.active{
-    border-color: #3BC436FF;
-    background: #3BC436FF;
-}
-.progress-bar .step .bullet span{
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-}
-.progress-bar .step .bullet.active span{
-    display: none;
-}
-.progress-bar .step .bullet:before,
-.progress-bar .step .bullet:after{
-    position: absolute;
-    content: '';
-    bottom: 9px;
-    right: -124px;
-    height: 3px;
-    width: 124px;
-    background: #262626;
-}
-.progress-bar .step .bullet.active:after{
-    background: #3BC436FF;
-    transform: scaleX(0);
-    transform-origin: left;
-    animation: animate 0.3s linear forwards;
-}
+
 @keyframes animate {
-    100%{
+    100% {
         transform: scaleX(1);
     }
 }
-.progress-bar .step:last-child .bullet:before,
-.progress-bar .step:last-child .bullet:after{
-    display: none;
+
+input[type='checkbox']:checked {
+    -webkit-filter: grayscale(100%);
 }
-.progress-bar .step p.active{
-    color: #3BC436FF;
-    transition: 0.2s linear;
+
+input[type='radio']:checked {
+    -webkit-filter: grayscale(100%);
 }
-.progress-bar .step .check{
-    position: absolute;
-    left: 50%;
-    top: 70%;
-    font-size: 15px;
-    transform: translate(-50%, -50%);
-    display: none;
+
+.alert {
+    list-style-type: none;
 }
-.progress-bar .step .check.active{
-    display: block;
-    color: #fff;
+
+.field ul {
+    color: red;
+    list-style-type: none;
 }
+
+@media (min-width: 992px) {
+
+    h3 {
+        font-size: 2.5em;
+    }
+
+    p {
+        display: block;
+        font-size: 1.7em;
+    }
+
+    .title {
+        font-size: 2em;
+    }
+
+
+    .container header {
+        font-size: 35px;
+        font-weight: 600;
+        margin: 0 0 30px 0;
+    }
+
+    .container .form-outer {
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .container .form-outer form {
+        display: flex;
+        width: 400%;
+    }
+
+    .form-outer form .page {
+        width: 25%;
+        transition: margin-left 0.3s ease-in-out;
+    }
+
+    .coordonnees {
+        flex-direction: row;
+        width: 100%;
+    }
+
+    .field {
+        height: 7em;
+        width: 50%;
+    }
+
+    .field .label {
+        font-size: 1.5em;
+
+    }
+
+    .field input {
+        font-size: 1.5em;
+    }
+
+    .logement {
+        flex-direction: row;
+        width: 100%;
+    }
+
+    .form-outer form .page .field-2 {
+        width: 50%;
+        font-size: 1em;
+        height: 6em;
+        flex-direction: column;
+    }
+
+    .logement .field-2 .label {
+        font-size: 1.5em;
+    }
+
+    .field-2 div {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+    }
+    form .page .field-2 input {
+        height: 1.5em;
+        width: 5%;
+    }
+
+    .field-2 div label {
+        font-size: 1.1em;
+        width: 35%;
+        margin: 5px 0px 5px 5px;
+    }
+
+    .enquete {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .form-outer form .page .field-3 {
+        height: 10em;
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+        align-content: space-between;
+        width: 100%;
+    }
+    form .page .field-3 label {
+        font-size: 2em;
+        width: 35%;
+    }
+
+    form .page .field-3 input {
+        margin: 5px 20px;
+        height: 1.1em;
+        width: 5%;
+    }
+
+    #utilisateur_produit_vise label {
+        font-size: 1.1em;
+    }
+
+    .field-3 div {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        align-content: flex-start;
+        margin: 15px 10px;
+    }
+
+    form .page .field-3 div label {
+        font-size: 2em;
+    }
+
+    form .page .field-3 div div label {
+        width: 40%;
+        font-size: 1.1em;
+    }
+
+    select {
+        margin: 5px 7px;
+        width: 95%;
+        font-size: 2em;
+    }
+
+    select option {
+        font-size: 2em;
+    }
+    .foyer {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .accord {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .accord .field-4 {
+        height: 10em;
+        width: 100%;
+
+    }
+
+    form .page .field-4 label {
+        font-size: 2em;
+        width: 260px;
+    }
+
+    form .page .field-4 input {
+        margin: 5px 7px;
+        width: 2em;
+        height: 2em;
+
+    }
+
+    #button-2 {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        margin-top: 25px;
+        height: 5em;
+
+    }
+
+
+
+}
+
+

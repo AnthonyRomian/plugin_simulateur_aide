@@ -62,6 +62,7 @@ class Calculateur extends AbstractController
         $renov_ssc_Bleu = 0;
 
 
+
         //-------------CEE-----------------//
         //---------CESI------//
         $cee_cesi_Jaune = 275;
@@ -90,8 +91,8 @@ class Calculateur extends AbstractController
         $agreeEmail = $utilisateur->getAgreeEmail();
 
 
-
         if ($anciennete == true) {
+
             //il est elligible aux aides
             //si code postal ile de france
 
@@ -178,7 +179,7 @@ class Calculateur extends AbstractController
                 $entityManager->persist($resultat);
                 $entityManager->flush();
 
-                if (sizeof($agreeEmail) == 1) {
+                /*if (sizeof($agreeEmail) == 1) {
                     $email = $utilisateur->getEmail();
 
                     $mailerService->send("Votre simulation", "contact@top-enr.com", $email, "email/contact.html.twig",
@@ -192,7 +193,7 @@ class Calculateur extends AbstractController
                         ]
                     );
                     $this->addFlash('success', 'Mail envoyé');
-                }
+                }*/
                 return $resultat;
 
             } elseif ($rfi > $plafond_prime_renov_1_1 && $rfi < $plafond_prime_renov_1_2 && $nbre_pers_foy == 1 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
@@ -227,7 +228,7 @@ class Calculateur extends AbstractController
                 $entityManager->persist($resultat);
                 $entityManager->flush();
 
-                if (sizeof($agreeEmail) == 1) {
+                /*if (sizeof($agreeEmail) == 1) {
 
                     $email = $utilisateur->getEmail();
 
@@ -242,7 +243,7 @@ class Calculateur extends AbstractController
                         ]
                     );
                     $this->addFlash('success', 'Mail envoyé');
-                }
+                }*/
                 return $resultat;
             } elseif ($rfi > $plafond_prime_renov_1_2 && $rfi < $plafond_prime_renov_1_3 && $nbre_pers_foy == 1 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
                 $rfi > $plafond_prime_renov_2_2 && $rfi < $plafond_prime_renov_2_3 && $nbre_pers_foy == 2 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
@@ -276,7 +277,7 @@ class Calculateur extends AbstractController
                 $entityManager->persist($resultat);
                 $entityManager->flush();
 
-                if (sizeof($agreeEmail) == 1) {
+                /*if (sizeof($agreeEmail) == 1) {
 
                     $email = $utilisateur->getEmail();
 
@@ -291,7 +292,7 @@ class Calculateur extends AbstractController
                         ]
                     );
                     $this->addFlash('success', 'Mail envoyé');
-                }
+                }*/
                 return $resultat;
             } elseif ($rfi > $plafond_prime_renov_1_3 && $nbre_pers_foy == 1 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
                 $rfi > $plafond_prime_renov_2_3 && $nbre_pers_foy == 2 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
@@ -325,7 +326,7 @@ class Calculateur extends AbstractController
                 $entityManager->persist($resultat);
                 $entityManager->flush();
 
-                if (sizeof($agreeEmail) == 1) {
+                /*if (sizeof($agreeEmail) == 1) {
 
                     $email = $utilisateur->getEmail();
 
@@ -340,19 +341,22 @@ class Calculateur extends AbstractController
                         ]
                     );
                     $this->addFlash('success', 'Mail envoyé');
-                }
+                }*/
                 return $resultat;
             }
 
         } else {
-            #todo il n est pas elligible aux aides = ZERO
+
             $resultat->setUtilisateurSimulation($utilisateur);
+
             $resultat->setPrimeRenov($renov_non);
             $resultat->setCee($cee_non);
             $resultat->setCdpChauffage($pouce_Non);
             $resultat->setMontantTotal($renov_non + $cee_non + $pouce_Non);
+            $entityManager->persist($resultat);
+            $entityManager->flush();
 
-            if (sizeof($agreeEmail) == 1) {
+            /*if (sizeof($agreeEmail) == 1) {
 
                 $email = $utilisateur->getEmail();
 
@@ -367,7 +371,7 @@ class Calculateur extends AbstractController
                     ]
                 );
                 $this->addFlash('success', 'Mail envoyé');
-            }
+            }*/
             return $resultat;
         }
         return $resultat;

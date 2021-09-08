@@ -6,6 +6,7 @@ use App\Entity\Utilisateur;
 use App\Form\UtilisateurType;
 use App\Service\Calculateur;
 use App\Service\MailerService;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,7 +31,7 @@ class UtilisateurController extends AbstractController
         $utilisateur = new Utilisateur();
 
         $utilisateurForm = $this->createForm(UtilisateurType::class, $utilisateur);
-        $utilisateur->setDateSimulation(new \DateTime('now'));
+        $utilisateur->setDateSimulation(new DateTime('now'));
 
         $utilisateurForm->handleRequest($request);
         $agree = $utilisateur->getAgreeTerms();
@@ -56,11 +57,11 @@ class UtilisateurController extends AbstractController
                         'id' => $utilisateur->getId(),
                         'utilisateur' => $utilisateur
                     ]);
-                    #TODO FAIRE ENVOIE DE MAIL
 
                 } else {
+                    // ENVOIE MAIL NON
                     $calculateur->calculerAide($utilisateur, $entityManager, $mailerService);
-                    #TODO ENVOIE MAIL NON
+
                     $entityManager = $this->getDoctrine()->getManager();
                     $entityManager->persist($utilisateur);
                     $entityManager->flush();
@@ -76,20 +77,13 @@ class UtilisateurController extends AbstractController
                     'utilisateurForm' => $utilisateurForm->createView(),
                 ]);
             }
+        } else {
+
+            $this->addFlash('error', 'Veuillez corriger les erreurs');
+            return $this->render('create.html.twig', [
+                'utilisateurForm' => $utilisateurForm->createView(),
+            ]);
         }
-        return $this->render('create.html.twig', [
-            'utilisateurForm' => $utilisateurForm->createView(),
-        ]);
+
     }
-
-
-    /*public function resultat(Utilisateur $utilisateur, MailerService $mailerService): Response
-    {
-
-
-        return $this->render('resultat.html.twig', [
-            'utilisateur' => $utilisateur,
-        ]);
-    }*/
-
 }

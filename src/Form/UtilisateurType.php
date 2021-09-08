@@ -19,36 +19,42 @@ class UtilisateurType extends AbstractType
     {
         $builder
             ->add('nom', TextType::class, [
+                'required' => false,
                 'label_attr' => [
                     'class' => 'label'
                 ],
                 'label' => 'Nom : ',
             ])
             ->add('prenom', TextType::class, [
+                'required' => false,
                 'label_attr' => [
                     'class' => 'label'
                 ],
                 'label' => 'Prénom : ',
             ])
             ->add('code_postal', TextType::class, [
+                'required' => false,
                 'label_attr' => [
                     'class' => 'label'
                 ],
                 'label' => 'Code postal : ',
             ])
             ->add('ville', TextType::class, [
+                'required' => false,
                 'label_attr' => [
                     'class' => 'label'
                 ],
                 'label' => 'Ville : ',
             ])
             ->add('tel', TextType::class, [
+                'required' => false,
                     'label_attr' => [
                         'class' => 'label'
                     ],
                 'label' => 'Tel : ',
             ])
             ->add('email', EmailType::class, [
+                'required' => false,
                 'label_attr' => [
                     'class' => 'label'
                 ],
@@ -64,7 +70,8 @@ class UtilisateurType extends AbstractType
                     'Non' => false
                 ],
                 'multiple' => false,
-                'expanded' => true
+                'expanded' => true,
+                'data' => true
 
             ])
             ->add('type_bien', ChoiceType::class,[
@@ -77,7 +84,8 @@ class UtilisateurType extends AbstractType
                     'Appartement' => 'Appartement'
                 ],
                 'multiple' => false,
-                'expanded' => true
+                'expanded' => true,
+                'data' => 'Maison'
 
             ])
             ->add('ancienneteEligible', ChoiceType::class,[
@@ -90,7 +98,8 @@ class UtilisateurType extends AbstractType
                     'Non' => false
                 ],
                 'multiple' => false,
-                'expanded' => true
+                'expanded' => true,
+                'data' => true
 
             ])
             ->add('produit_vise', ChoiceType::class,[
@@ -107,6 +116,7 @@ class UtilisateurType extends AbstractType
                 'data' => 'Eau chaude sanitaire'
             ])
             ->add('nbre_salle_bain', IntegerType::class, [
+                'required' => false,
                 'label_attr' => [
                     'class' => 'label'
                 ],
@@ -133,9 +143,9 @@ class UtilisateurType extends AbstractType
                     'class' => 'label'
                 ],
                 'choices' => [
-                    'radiateur à eau' => 'radiateur à eau',
-                    'radiateur electrique' => 'radiateur electrique',
-                    'plancher chauffant' => 'plancher chauffant',
+                    'Radiateur à eau' => 'Radiateur à eau',
+                    'Radiateur electrique' => 'Radiateur electrique',
+                    'Plancher chauffant' => 'Plancher chauffant',
                     'Autres' => 'Autres',
                 ],
                 'multiple' => true,
@@ -146,12 +156,14 @@ class UtilisateurType extends AbstractType
                 ],
             ])
             ->add('nbre_pers_foyer', IntegerType::class, [
+                'required' => false,
                 'label_attr' => [
                     'class' => 'label'
                 ],
                 'label' => 'Nombre de personne au foyer :'
             ])
             ->add('revenu_fiscal', IntegerType::class, [
+                'required' => false,
                 'label_attr' => [
                     'class' => 'label'
                 ],

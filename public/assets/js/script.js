@@ -11,29 +11,30 @@ ChauffageOk.addEventListener("click", () => {
     if(getComputedStyle(div1).display === "none"){
         div1.style.display = "block";
         div2.style.display = "block";
-        Chauffage.style.height = "220px"
+        Chauffage.style.height = "38em"
         Chauffage.style.transition = "0.5s ease"
     } else {
         ChauffageNok.addEventListener("click", () => {
             if(getComputedStyle(div1).display === "block"){
                 div1.style.display = "none";
-                Chauffage.style.height = "50px"
+                Chauffage.style.height = "10em"
                 Chauffage.style.transition = "0.5s ease"
             }
         })
     }
 
     if(getComputedStyle(div2).display === "none"){
+
         div1.style.display = "block";
         div2.style.display = "block";
-        Chauffage.style.height = "220px"
+        Chauffage.style.height = "38em"
         Chauffage.style.transition = "0.5s ease"
     } else {
         ChauffageNok.addEventListener("click", () => {
             if(getComputedStyle(div2).display === "block"){
                 div2.style.display = "none";
                 div1.style.display = "none";
-                Chauffage.style.height = "50px"
+                Chauffage.style.height = "10em"
                 Chauffage.style.transition = "0.5s ease"
             }
         })

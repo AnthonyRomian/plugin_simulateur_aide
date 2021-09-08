@@ -20,43 +20,85 @@ class Utilisateur
     private $id;
 
     /**
-     * @Assert\NotBlank(message="Veuillez renseigner votre nom")
+     *
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez renseigner votre nom")
+     * @Assert\Length(
+     *     min=1,
+     *     max=50,
+     *     minMessage="Renseignez un prénom valide",
+     *     maxMessage="Renseignez un prénom valide"
+     * )
+     * @Assert\Regex(pattern="/^([^0-9]*)$/", message="Lettres seulement")
      */
     private $nom;
 
     /**
-     * @Assert\NotBlank(message="Veuillez renseigner votre prénom")
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez renseigner votre prénom")
+     * @Assert\Length(
+     *     min=1,
+     *     max=50,
+     *     minMessage="Renseignez un prénom valide",
+     *     maxMessage="Renseignez un prénom valide"
+     * )
+     * @Assert\Regex(pattern="/^([^0-9]*)$/", message="Lettres seulement")
+     *
      */
     private $prenom;
 
     /**
-     * @Assert\NotBlank(message="Veuillez renseigner votre code postal")
+     *
      * @ORM\Column(type="string", length=5)
+     * @Assert\NotBlank(message="Renseignez votre code postal")
+     * @Assert\Length(
+     *     min=5,
+     *     max=5,
+     *     minMessage="Renseigner un code postal valide",
+     *     maxMessage="Renseigner un code postal valide"
+     * )
+     * @Assert\Regex(pattern="/^[0-9]*$/", message="Nombre seulement")
      */
     private $code_postal;
 
     /**
-     * @Assert\NotBlank(message="Veuillez renseigner votre ville")
+     *
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Renseignez votre ville")
+     * @Assert\Length(
+     *     min=1,
+     *     max=50,
+     *     minMessage="Rentrez un nom de ville",
+     *     maxMessage="Rentrez un nom de ville"
+     * )
      */
     private $ville;
 
     /**
-     * @Assert\NotBlank(message="Veuillez remplir votre numero de telephone")
+     * @ORM\Column(type="string", length=13)
+     * @Assert\NotBlank(message="Renseignez votre numero de telephone")
      * @Assert\Length(
      *     min=10,
      *     max=13,
+     *     minMessage="Rentrez un numero de téléphone valide",
+     *     maxMessage="Rentrez un numero de téléphone valide"
      * )
-     * @ORM\Column(type="string", length=13)
+     * @Assert\Regex(pattern="/^[0-9]*$/", message="Nombre seulement")
+     *
      */
     private $tel;
 
     /**
-     * @Assert\NotBlank
-     * @Assert\Email(message="saisissez un email valide")
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Saisissez un email")
+     * @Assert\Email(message="Saisissez un email valide")
+     * @Assert\Length(
+     *     min=1,
+     *     max=50,
+     *     minMessage="Rentrez un numero de téléphone valide",
+     *     maxMessage="Rentrez un numero de téléphone valide"
+     * )
+     *
      */
     private $email;
 
@@ -66,32 +108,40 @@ class Utilisateur
     private $date_simulation;
 
     /**
-     * @Assert\NotBlank(message="Veuillez renseigner si vous etes propriétaire ou locataire")
+     *
      * @ORM\Column(type="boolean")
+     * @Assert\NotNull (message="Renseignez si vous etes propriétaire ou locataire")
      */
     private $proprietaire;
 
     /**
-     * @Assert\NotBlank(message="Veuillez renseigner votre bien")
+     *
      * @ORM\Column(type="string", length=15)
+     * @Assert\NotNull(message="Renseignez votre bien")
      */
     private $type_bien;
 
     /**
-     * @Assert\NotBlank(message="Veuillez renseigner l'anciennetée de votre bien")
+     *
      * @ORM\Column(type="boolean")
+     * @Assert\NotNull(message="Renseignez l'anciennetée de votre bien")
      */
     private $ancienneteEligible;
 
     /**
-     * @Assert\NotBlank(message="Veuillez renseigner le produit voulu")
+     *
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotNull (message="Renseignez le produit voulu")
      */
     private $produit_vise;
 
     /**
-     * @Assert\NotBlank(message="Veuillez renseigner le nombre de vos salles bain")
      * @ORM\Column(type="integer", length=255)
+     * @Assert\NotBlank(message="Renseignez un nombre")
+     * @Assert\GreaterThan(
+     *     value = 0,
+     *     message="doit etre supérieur à 0")
+     *
      */
     private $nbre_salle_bain;
 
@@ -106,14 +156,19 @@ class Utilisateur
     private $energie;
 
     /**
-     * @Assert\NotBlank(message="Veuillez renseigner le nombre de personne de votre foyer")
+     *
      * @ORM\Column(type="integer", length=255)
+     * @Assert\NotBlank (message="Renseignez un nombre")
+     * @Assert\GreaterThan(value = 0, message="La valeur doit etre supérieur à 0")
+     *
      */
     private $nbre_pers_foyer;
 
     /**
-     * @Assert\NotBlank(message="Veuillez renseigner votre revenu fiscal de référence")
+     *
      * @ORM\Column(type="integer", length=255)
+     * @Assert\NotBlank(message="Renseignez votre revenu fiscal")
+     * @Assert\GreaterThan(value = 0, message="La valeur doit etre supérieur à 0")
      */
     private $revenu_fiscal;
 
