@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Utilisateur;
 use App\Form\UtilisateurType;
+use App\Repository\UtilisateurRepository;
 use App\Service\Calculateur;
 use App\Service\MailerService;
 use DateTime;
@@ -84,6 +85,29 @@ class UtilisateurController extends AbstractController
                 'utilisateurForm' => $utilisateurForm->createView(),
             ]);
         }
+    }
 
+
+
+    private $em;
+
+    // Afficher les villes
+    /**
+     * @Route("/admin/utilisateur", name="utilisateur_list")
+     */
+    public function list(UtilisateurRepository $utilisateurRepository,
+                         Request $request,
+                         EntityManagerInterface $entityManager): Response
+    {
+        $current = $this->getUser();
+
+        $utilisateurs = $utilisateurRepository->findAll();
+        $utilisateur = new Utilisateur();
+
+
+        return $this->render('admin/admin_list_utilisateur.html.twig', [
+            'utilisateur'=>$utilisateur,
+            'utilisateurs'=>$utilisateurs
+        ]);
     }
 }

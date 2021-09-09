@@ -14,7 +14,8 @@ body {
     justify-content: flex-start;
     margin: 20px 0;
     overflow: auto;
-    height: 1700px;
+    height: 100%;
+    min-width: 560px;
     background: url("bg.png"), -webkit-linear-gradient(bottom, #3bc436, #070707);
 }
 
@@ -34,9 +35,8 @@ h3 {
     font-size: 5em;
 }
 
-p {
-    display: none;
-    font-size: 3em;
+.container p {
+    font-size: 1.5em;
 }
 
 .title {
@@ -74,14 +74,14 @@ p {
 }
 
 .field {
-    height: 10em;
+    height: 12em;
     width: 100%;
 }
 
 .field .label {
     display: block;
     font-weight: 500;
-    font-size: 2.5em;
+    font-size: 2em;
     margin: 5px 30px 10px 5px;
 }
 
@@ -101,7 +101,7 @@ p {
 .form-outer form .page .field-2 {
     width: 100%;
     font-size: 1em;
-    height: 8em;
+    height: 10em;
     display: flex;
     flex-direction: column;
     margin-bottom: 20px;
@@ -112,7 +112,7 @@ p {
 .logement .field-2 .label {
     display: block;
     font-weight: 500;
-    font-size: 2.5em;
+    font-size: 2em;
     margin: 5px 30px 10px 5px;
 }
 
@@ -132,7 +132,7 @@ form .page .field-2 input {
 }
 
 .field-2 div label {
-    font-size: 2em;
+    font-size: 1.5em;
     width: 35%;
     margin: 5px 0px 5px 5px;
 }
@@ -145,12 +145,13 @@ form .page .field-2 input {
 }
 
 .form-outer form .page .field-3 {
-    height: 10em;
+    height: 12em;
     display: flex;
     flex-direction: column;
     margin-bottom: 20px;
     align-content: space-between;
     width: 100%;
+    transition : 0.5s ease;
 }
 form .page .field-3 label {
     font-size: 3em;
@@ -167,7 +168,7 @@ form .page .field-3 input {
 }
 
 #utilisateur_produit_vise label {
-    font-size: 2em;
+    font-size: 1.5em;
 }
 
 .field-3 div {
@@ -183,17 +184,17 @@ form .page .field-3 div label {
 }
 
 form .page .field-3 div div label {
-    font-size: 2em;
+    font-size: 1.5em;
 }
 
 select {
     margin: 5px 7px;
     width: 95%;
-    font-size: 2em;
+    font-size: 1.5em;
 }
 
 select option {
-    font-size: 2em;
+    font-size: 0.8em;
 }
 .foyer {
     display: flex;
@@ -216,7 +217,7 @@ select option {
 }
 
 form .page .field-4 label {
-    font-size: 2em;
+    font-size: 1.5em;
     width: 260px;
 }
 
@@ -227,16 +228,13 @@ form .page .field-4 input {
 
 }
 
-#button-2 {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    margin-top: 25px;
-    height: 5em;
+/* BOUTONS */
 
+form .page .buttons {
+    margin-top: 4em;
 }
 
-form .page .button-solo button {
+form .page .buttons button {
     width: 100%;
     height: calc(100% + 5px);
     border: none;
@@ -253,7 +251,7 @@ form .page .button-solo button {
 }
 
 form .page .btns button {
-    margin-top: -20px !important;
+    margin-top: 0.1em !important;
 }
 
 #button {
@@ -291,7 +289,11 @@ input[type='radio']:checked {
 }
 
 .alert {
+    display: none;
     list-style-type: none;
+    color: #ff788a;
+    font-size: 1.5em;
+    font-weight: bold;
 }
 
 .field ul {
@@ -299,7 +301,66 @@ input[type='radio']:checked {
     list-style-type: none;
 }
 
-@media (min-width: 992px) {
+/* RESULTAT */
+
+.tableau-resultat-conteneur {
+    text-align: center;
+}
+
+header h5 {
+    font-weight: 100;
+}
+
+
+table{
+    border-collapse: collapse;
+    width: 400px;
+    border: 2px solid;
+    margin: 20px auto;
+}
+th, td{
+    border: 1px solid black;
+    padding: 10px;
+    vertical-align: top;
+}
+
+table tr:last-child {
+    border-top: 3px solid;
+}
+
+.button-link {
+    text-decoration: none;
+    width: 50%;
+    height: 100%;
+    padding: 0 20px;
+    border: none;
+    background: #070707FF;
+    margin-top: 0px;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 2em;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: 0.5s ease;
+}
+.alerte-proprietaire {
+    background-color: rgba(191, 94, 30, 0.5);
+    border-radius: 0.2em;
+}
+
+@media screen and (min-width: 738px) and (max-width: 1024px) {
+
+    body {
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+        margin: 20px 0;
+        overflow: auto;
+        height: 100%;
+        background: url("bg.png"), -webkit-linear-gradient(bottom, #3bc436, #070707);
+    }
 
     h3 {
         font-size: 2.5em;
@@ -311,7 +372,8 @@ input[type='radio']:checked {
     }
 
     .title {
-        font-size: 2em;
+        font-size: 3em;
+        font-weight: 500;
     }
 
 
@@ -337,6 +399,171 @@ input[type='radio']:checked {
     }
 
     .coordonnees {
+        width: 100%;
+    }
+
+    .field {
+        height: 7em;
+        width: 100%;
+    }
+
+    .field .label {
+        font-size: 1.5em;
+    }
+
+    .field input {
+        font-size: 1.5em;
+    }
+
+    .logement {
+
+        width: 100%;
+    }
+
+    .form-outer form .page .field-2 {
+        width: 100%;
+        font-size: 1em;
+        height: 6em;
+    }
+
+    .logement .field-2 .label {
+        font-size: 1.5em;
+    }
+
+    form .page .field-2 input {
+        height: 1.5em;
+    }
+
+    .field-2 div label {
+        font-size: 1.1em;
+    }
+
+    .form-outer form .page .field-3 {
+        height: 6em;
+    }
+
+    form .page .field-3 label {
+        font-size: 2em;
+        width: 35%;
+    }
+
+    form .page .field-3 input {
+        height: 1.1em;
+    }
+
+    #utilisateur_produit_vise label {
+        font-size: 1.1em;
+    }
+
+    form .page .field-3 div label {
+        font-size: 2em;
+    }
+
+    form .page .field-3 div div label {
+        width: 35%;
+        font-size: 1.1em;
+    }
+
+    select {
+        font-size: 1.5em;
+    }
+
+    select option {
+        font-size: 1.2em;
+    }
+
+    .foyer {
+        flex-direction: row;
+    }
+
+    .accord .field-4 div {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        width: 100%;
+    }
+
+    form .page .field-4 label {
+        font-size: 1.5em;
+        margin: 5px 7px;
+        width: 90%;
+    }
+
+    /* BOUTONS */
+    #button-2 {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        margin-top: 25px;
+        height: 5em;
+
+    }
+
+    form .page .buttons button {
+        width: 50%;
+        margin: 0 25%;
+        height: calc(100% + 1em);
+        font-size: 2.5em;
+    }
+
+    form .page .buttons {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        align-items: flex-start;
+    }
+
+    form .page .buttons .buttons-2 {
+        font-size: 2.5em;
+        margin: 0 0 0 0 !important;
+    }
+
+    form .page .btns button.next {
+        margin-left: 3px;
+    }
+
+}
+
+/* PC */
+@media screen and (min-width: 1024px) {
+
+    body {
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+        margin: 20px 0;
+        overflow: auto;
+        height: 100%;
+        background: url("bg.png"), -webkit-linear-gradient(bottom, #3bc436, #070707);
+    }
+
+    h3 {
+        font-size: 2.5em;
+    }
+
+    p {
+        display: block;
+        font-size: 1.7em;
+    }
+
+    .title {
+        font-size: 3em;
+        font-weight: 500;
+    }
+
+
+    .container header {
+        font-size: 35px;
+        font-weight: 600;
+        margin: 0 0 30px 0;
+    }
+
+    .container .form-outer {
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .coordonnees {
         flex-direction: row;
         width: 100%;
     }
@@ -348,7 +575,6 @@ input[type='radio']:checked {
 
     .field .label {
         font-size: 1.5em;
-
     }
 
     .field input {
@@ -364,45 +590,21 @@ input[type='radio']:checked {
         width: 50%;
         font-size: 1em;
         height: 6em;
-        flex-direction: column;
     }
 
     .logement .field-2 .label {
         font-size: 1.5em;
     }
-
-    .field-2 div {
-        display: flex;
-        flex-wrap: wrap;
-        flex-direction: row;
-        justify-content: space-between;
-        width: 100%;
-    }
     form .page .field-2 input {
         height: 1.5em;
-        width: 5%;
     }
 
     .field-2 div label {
         font-size: 1.1em;
-        width: 35%;
-        margin: 5px 0px 5px 5px;
-    }
-
-    .enquete {
-        display: flex;
-        flex-wrap: wrap;
-        flex-direction: column;
-        width: 100%;
     }
 
     .form-outer form .page .field-3 {
-        height: 10em;
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 20px;
-        align-content: space-between;
-        width: 100%;
+        height: 6em;
     }
     form .page .field-3 label {
         font-size: 2em;
@@ -410,21 +612,11 @@ input[type='radio']:checked {
     }
 
     form .page .field-3 input {
-        margin: 5px 20px;
         height: 1.1em;
-        width: 5%;
     }
 
     #utilisateur_produit_vise label {
         font-size: 1.1em;
-    }
-
-    .field-3 div {
-        display: flex;
-        flex-wrap: wrap;
-        flex-direction: row;
-        align-content: flex-start;
-        margin: 15px 10px;
     }
 
     form .page .field-3 div label {
@@ -437,46 +629,31 @@ input[type='radio']:checked {
     }
 
     select {
-        margin: 5px 7px;
-        width: 95%;
-        font-size: 2em;
+        font-size: 1.5em;
     }
 
     select option {
-        font-size: 2em;
+        font-size: 1.2em;
     }
+
     .foyer {
-        display: flex;
-        flex-wrap: wrap;
-        flex-direction: column;
-        width: 100%;
+        flex-direction: row;
     }
 
-    .accord {
+    .accord .field-4 div {
         display: flex;
         flex-wrap: wrap;
-        flex-direction: column;
+        flex-direction: row;
         width: 100%;
-    }
-
-    .accord .field-4 {
-        height: 10em;
-        width: 100%;
-
     }
 
     form .page .field-4 label {
-        font-size: 2em;
-        width: 260px;
-    }
-
-    form .page .field-4 input {
+        font-size: 1.5em;
         margin: 5px 7px;
-        width: 2em;
-        height: 2em;
-
+        width: 90%;
     }
 
+    /* BOUTONS */
     #button-2 {
         display: flex;
         flex-wrap: wrap;
@@ -486,8 +663,27 @@ input[type='radio']:checked {
 
     }
 
+    form .page .buttons button {
+        width: 50%;
+        margin: 0 25%;
+        height: calc(100% + 1em);
+        font-size: 2.5em;
+    }
 
+    form .page .buttons  {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        align-items: flex-start;
+    }
+
+    form .page .buttons .buttons-2 {
+        font-size: 2.5em;
+        margin: 0 0 0 0 !important;
+    }
+
+    form .page .btns button.next {
+        margin-left: 3px;
+    }
 
 }
-
-

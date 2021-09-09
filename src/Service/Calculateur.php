@@ -179,21 +179,22 @@ class Calculateur extends AbstractController
                 $entityManager->persist($resultat);
                 $entityManager->flush();
 
-                /*if (sizeof($agreeEmail) == 1) {
+                if (sizeof($agreeEmail) == 1) {
                     $email = $utilisateur->getEmail();
 
                     $mailerService->send("Votre simulation", "contact@top-enr.com", $email, "email/contact.html.twig",
                         [
                             // ajouter tout les infos resultats
-                            "name" => $utilisateur->getNom(),
+                            "name" => $resultat->getUtilisateurSimulation()->getNom(),
                             "prime_renov" => $resultat->getPrimeRenov(),
                             "prime_cee" => $resultat->getCee(),
                             "prime_fioul" => $resultat->getCdpChauffage(),
                             "total" => $resultat->getMontantTotal(),
+                            "proprietee"=> $resultat->getUtilisateurSimulation()->getProprietaire(),
                         ]
                     );
                     $this->addFlash('success', 'Mail envoyé');
-                }*/
+                }
                 return $resultat;
 
             } elseif ($rfi > $plafond_prime_renov_1_1 && $rfi < $plafond_prime_renov_1_2 && $nbre_pers_foy == 1 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||

@@ -130,7 +130,7 @@ class UtilisateurType extends AbstractType
                     'Fioul' => 'Fioul',
                     'Gaz' => 'Gaz',
                     'Electricité' => 'Electricité',
-                    'Bois_granule' => 'Bois / granule',
+                    'Bois / granule' => 'Bois / granule',
                 ],
                 'multiple' => false,
                 'row_attr' => [

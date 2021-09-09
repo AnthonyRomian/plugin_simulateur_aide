@@ -1,33 +1,58 @@
-{% extends 'base.html.twig' %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Simulateur d'aide{% endblock %}</title>
+    <!-- CSS -->
+    <link href="../public/assets/css/normalize.css" rel="stylesheet">
+    <link href="../public/assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
 
-{% block title %}Simulateur d'aide{% endblock %}
-        {# todo afficher une list d utilisateur #}
+    <!-- JS -->
+
+</head>
+<body>
+{# read and display all flash messages #}
 {% block body %}
+    <div class="tableau-resultat-conteneur container">
+        <header class="tableau-resultat-header">
+            <h2>Mr {{ utilisateur.nom }}</h2>
+            <h4>Voici le résultat de votre simulation</h4>
+            <h5>Selon les informations que vous nous avez fournies, vous avez le droit aux aides suivantes</h5>
+        </header>
 
-<div class="container">
-    <h2>Mr {{ utilisateur.nom }}</h2>
-    <h3>Voici le résultat de votre simulation</h3>
-    <p>Selon les informations que vous nous avez fournies, vous avez le droit aux aides suivantes</p>
-    <table class="table">
-        <thead class="">
-        <tr class="row">
-            <th >Montant de la prime RENOV</th>
-            <th >{{ utilisateur.resultat.PrimeRenov }} €</th>
-        </tr>
-        <tr class="row">
-            <th >Montant CEE</th>
-            <th >{{ utilisateur.resultat.cee }} €</th>
+        <table>
+            <thead class="">
+            <tr class="row">
+                <th >Montant de la prime RENOV</th>
+                <th >{{ utilisateur.resultat.PrimeRenov }} €</th>
+            </tr>
+            <tr class="row">
+                <th >Montant CEE</th>
+                <th >{{ utilisateur.resultat.cee }} €</th>
 
-        </tr>
-        <tr class="row">
-            <th >Montant du Coup de pouce fioul</th>
-            <th >{{ utilisateur.resultat.CdpChauffage }} €</th>
-        </tr>
-        <tr class="row">
-            <th >Montant Total</th>
-            <th >{{ utilisateur.resultat.MontantTotal }} €</th>
-        </tr>
-        </thead>
-    </table>
-</div>
+            </tr>
+            <tr class="row">
+                <th >Montant du Coup de pouce fioul</th>
+                <th >{{ utilisateur.resultat.CdpChauffage }} €</th>
+            </tr>
+            <tr class="row">
+                <th >Montant Total</th>
+                <th >{{ utilisateur.resultat.MontantTotal }} €</th>
+            </tr>
+            </thead>
+        </table>
+        {% if utilisateur.proprietaire == false %}
+            <p class="alerte-proprietaire">Vous êtes locataire, veuillez contacter votre propriétaire avant toutes demarches</p>
+        {% endif %}
+        <footer>
+            <p>Vous pouvez prendre contact avec nous en répondant directement à cet e-mail</p>
+
+            <a class="button-link" href="https://top-enr.com/contact">Nous contacter</a>
+        </footer>
+    </div>
+
+
 {% endblock %}
+</body>
+</html>

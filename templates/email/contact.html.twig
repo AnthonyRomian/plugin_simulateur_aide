@@ -1,27 +1,97 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <title>Page Title</title>
+    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
+
+    <title>Resultat</title>
+    <style>
+
+        body {
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+            margin: 20px 0;
+            overflow: auto;
+            height: 100%;
+            min-width: 560px;
+            background: -webkit-linear-gradient(bottom, #3bc436, #070707);
+        }
+        /* RESULTAT */
+
+        .tableau-resultat-conteneur {
+            text-align: center;
+        }
+
+        header h5 {
+            font-weight: 100;
+        }
+
+
+        table{
+            border-collapse: collapse;
+            width: 400px;
+            border: 2px solid;
+            margin: 20px auto;
+        }
+        th, td{
+            border: 1px solid black;
+            padding: 10px;
+            vertical-align: top;
+        }
+
+        table tr:last-child {
+            border-top: 3px solid;
+        }
+
+        .button-link {
+            text-decoration: none;
+            width: 50%;
+            height: 100%;
+            padding: 0 20px;
+            border: none;
+            background: #070707FF;
+            margin-top: 0px;
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+            font-size: 2em;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: 0.5s ease;
+        }
+        .alerte-proprietaire {
+            background-color: rgba(191, 94, 30, 0.5);
+            border-radius: 0.2em;
+        }
+
+        .alerte-proprietaire a {
+            color: white;
+        }
+
+    </style>
 </head>
 <body>
-<div class="example-wrapper">
-    <h3>Mr {{ name }}</h3>
-    <h4>Voici le résultat de votre simulation</h4>
-    <p>Selon les informations que vous nous avez fournies, vous avez le droit aux aides suivantes</p>
+<div class="tableau-resultat-conteneur container">
+    <header class="tableau-resultat-header">
+        <h2>Mr {{ name }}</h2>
+        <h4>Voici le résultat de votre simulation</h4>
+        <h5>Selon les informations que vous nous avez fournies, vous avez le droit aux aides suivantes</h5>
+    </header>
 
-    <table class="table">
-        <thead>
+    <table>
+        <thead class="">
         <tr class="row">
-            <th >Prime renov</th>
+            <th >Montant de la prime RENOV</th>
             <th >{{ prime_renov }} €</th>
         </tr>
         <tr class="row">
-            <th >Resultat CEE</th>
-            <th > {{ prime_cee }}€</th>
+            <th >Montant CEE</th>
+            <th >{{ prime_cee }} €</th>
 
         </tr>
         <tr class="row">
-            <th >Coup de pouce fioul</th>
+            <th >Montant du Coup de pouce fioul</th>
             <th >{{ prime_fioul }} €</th>
         </tr>
         <tr class="row">
@@ -30,6 +100,14 @@
         </tr>
         </thead>
     </table>
+    {% if proprietee == false %}
+        <p class="alerte-proprietaire">Vous êtes locataire, veuillez contacter votre propriétaire avant toutes demarches</p>
+    {% endif %}
+    <footer>
+        <p>Vous pouvez prendre contact avec nous en répondant directement à cet e-mail</p>
+
+        <a class="button-link" href="https://top-enr.com/contact">Nous contacter</a>
+    </footer>
 </div>
 </body>
 </html>

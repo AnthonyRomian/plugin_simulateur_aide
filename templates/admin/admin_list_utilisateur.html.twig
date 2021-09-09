@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Simulateur d'aide{% endblock %}</title>
+    <!-- CSS -->
+    <link href="../public/assets/css/normalize.css" rel="stylesheet">
+    {#<link href="../public/assets/css/bootstrap.min.css" rel="stylesheet">#}
+    <link href="../public/assets/css/style.css" rel="stylesheet">
+
+    <!-- JS -->
+
+</head>
+
+{% block title %}Hello Utilisateur Controller!{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h3>Simulateur d'aide</h3>
+        <p>liste des simulations</p>
+
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-dark" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        <div class="container">
+            <div>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col" class="table-secondary">Nom</th>
+                        <th scope="col" class="table-secondary">Prénom</th>
+                        <th scope="col" class="table-secondary">Code Postal</th>
+                        <th scope="col" class="table-secondary">Ville</th>
+                        <th scope="col" class="table-secondary">Téléphone</th>
+                        <th scope="col" class="table-secondary">E-mail</th>
+{#                        <th scope="col" class="table-secondary">Date de simulation</th>#}
+                        <th scope="col" class="table-secondary">Proprietaire</th>
+                        <th scope="col" class="table-secondary">Type de bien</th>
+                        <th scope="col" class="table-secondary">Anciennetée</th>
+
+                        <th scope="col" class="table-secondary">Produit visé</th>
+                        <th scope="col" class="table-secondary">Energie</th>
+{#                        <th scope="col" class="table-secondary">Chauffage</th>#}
+
+                        <th scope="col" class="table-secondary">Nbre salle de bain</th>
+                        <th scope="col" class="table-secondary">Nbre foyer</th>
+                        <th scope="col" class="table-secondary">RFR</th>
+
+                        <th scope="col" class="table-secondary">Prime RENOV</th>
+                        <th scope="col" class="table-secondary">CEE</th>
+                        <th scope="col" class="table-secondary">CDP FIOUL</th>
+                        <th scope="col" class="table-secondary">Total</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for utilisateur in utilisateurs %}
+                        <tr>
+                            <td>{{ utilisateur.nom }}</td>
+                            <td>{{ utilisateur.prenom }}</td>
+                            <td>{{ utilisateur.codePostal }}</td>
+                            <td>{{ utilisateur.ville }}</td>
+                            <td>{{ utilisateur.tel }}</td>
+                            <td>{{ utilisateur.email }}</td>
+                            {# <td>{{ utilisateur.dateSimulation }}</td> #}
+                            <td>{{ utilisateur.proprietaire }}</td>
+                            <td>{{ utilisateur.typeBien }}</td>
+                            <td>{{ utilisateur.ancienneteEligible }}</td>
+                            <td>{{ utilisateur.produitVise }}</td>
+                            <td>{{ utilisateur.energie }}</td>
+                            {# <td>{{ utilisateur.chauffage }}</td> #}
+
+                            <td>{{ utilisateur.nbreSalleBain }}</td>
+                            <td>{{ utilisateur.nbrePersFoyer }}</td>
+                            <td>{{ utilisateur.revenuFiscal }}</td>
+
+                            <td>{{ utilisateur.resultat.primeRenov }}</td>
+                            <td>{{ utilisateur.resultat.cee }}</td>
+                            <td>{{ utilisateur.resultat.cdpChauffage }}</td>
+                            <td>{{ utilisateur.resultat.montantTotal }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+
+    <script src="../public/assets/js/script.js" type="text/javascript"></script>
+{% endblock %}

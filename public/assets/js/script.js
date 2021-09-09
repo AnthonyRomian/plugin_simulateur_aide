@@ -9,33 +9,65 @@ let div2 = document.getElementById("ElemChauffage2");
 ChauffageOk.addEventListener("click", () => {
 
     if(getComputedStyle(div1).display === "none"){
-        div1.style.display = "block";
-        div2.style.display = "block";
-        Chauffage.style.height = "38em"
-        Chauffage.style.transition = "0.5s ease"
+        if (window.matchMedia("(min-width: 1024px)").matches) {
+            div1.style.display = "block";
+            div2.style.display = "block";
+            Chauffage.style.height = "24em"
+        } else if (window.matchMedia("(min-width: 738px)").matches) {
+            div1.style.display = "block";
+            div2.style.display = "block";
+            Chauffage.style.height = "24em"
+        } else {
+            div1.style.display = "block";
+            div2.style.display = "block";
+            Chauffage.style.height = "40em"
+        }
+
     } else {
         ChauffageNok.addEventListener("click", () => {
             if(getComputedStyle(div1).display === "block"){
-                div1.style.display = "none";
-                Chauffage.style.height = "10em"
-                Chauffage.style.transition = "0.5s ease"
+                if (window.matchMedia("(min-width: 1024px)").matches) {
+                    div2.style.display = "none";
+                    div1.style.display = "none";
+                    Chauffage.style.height = "6em"
+                } else if (window.matchMedia("(min-width: 738px)").matches) {
+                    div2.style.display = "none";
+                    div1.style.display = "none";
+                    Chauffage.style.height = "6em"
+                } else {
+                    div2.style.display = "none";
+                    div1.style.display = "none";
+                    Chauffage.style.height = "12em"
+                }
             }
         })
     }
-
     if(getComputedStyle(div2).display === "none"){
-
-        div1.style.display = "block";
-        div2.style.display = "block";
-        Chauffage.style.height = "38em"
-        Chauffage.style.transition = "0.5s ease"
+        if (window.matchMedia("(min-width: 1024px)" && "(min-width: 738px)" ).matches) {
+            div1.style.display = "block";
+            div2.style.display = "block";
+            Chauffage.style.height = "24em"
+        } else {
+            div1.style.display = "block";
+            div2.style.display = "block";
+            Chauffage.style.height = "40em"
+        }
     } else {
         ChauffageNok.addEventListener("click", () => {
             if(getComputedStyle(div2).display === "block"){
-                div2.style.display = "none";
-                div1.style.display = "none";
-                Chauffage.style.height = "10em"
-                Chauffage.style.transition = "0.5s ease"
+                if (window.matchMedia("(min-width: 1024px)").matches) {
+                    div2.style.display = "none";
+                    div1.style.display = "none";
+                    Chauffage.style.height = "6em"
+                } else if( window.matchMedia("(min-width: 738px)").matches  ) {
+                    div2.style.display = "none";
+                    div1.style.display = "none";
+                    Chauffage.style.height = "6em"
+                } else {
+                    div2.style.display = "none";
+                    div1.style.display = "none";
+                    Chauffage.style.height = "12em"
+                }
             }
         })
     }
