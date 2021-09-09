@@ -108,4 +108,3 @@ prevBtnSec.addEventListener("click", function(event){
     current -= 1;
 });
 
-

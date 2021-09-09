@@ -7,6 +7,30 @@
     outline: none;
     font-family: 'Poppins', sans-serif;
 }
+.loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    overflow: hidden;
+    margin-left: -24px; /* half width of the spinner gif */
+    margin-top: -24px; /* half height of the spinner gif */
+    text-align:center;
+    z-index:1234;
+
+    width: 48px; /* width of the spinner gif */
+    height: 48px; /*hight of the spinner gif +2px to fix IE8 issue */
+}
+
+.hidden {
+    animation: disparition 1s;
+    animation-fill-mode: forwards;
+}
+@keyframes disparition {
+    100%{
+        opacity: 0;
+        display: none;
+    }
+}
 
 body {
     display: flex;
