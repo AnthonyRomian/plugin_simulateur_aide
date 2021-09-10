@@ -1,0 +1,83 @@
+
+
+{% block body %}
+    <div class="container">
+
+        <h3>Simulateur d'aide</h3>
+        <p>Renseignez les informations demandées afin d'obtenir votre droit aux différentes aides</p>
+        <div class="form-outer">
+
+            <div class="page slide-page">
+                {% for label, messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="alert alert-dark" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+                <div class="title">Contact</div>
+
+                <div class="coordonnees">
+                    <div class="field">
+                        {{ utilisateur.nom }}
+                    </div>
+                    <div class="field">
+                        {{ utilisateur.prenom }}
+                    </div>
+                    <div class="field">
+                        {{ utilisateur.tel }}
+                    </div>
+                    <div class="field">
+                        {{ utilisateur.email }}
+                    </div>
+                    <div class="field">
+                        {{ utilisateur.codePostal }}
+                    </div>
+                    <div class="field">
+                        {{ utilisateur.ville }}
+                    </div>
+                </div>
+                <div class="logement">
+                    <div class="field-2">
+                        {{ utilisateur.proprietaire }}
+                    </div>
+                    <div class="field-2">
+                        {{ utilisateur.typeBien }}
+                    </div>
+                    <div class="field-2">
+                        {{ utilisateur.ancienneteEligible }}
+                    </div>
+                </div>
+
+            </div>
+            <div class="page">
+                <div class="title">Informations</div>
+
+                <div class="enquete">
+                    <div class="field-3" id="menu-deroulant">
+                        {{ utilisateur.produitVise }}
+                        {{ utilisateur.energie }}
+{#                        {{ utilisateur.chauffage }}#}
+                    </div>
+
+                </div>
+                <div class="foyer">
+                    <div class="field">
+                        {{ utilisateur.nbreSalleBain }}
+                    </div>
+                    <div class="field">
+                        {{ utilisateur.nbrePersFoyer }}
+                    </div>
+                    <div class="field">
+                        {{ utilisateur.revenuFiscal }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+

@@ -116,4 +116,15 @@ class AdminController extends AbstractController
 
 
     }
+
+    // Afficher un profil
+    /**
+     * @Route("/admin/utilisateur/profil/{id}", name="utilisateur_profil", methods={"GET"})
+     */
+    public function show(Utilisateur $utilisateur): Response
+    {
+        return $this->render('admin/utilisateur_Details.html.twig', [
+            'utilisateur' => $utilisateur,
+        ]);
+    }
 }
