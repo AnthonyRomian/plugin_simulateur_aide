@@ -5,8 +5,10 @@
     <title>{% block title %}Simulateur d'aide{% endblock %}</title>
     <!-- CSS -->
     <link href="../public/assets/css/normalize.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+{#    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">#}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+
     <link href="../public/assets/css/style_admin.css" rel="stylesheet">
 
     <!-- JS -->
@@ -17,34 +19,26 @@
     <div class="container">
         <h3>Simulateur d'aide</h3>
         <p>liste des simulations</p>
-
-        {% for label, messages in app.flashes %}
-            {% for message in messages %}
-                <div class="alert alert-dark" role="alert">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endfor %}
         <div>
             <table class="table table-striped table-bordered">
                 <thead>
                 <tr>
                     <th scope="col" class="table-secondary">Nom</th>
                     <th scope="col" class="table-secondary">Prénom</th>
-                    <th scope="col-2" class="table-secondary">Code_Postal</th>
+                    <th scope="col" class="table-secondary">Code Postal</th>
                     <th scope="col" class="table-secondary">Ville</th>
                     <th scope="col" class="table-secondary">Téléphone</th>
                     <th scope="col" class="table-secondary">E-mail</th>
-                    {# <th scope="col" class="table-secondary">Date de simulation</th> #}
+                    <th scope="col" class="table-secondary">Date de simulation</th>
                     <th scope="col" class="table-secondary">Proprietaire</th>
                     <th scope="col" class="table-secondary">Type_de_bien</th>
                     <th scope="col" class="table-secondary">Anciennetée</th>
 
                     <th scope="col" class="table-secondary">Produit_visé</th>
                     <th scope="col" class="table-secondary">Energie</th>
-                    {# <th scope="col" class="table-secondary">Chauffage</th> #}
+                    <th scope="col" class="table-secondary">Chauffage</th>
 
-                    <th scope="col" class="table-secondary">Nbre_salle_de_bain</th>
+                    <th scope="col" class="table-secondary">Nbre salle_de_bain</th>
                     <th scope="col" class="table-secondary">Nbre foyer</th>
                     <th scope="col" class="table-secondary">RFR</th>
 
@@ -57,24 +51,58 @@
                 <tbody>
                 {% for utilisateur in utilisateurs %}
                     <tr>
+                        {# -----------    contact  -----------#}
                         <td>{{ utilisateur.nom }}</td>
                         <td>{{ utilisateur.prenom }}</td>
                         <td>{{ utilisateur.codePostal }}</td>
                         <td>{{ utilisateur.ville }}</td>
                         <td>{{ utilisateur.tel }}</td>
                         <td>{{ utilisateur.email }}</td>
-                        {# <td>{{ utilisateur.dateSimulation }}</td> #}
-                        <td>{{ utilisateur.proprietaire }}</td>
-                        <td>{{ utilisateur.typeBien }}</td>
-                        <td>{{ utilisateur.ancienneteEligible }}</td>
-                        <td>{{ utilisateur.produitVise }}</td>
-                        <td>{{ utilisateur.energie }}</td>
-                        {# <td>{{ utilisateur.chauffage }}</td> #}
 
+                        <td>{{ utilisateur.dateSimulation|format_datetime('short', 'none', locale='en') }}</td>
+                        <td>
+                            {% set jesuisproprio = false %}
+                            {% if utilisateur.proprietaire == true  %}
+                                {% set jesuisproprio = true %}
+                                <input type="checkbox" value="proprio"   disabled="disabled" checked readonly>
+                                {% else %}
+                                    <input type="checkbox" value="proprio"   disabled="disabled" readonly>
+                            {% endif %}
+                        </td>
+                        <td>{{ utilisateur.typeBien }}</td>
+                        <td>
+                            {% set plsude2ans = false %}
+                            {% if utilisateur.ancienneteEligible == true  %}
+                                {% set plsude2ans = true %}
+                                <input type="checkbox" value="plusDe2ans"   disabled="disabled" checked readonly>
+                            {% else %}
+                                <input type="checkbox" value="plusDe2ans"   disabled="disabled" readonly>
+                            {% endif %}
+                        </td>
+
+                        {# -----------    enquete  -----------#}
+                        <td>{{ utilisateur.produitVise }}</td>
+                        <td>
+                            {% if utilisateur.energie == "Selectionnez votre energie" %}
+                                N/A
+                            {% else  %}
+                                {{ utilisateur.energie }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if utilisateur.chauffage is empty %}
+                                N/A
+                            {% endif %}
+                            {% for key, chauffage in utilisateur.chauffage %}
+                                {{ utilisateur.chauffage[key] }}
+                            {% endfor %}
+                        </td>
+
+                        {# -----------    enquete  -----------#}
                         <td>{{ utilisateur.nbreSalleBain }}</td>
                         <td>{{ utilisateur.nbrePersFoyer }}</td>
                         <td>{{ utilisateur.revenuFiscal }}</td>
-
+                        {# -----------    resultat  -----------#}
                         <td>{{ utilisateur.resultat.primeRenov }}</td>
                         <td>{{ utilisateur.resultat.cee }}</td>
                         <td>{{ utilisateur.resultat.cdpChauffage }}</td>
@@ -83,6 +111,11 @@
                 {% endfor %}
                 </tbody>
             </table>
+        </div>
+        <div class="d-flex justify-content-center">
+            {% do utilisateurs.setPageRange(2) %}
+            {{ knp_pagination_render(utilisateurs, 'admin/pagination.html.twig') }}
+
         </div>
     </div>
 

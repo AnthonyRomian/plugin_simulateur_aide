@@ -127,6 +127,7 @@ class UtilisateurType extends AbstractType
                     'class' => 'label'
                 ],
                 'choices' => [
+                    'Selectionnez votre energie' => 'Selectionnez votre energie',
                     'Fioul' => 'Fioul',
                     'Gaz' => 'Gaz',
                     'Electricité' => 'Electricité',

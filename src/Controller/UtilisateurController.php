@@ -9,10 +9,12 @@ use App\Service\Calculateur;
 use App\Service\MailerService;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+
 
 class UtilisateurController extends AbstractController
 {
@@ -97,12 +99,24 @@ class UtilisateurController extends AbstractController
      */
     public function list(UtilisateurRepository $utilisateurRepository,
                          Request $request,
-                         EntityManagerInterface $entityManager): Response
+                         EntityManagerInterface $entityManager,
+                         PaginatorInterface $paginator
+    ): Response
     {
+
+
         $current = $this->getUser();
 
-        $utilisateurs = $utilisateurRepository->findAll();
+        $data = $utilisateurRepository->findAll();
+        $utilisateurs = $paginator->paginate(
+            $data,
+            $request->query->getInt('page', 1),
+            10
+        );
+
         $utilisateur = new Utilisateur();
+
+
 
 
         return $this->render('admin/admin_list_utilisateur.html.twig', [

@@ -1,0 +1,73 @@
+{% block title %} Statistique {% endblock %}
+
+{% block stylesheets %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <link src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h4>Statistiques</h4>
+    {{  dump() }}
+    <div class="d-flex flex-row justify-content-between">
+        <div class="row-cols-4 m-1">
+            <canvas id="produit_vise"  class="flex-shrink-0" ></canvas>
+            <div class="flex-grow-1">
+                <h5>Rapport Eau chaude sanitaire / Eau chaude sanitaire et chauffage</h5>
+                <p>Il y a actuellement {{ nbre_sanit }} eau chaude sanitaire et {{ nbre_chauf }} eau chaude sanitaire et chauffage</p>
+            </div>
+        </div>
+        <div class="row-cols-4 m-1">
+            <canvas id="departement"  class="flex-shrink-0"></canvas>
+            <div class="flex-grow-1">
+                <h5>Les différents départements</h5>
+                <p>Il y a actuellement {{  count_dep|length }} départements et le plus représenté est le {{ tableau_sans_doublon2|first }} </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascrips %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+
+        // GRAPH PRODUIT VISE
+        let categories = document.querySelector("#produit_vise")
+        let nbre_chauf = {{ nbre_chauf }};
+        let nbre_sanit = {{ nbre_sanit }};
+        console.log(nbre_chauf);
+
+        let categraph = new Chart(categories, {
+            type: "pie",
+            data: {
+                labels: ["Eau chaude sanitaire","Eau chaude sanitaire et chauffage"],
+                datasets: [{
+                    label: 'Répartition des catégories',
+                    data: [nbre_sanit, nbre_chauf],
+                    backgroundColor: ["red", "blue"]
+                }],
+            }
+        })
+
+        // GRAPH DEPARTEMENT
+        let departement = document.querySelector("#departement")
+        let tableau_sans_doublon = {{ tableau_sans_doublon }};
+        let count_dep = {{ count_dep }};
+        let departgraph = new Chart(departement, {
+            type: "pie",
+            data: {
+                labels: tableau_sans_doublon,
+                datasets: [{
+                    label: 'Répartition des departements',
+                    data: count_dep,
+                    backgroundColor: ["red", "blue","green", "orange","grey", "yellow"]
+                }],
+            }
+        })
+    </script>
+{% endblock %}
+
+
