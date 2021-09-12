@@ -1,83 +1,163 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Profil Utilisateur{% endblock %}</title>
 
+    <!-- CSS -->
+    <link href="/simulateur_aide/public/assets/css/normalize.css" rel="stylesheet">
+    {# <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> #}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="/simulateur_aide/public/assets/css/style_admin.css" rel="stylesheet">
+
+    <!-- JS -->
+
+</head>
 
 {% block body %}
     <div class="container">
+        <h3>Profil Utilisateur</h3>
+        <p>Vous pouvez retrouvez les informations détaillées de l'utilisateur</p>
 
-        <h3>Simulateur d'aide</h3>
-        <p>Renseignez les informations demandées afin d'obtenir votre droit aux différentes aides</p>
-        <div class="form-outer">
-
-            <div class="page slide-page">
-                {% for label, messages in app.flashes %}
-                    {% for message in messages %}
-                        <div class="alert alert-dark" role="alert">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                {% endfor %}
-                <div class="title">Contact</div>
-
-                <div class="coordonnees">
-                    <div class="field">
-                        {{ utilisateur.nom }}
-                    </div>
-                    <div class="field">
-                        {{ utilisateur.prenom }}
-                    </div>
-                    <div class="field">
-                        {{ utilisateur.tel }}
-                    </div>
-                    <div class="field">
-                        {{ utilisateur.email }}
-                    </div>
-                    <div class="field">
-                        {{ utilisateur.codePostal }}
-                    </div>
-                    <div class="field">
-                        {{ utilisateur.ville }}
-                    </div>
+        <div class="card-group">
+            <h4 class="card-title">Contact</h4>
+            <div class="card-info">
+                <div class="card-item">
+                    <label for="">Nom : </label>
+                    {{ utilisateur.nom }}
                 </div>
-                <div class="logement">
-                    <div class="field-2">
-                        {{ utilisateur.proprietaire }}
-                    </div>
-                    <div class="field-2">
-                        {{ utilisateur.typeBien }}
-                    </div>
-                    <div class="field-2">
-                        {{ utilisateur.ancienneteEligible }}
-                    </div>
+                <div class="card-item">
+                    <label for="">Prénom : </label>
+                    {{ utilisateur.prenom }}
                 </div>
-
-            </div>
-            <div class="page">
-                <div class="title">Informations</div>
-
-                <div class="enquete">
-                    <div class="field-3" id="menu-deroulant">
-                        {{ utilisateur.produitVise }}
-                        {{ utilisateur.energie }}
-{#                        {{ utilisateur.chauffage }}#}
-                    </div>
-
+                <div class="card-item">
+                    <label for="">Téléphone :  </label>
+                    {{ utilisateur.tel }}
                 </div>
-                <div class="foyer">
-                    <div class="field">
-                        {{ utilisateur.nbreSalleBain }}
-                    </div>
-                    <div class="field">
-                        {{ utilisateur.nbrePersFoyer }}
-                    </div>
-                    <div class="field">
-                        {{ utilisateur.revenuFiscal }}
-                    </div>
+                <div class="card-item">
+                    <label for="">Email :  </label>
+                    {{ utilisateur.email }}
+                </div>
+                <div class="card-item">
+                    <label for="">Code postal :  </label>
+                    {{ utilisateur.codePostal }}
+                </div>
+                <div class="card-item">
+                    <label for="">Ville :  </label>
+                    {{ utilisateur.ville }}
                 </div>
             </div>
         </div>
-    </div>
-{% endblock %}
 
-{% block title %}
+        <div class="card-group">
+            <h4 class="card-title">Informations</h4>
+            <div class="card-info">
+                <div class="card-item">
+                    <label for="">Propriétaire : </label>
+                    {% set jesuisproprio = false %}
+                    {% if utilisateur.proprietaire == true %}
+                        {% set jesuisproprio = true %}
+                        <input type="checkbox" value="proprio" disabled="disabled" checked readonly>
+                    {% else %}
+                        <input type="checkbox" value="proprio" disabled="disabled" readonly>
+                    {% endif %}
+                </div>
+                <div class="card-item">
+                    <label for="">Type de bien ? : </label>
+                    {{ utilisateur.typeBien }}
+                </div>
+                <div class="card-item">
+                    <label for="">Anciennetée du logement : </label>
+                    {% set plsude2ans = false %}
+                    {% if utilisateur.ancienneteEligible == true %}
+                        {% set plsude2ans = true %}
+                        <input type="checkbox" value="plusDe2ans" disabled="disabled" checked readonly>
+                    {% else %}
+                        <input type="checkbox" value="plusDe2ans" disabled="disabled" readonly>
+                    {% endif %}
+                </div>
+                <div class="card-item" id="menu-deroulant">
+                    <label for="">Produit visé : </label>
+                    {{ utilisateur.produitVise }}
+                </div>
+                <div class="card-item" id="menu-deroulant">
+                    <label for="">Energie : </label>
+                    {% if utilisateur.energie == "Selectionnez votre energie" %}
+                        N/A
+                    {% else %}
+                        {{ utilisateur.energie }}
+                    {% endif %}
+                </div>
+                <div class="card-item" id="menu-deroulant">
+                    <label for="">Chauffage : </label>
+                    {% if utilisateur.chauffage is empty %}
+                        N/A
+                    {% endif %}
+                    {% for key, chauffage in utilisateur.chauffage %}
+                        {{ utilisateur.chauffage[key] }}
+                    {% endfor %}
+                </div>
+                <div class="card-item">
+                    <label for="">Nombre de salle de bain : </label>
+                    {{ utilisateur.nbreSalleBain }}
+                </div>
+                <div class="card-item">
+                    <label for="">Nombre de personne au foyer : </label>
+                    {{ utilisateur.nbrePersFoyer }}
+                </div>
+                <div class="card-item">
+                    <label for="">Revenu fiscal : </label>
+                    {{ utilisateur.revenuFiscal }}
+                </div>
+            </div>
+
+        </div>
+
+        <div class="card-group">
+            <h4 class="card-title">Résultat Simulation</h4>
+            <div class="card-info">
+                <div class="card-item">
+                    <label for="">Prime RENOV : </label>
+                    {{ utilisateur.resultat.primeRenov }}
+                </div>
+                <div class="card-item">
+                    <label for="">CEE : </label>
+                    {{ utilisateur.resultat.cee }}
+                </div>
+                <div class="card-item">
+                    <label for="">Coup de pouce Chauffage :  </label>
+                    {{ utilisateur.resultat.cdpChauffage }}
+                </div>
+                <div class="card-item">
+                    <label for="">Montant total des primes :  </label>
+                    {{ utilisateur.resultat.montantTotal }}
+                </div>
+            </div>
+        </div>
+        <div class="card-group">
+            <h4 class="card-title">Envoyez le contact par mail</h4>
+            <div class="card-info">
+                <select class="card-item" >
+                    <option>fournisseur a recup 1</option>
+                    <option>fournisseur a recup 2</option>
+                    <option>fournisseur a recup 3</option>
+                    <option>fournisseur a recup 4</option>
+                </select>
+                <button class="card-item">Envoyez</button>
+                <div class="card-item">
+                    <label for="">Nom du fournisseur : </label>
+                    XXXXXXX
+                </div>
+                <div class="card-item">
+                    <label for="">Departement du Fournisseur : </label>
+                XXXXXXXXX
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
 
 {% endblock %}
 

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+/*@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');*/
 
 * {
     box-sizing: border-box;
@@ -23,17 +23,8 @@ header h5 {
 table{
     border-collapse: collapse;
     width: 400px;
-    border: 2px solid;
+    border: 2px solid black;
     margin: 20px auto;
-}
-th, td{
-    border: 1px solid black;
-    padding: 10px;
-    vertical-align: top;
-}
-
-table tr:last-child {
-    border-top: 3px solid;
 }
 
 .button-link {
@@ -56,4 +47,35 @@ table tr:last-child {
 .alerte-proprietaire {
     background-color: rgba(191, 94, 30, 0.5);
     border-radius: 0.2em;
+}
+
+/* PROFIL UTILISATEUR ADMIN */
+.card-group .card-title {
+    width: 100%;
+    text-align: center;
+    min-width: 300px;
+}
+.card-info {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.card-info .card-item {
+    width: 50%;
+}
+
+.card-item label{
+    font-weight: bold;
+}
+
+
+
+
+@media screen and (max-width: 550px) {
+
+.card-info .card-item {
+        width: 100%;
+}
+
 }
