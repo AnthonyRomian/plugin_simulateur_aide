@@ -2,115 +2,115 @@
 <html lang="fr">
 <head>
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
-
     <title>Resultat</title>
-
-
 </head>
-
 <body>
 {% apply inline_css %}
-<style>
-    body {
-        display: flex;
-        align-items: flex-start;
-        justify-content: flex-start;
-        margin: 20px 0;
-        overflow: auto;
-        height: 100%;
-        min-width: 560px;
-        background: -webkit-linear-gradient(bottom, #3bc436, #070707);
-    }
-    /* RESULTAT */
+    <style>
+        body {
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+            margin: 20px 0;
+            overflow: auto;
+            height: 100%;
+            min-width: 560px;
+            background: -webkit-linear-gradient(bottom, #3bc436, #070707);
+        }
 
-    .tableau-resultat-conteneur {
-        text-align: center;
-    }
+        /* RESULTAT */
 
-    header h5 {
-        font-weight: 100;
-    }
+        .tableau-resultat-conteneur {
+            text-align: center;
+        }
+
+        header h5 {
+            font-weight: 100;
+        }
 
 
-    table{
-        border-collapse: collapse;
-        width: 400px;
-        border: 2px solid;
-        margin: 20px auto;
-    }
-    th, td{
-        border: 1px solid black;
-        padding: 10px;
-        vertical-align: top;
-    }
+        table {
+            border-collapse: collapse;
+            width: 400px;
+            border: 2px solid;
+            margin: 20px auto;
+        }
 
-    table tr:last-child {
-        border-top: 3px solid;
-    }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            vertical-align: top;
+        }
 
-    .button-link {
-        text-decoration: none;
-        width: 50%;
-        height: 100%;
-        padding: 0 20px;
-        border: none;
-        background: #070707FF;
-        margin-top: 0px;
-        border-radius: 5px;
-        color: #fff;
-        cursor: pointer;
-        font-size: 2em;
-        font-weight: 500;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        transition: 0.5s ease;
-    }
-    .alerte-proprietaire {
-        background-color: rgba(191, 94, 30, 0.5);
-        border-radius: 0.2em;
-    }
+        table tr:last-child {
+            border-top: 3px solid;
+        }
 
-    .alerte-proprietaire a {
-        color: white;
-    }
-</style>
-<div class="tableau-resultat-conteneur container">
-    <header class="tableau-resultat-header">
-        <h2>Mr {{ name }}</h2>
-        <h4>Voici le résultat de votre simulation</h4>
-        <h5>Selon les informations que vous nous avez fournies, vous avez le droit aux aides suivantes</h5>
-    </header>
+        .button-link {
+            text-decoration: none;
+            width: 50%;
+            height: 100%;
+            padding: 0 20px;
+            border: none;
+            background: #070707FF;
+            margin-top: 0px;
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+            font-size: 2em;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: 0.5s ease;
+        }
 
-    <table>
-        <thead class="">
-        <tr class="row">
-            <th >Montant de la prime RENOV</th>
-            <th >{{ prime_renov }} €</th>
-        </tr>
-        <tr class="row">
-            <th >Montant CEE</th>
-            <th >{{ prime_cee }} €</th>
+        .alerte-proprietaire {
+            background-color: rgba(191, 94, 30, 0.5);
+            border-radius: 0.2em;
+        }
 
-        </tr>
-        <tr class="row">
-            <th >Montant du Coup de pouce fioul</th>
-            <th >{{ prime_fioul }} €</th>
-        </tr>
-        <tr class="row">
-            <th >Montant Total</th>
-            <th >{{ total }} €</th>
-        </tr>
-        </thead>
-    </table>
-    {% if proprietee == false %}
-        <p class="alerte-proprietaire">Vous êtes locataire, veuillez contacter votre propriétaire avant toutes demarches</p>
-    {% endif %}
-    <footer>
-        <p>Vous pouvez prendre contact avec nous en répondant directement à cet e-mail</p>
+        .alerte-proprietaire a {
+            color: white;
+        }
+    </style>
+    <div class="tableau-resultat-conteneur container">
+        <header class="tableau-resultat-header">
+            <h2>Mr {{ name }}</h2>
+            <h4>Voici le résultat de votre simulation</h4>
+            <h5>Selon les informations que vous nous avez fournies, vous avez le droit aux aides suivantes</h5>
+        </header>
 
-        <a class="button-link" href="https://top-enr.com/contact">Nous contacter</a>
-    </footer>
-</div>
+        <table>
+            <thead class="">
+            <tr class="row">
+                <th>Montant de MaPrimeRénov'</th>
+                <th>{{ prime_renov }} €</th>
+            </tr>
+            <tr class="row">
+                <th>Montant CEE</th>
+                <th>{{ prime_cee }} €</th>
+
+            </tr>
+            <tr class="row">
+                <th>Montant du Coup de pouce fioul</th>
+                <th>{{ prime_fioul }} €</th>
+            </tr>
+            <tr class="row">
+                <th>Montant Total</th>
+                <th>{{ total }} €</th>
+            </tr>
+            </thead>
+        </table>
+        {% if proprietee == false %}
+            <p class="alerte-proprietaire">Vous êtes locataire, veuillez contacter votre propriétaire avant toutes
+                demarches</p>
+        {% endif %}
+        <footer>
+            <p>Vous pouvez prendre contact avec nous en répondant directement à cet e-mail</p>
+
+            <a class="button-link" href="https://top-enr.com/contact">Nous contacter</a>
+        </footer>
+    </div>
 {% endapply %}
 
 </body>
