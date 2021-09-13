@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Utilisateur;
+use App\Form\UtilisateurType;
+use App\Service\Graphique;
 use App\Repository\UtilisateurRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -26,9 +28,6 @@ class AdminController extends AbstractController
     ): Response
     {
 
-
-        $current = $this->getUser();
-
         $data = $utilisateurRepository->findAll();
         $utilisateurs = $paginator->paginate(
             $data,
@@ -39,11 +38,10 @@ class AdminController extends AbstractController
         $utilisateur = new Utilisateur();
 
 
-
-
         return $this->render('admin/admin_list_utilisateur.html.twig', [
             'utilisateur'=>$utilisateur,
             'utilisateurs'=>$utilisateurs
+
         ]);
     }
 
@@ -53,15 +51,15 @@ class AdminController extends AbstractController
     public function statistiques (UtilisateurRepository $utilisateurRepository)
     {
 
-        $utilisateurs = $utilisateurRepository->findAll();
+        $utilisateurs_data = $utilisateurRepository->findAll();
         //nombre total
-        $nbre_total = sizeof($utilisateurs);
+        $nbre_total = sizeof($utilisateurs_data);
         $nbre_sanit = 0;
         $nbre_sanit_chauff = 0;
         //nombre de sanitaire simple
         //-------------- GRAPH PRODUIT VISE ------------------
         for ($i=0; $i<$nbre_total; $i++){
-            $produit_vise = $utilisateurs[$i]->getProduitVise();
+            $produit_vise = $utilisateurs_data[$i]->getProduitVise();
             if ( $produit_vise == "Eau chaude sanitaire et chauffage") {
                 $nbre_sanit_chauff++;
             } else {
@@ -73,7 +71,7 @@ class AdminController extends AbstractController
         $tableauCP = [];
 
         for ($i=0; $i<$nbre_total; $i++) {
-            $cp = $utilisateurs[$i]->getCodePostal();
+            $cp = $utilisateurs_data[$i]->getCodePostal();
             $dep = substr($cp, -5, 2);
             $departement = intval($dep);
             $tableauCP[$i] = $departement;
@@ -107,14 +105,47 @@ class AdminController extends AbstractController
 
         return $this->render('admin/graphique.html.twig', [
             'nbre_sanit'=> $nbre_sanit,
-            'nbre_chauf'=>$nbre_sanit_chauff,
-            'tableau_sans_doublon'=>json_encode($tableau_sans_doublon),
-            'tableau_sans_doublon2'=>$tableau_sans_doublon,
-            'count_dep'=>json_encode($compteur_departement)
+            'nbre_chauf'=> $nbre_sanit_chauff,
+            'tableau_sans_doublon'=> json_encode($tableau_sans_doublon),
+            'tableau_sans_doublon2'=> $tableau_sans_doublon,
+            'count_dep'=> json_encode($compteur_departement)
 
         ]);
+    }
 
+    // Supprimer un utilisateur
+    /**
+     * @Route("/admin/utilisateur/delete/{id}", name="utilisateur_delete")
+     */
+    public function delete(Request $request, Utilisateur $id): Response
+    {
 
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($id);
+        $em->flush();
+
+        return $this->redirectToRoute("utilisateur_list");
+    }
+
+    /**
+     * @Route("/admin/utilisateur/update/{id}", name="utilisateur_edit")
+     */
+    public function update(Utilisateur $id, Request $request):Response
+    {
+
+        $utilisateurForm = $this->createForm(UtilisateurType::class, $id);
+        $utilisateurForm->handleRequest($request);
+        if($utilisateurForm->isSubmitted() && $utilisateurForm->isValid())
+        {
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+
+            $this->addFlash('success', 'Les informations ont été modifié avec succès!');
+            return $this->redirectToRoute("utilisateur_list");
+        }
+        return $this->render('admin/utilisateur_edit.html.twig', [
+            'utilisateurForm' => $utilisateurForm->createView()
+        ]);
     }
 
     // Afficher un profil

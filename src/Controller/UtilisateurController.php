@@ -50,11 +50,7 @@ class UtilisateurController extends AbstractController
                     $entityManager = $this->getDoctrine()->getManager();
                     $entityManager->persist($utilisateur);
                     $entityManager->flush();
-
-
-
                     $this->addFlash('success', 'Simulation réalisée avec succès');
-
 
                     return $this->redirectToRoute('resultat', [
                         'id' => $utilisateur->getId(),
@@ -91,6 +87,8 @@ class UtilisateurController extends AbstractController
 
 
 
+
+
     private $em;
 
     // Afficher les villes
@@ -103,8 +101,6 @@ class UtilisateurController extends AbstractController
                          PaginatorInterface $paginator
     ): Response
     {
-
-
         $current = $this->getUser();
 
         $data = $utilisateurRepository->findAll();
@@ -113,11 +109,7 @@ class UtilisateurController extends AbstractController
             $request->query->getInt('page', 1),
             10
         );
-
         $utilisateur = new Utilisateur();
-
-
-
 
         return $this->render('admin/admin_list_utilisateur.html.twig', [
             'utilisateur'=>$utilisateur,
