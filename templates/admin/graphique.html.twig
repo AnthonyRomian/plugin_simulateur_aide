@@ -8,7 +8,6 @@
 {% block body %}
 <div class="container">
     <h4>Statistiques</h4>
-{#       {{  dump() }}#}
     <div class="graphs-container">
         <div class="graph-group">
             <h5 class="graph-title">Rapport Eau chaude sanitaire / Eau chaude sanitaire et chauffage</h5>
@@ -21,7 +20,7 @@
         <div class="graph-group">
             <h5 class="graph-title">Les différents départements</h5>
             <div class="graph-info">
-                <p class="graph-text">Il y a {{  count_dep|length }} départements et le plus représenté est le {{ tableau_sans_doublon2|first }} </p>
+                <p class="graph-text">Il y a {{  tableau_sans_doublon2|length }} départements et le plus représenté est le {{ tableau_sans_doublon2|first }} </p>
                 <canvas id="departement"  class="graph-canva" style="display: block; width: 100%; "></canvas>
             </div>
         </div>
@@ -38,7 +37,6 @@
         let categories = document.querySelector("#produit_vise")
         let nbre_chauf = {{ nbre_chauf }};
         let nbre_sanit = {{ nbre_sanit }};
-        console.log(nbre_chauf);
 
         let categraph = new Chart(categories, {
             type: "pie",

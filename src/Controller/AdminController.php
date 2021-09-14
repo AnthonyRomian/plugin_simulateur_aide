@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Utilisateur;
 use App\Form\UtilisateurType;
+use App\Service\Calculateur;
 use App\Service\Graphique;
 use App\Repository\UtilisateurRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,18 +26,17 @@ class AdminController extends AbstractController
                          Request $request,
                          EntityManagerInterface $entityManager,
                          PaginatorInterface $paginator
+
     ): Response
     {
-
+        $data_utilisateurs = $utilisateurRepository->findAll();
         $data = $utilisateurRepository->findAll();
         $utilisateurs = $paginator->paginate(
             $data,
             $request->query->getInt('page', 1),
             10
         );
-
         $utilisateur = new Utilisateur();
-
 
         return $this->render('admin/admin_list_utilisateur.html.twig', [
             'utilisateur'=>$utilisateur,
@@ -45,17 +45,18 @@ class AdminController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/admin/stats", name="utilisateur_stats")
-     */
-    public function statistiques (UtilisateurRepository $utilisateurRepository)
+
+    // Stats des villes
+    public function statistiques(UtilisateurRepository $utilisateurRepository): Response
     {
 
         $utilisateurs_data = $utilisateurRepository->findAll();
+
         //nombre total
         $nbre_total = sizeof($utilisateurs_data);
         $nbre_sanit = 0;
         $nbre_sanit_chauff = 0;
+
         //nombre de sanitaire simple
         //-------------- GRAPH PRODUIT VISE ------------------
         for ($i=0; $i<$nbre_total; $i++){
@@ -93,8 +94,13 @@ class AdminController extends AbstractController
                     // si elle est differente mettre dans le tableau
                     $tableau_sans_doublon[] = $tableauCP[$i];
                 }
+
+
             }
+
+
         }
+        $tableau_sans_doublon = array_unique($tableau_sans_doublon);
 
         // ------------RECUP LES NOMBRES DE DEPARTEMENTS---------
         $count_dep = array_count_values($tableauCP);
@@ -109,7 +115,17 @@ class AdminController extends AbstractController
             'tableau_sans_doublon'=> json_encode($tableau_sans_doublon),
             'tableau_sans_doublon2'=> $tableau_sans_doublon,
             'count_dep'=> json_encode($compteur_departement)
+        ]);
+    }
 
+    // Afficher un profil
+    /**
+     * @Route("/admin/utilisateur/profil/{id}", name="utilisateur_profil", methods={"GET"})
+     */
+    public function show(Utilisateur $utilisateur): Response
+    {
+        return $this->render('admin/utilisateur_Details.html.twig', [
+            'utilisateur' => $utilisateur,
         ]);
     }
 
@@ -127,6 +143,7 @@ class AdminController extends AbstractController
         return $this->redirectToRoute("utilisateur_list");
     }
 
+    // Editer les villes
     /**
      * @Route("/admin/utilisateur/update/{id}", name="utilisateur_edit")
      */
@@ -148,14 +165,5 @@ class AdminController extends AbstractController
         ]);
     }
 
-    // Afficher un profil
-    /**
-     * @Route("/admin/utilisateur/profil/{id}", name="utilisateur_profil", methods={"GET"})
-     */
-    public function show(Utilisateur $utilisateur): Response
-    {
-        return $this->render('admin/utilisateur_Details.html.twig', [
-            'utilisateur' => $utilisateur,
-        ]);
-    }
+
 }

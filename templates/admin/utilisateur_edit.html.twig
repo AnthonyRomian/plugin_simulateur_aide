@@ -9,13 +9,6 @@
         <div class="form-outer">
             {{ form_start(utilisateurForm, { 'id' : "registerForm", 'class': "container"}) }}
             <div class="page slide-page">
-                {% for label, messages in app.flashes %}
-                    {% for message in messages %}
-                        <div class="alert alert-dark" role="alert">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                {% endfor %}
                 <div class="card-group">
                     <h4 class="card-title">Contact</h4>
                     <div class="card-info">

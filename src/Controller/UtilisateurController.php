@@ -19,7 +19,6 @@ use Symfony\Component\Routing\Annotation\Route;
 class UtilisateurController extends AbstractController
 {
 
-
     /**
      * @Route("/create", name="create")
      */
@@ -48,6 +47,9 @@ class UtilisateurController extends AbstractController
                     $calculateur->calculerAide($utilisateur, $entityManager, $mailerService);
 
                     $entityManager = $this->getDoctrine()->getManager();
+                    $utilisateurForm->getData()->setNom(strtoupper($utilisateurForm->getData()->getNom()));
+                    $utilisateurForm->getData()->setPrenom(ucfirst(strtolower($utilisateurForm->getData()->getPrenom())));
+
                     $entityManager->persist($utilisateur);
                     $entityManager->flush();
                     $this->addFlash('success', 'Simulation réalisée avec succès');
@@ -62,6 +64,9 @@ class UtilisateurController extends AbstractController
                     $calculateur->calculerAide($utilisateur, $entityManager, $mailerService);
 
                     $entityManager = $this->getDoctrine()->getManager();
+                    $utilisateurForm->getData()->setNom(strtoupper($utilisateurForm->getData()->getNom()));
+                    $utilisateurForm->getData()->setPrenom(ucfirst(strtolower($utilisateurForm->getData()->getPrenom())));
+
                     $entityManager->persist($utilisateur);
                     $entityManager->flush();
                     $this->addFlash('success', 'Simulation réalisée avec succès');
@@ -83,37 +88,5 @@ class UtilisateurController extends AbstractController
                 'utilisateurForm' => $utilisateurForm->createView(),
             ]);
         }
-    }
-
-
-
-
-
-    private $em;
-
-    // Afficher les villes
-    /**
-     * @Route("/admin/utilisateur", name="utilisateur_list")
-     */
-    public function list(UtilisateurRepository $utilisateurRepository,
-                         Request $request,
-                         EntityManagerInterface $entityManager,
-                         PaginatorInterface $paginator
-    ): Response
-    {
-        $current = $this->getUser();
-
-        $data = $utilisateurRepository->findAll();
-        $utilisateurs = $paginator->paginate(
-            $data,
-            $request->query->getInt('page', 1),
-            10
-        );
-        $utilisateur = new Utilisateur();
-
-        return $this->render('admin/admin_list_utilisateur.html.twig', [
-            'utilisateur'=>$utilisateur,
-            'utilisateurs'=>$utilisateurs
-        ]);
     }
 }

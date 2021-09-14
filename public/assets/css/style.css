@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+/*@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');*/
 
 * {
     box-sizing: border-box;
@@ -16,7 +16,6 @@
     margin-top: -24px; /* half height of the spinner gif */
     text-align:center;
     z-index:1234;
-
     width: 48px; /* width of the spinner gif */
     height: 48px; /*hight of the spinner gif +2px to fix IE8 issue */
 }

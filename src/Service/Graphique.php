@@ -17,20 +17,19 @@ class Graphique
         $this->twig = $twig;
     }
 
-    public function GraphRender($utilisateurs_data): array
+    public function GraphRender($utilisateurs_data)
     {
 
-        dd($utilisateurs_data);
         //nombre total
         $nbre_total = sizeof($utilisateurs_data);
         $nbre_sanit = 0;
-        $nbre_sanit_chauff = 0;
+        $nbre_chauff = 0;
         //nombre de sanitaire simple
         //-------------- GRAPH PRODUIT VISE ------------------
         for ($i=0; $i<$nbre_total; $i++){
             $produit_vise = $utilisateurs_data[$i]->getProduitVise();
             if ( $produit_vise == "Eau chaude sanitaire et chauffage") {
-                $nbre_sanit_chauff++;
+                $nbre_chauff++;
             } else {
                 $nbre_sanit++;
             }
@@ -72,14 +71,12 @@ class Graphique
             $compteur_departement[] = $count_dep[$tableau_sans_doublon[$i]];
         }
 
-        return $utilisateurs_data = [
+        return $this->twig->render('admin/graphique.html.twig', [
             'nbre_sanit'=> $nbre_sanit,
-            'nbre_chauf'=> $nbre_sanit_chauff,
+            'nbre_chauf'=> $nbre_chauff,
             'tableau_sans_doublon'=> json_encode($tableau_sans_doublon),
             'tableau_sans_doublon2'=> $tableau_sans_doublon,
             'count_dep'=> json_encode($compteur_departement)
-        ];
-
-
+        ]);
     }
 }
