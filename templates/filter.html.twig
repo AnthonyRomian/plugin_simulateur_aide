@@ -1,0 +1,11 @@
+{{ form_start(form_filter) }}
+
+    {{ form_row(form_filter.q) }}
+    {{ form_row(form_filter.departement) }}
+
+    <h4>Produit visé</h4>
+    {{ form_row(form_filter.eauChaudeSanitaire) }}
+    {{ form_row(form_filter.eauChaudeSanitaireChauffage) }}
+
+<button type="submit" class="">Filtrer</button>
+{{ form_end(form_filter) }}

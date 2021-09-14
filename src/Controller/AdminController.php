@@ -2,13 +2,16 @@
 
 namespace App\Controller;
 
+use App\Data\SearchData;
 use App\Entity\Utilisateur;
+use App\Form\SearchForm;
 use App\Form\UtilisateurType;
 use App\Service\Calculateur;
 use App\Service\Graphique;
 use App\Repository\UtilisateurRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use phpDocumentor\Reflection\Types\Array_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,6 +34,10 @@ class AdminController extends AbstractController
     {
         $data_utilisateurs = $utilisateurRepository->findAll();
         $data = $utilisateurRepository->findAll();
+        $filter = new SearchData();
+        $form_filter = $this->createForm(SearchForm::class, $filter);
+        $form_filter->handleRequest($request);
+        $data = $utilisateurRepository->findSearch($filter);
         $utilisateurs = $paginator->paginate(
             $data,
             $request->query->getInt('page', 1),
@@ -40,8 +47,8 @@ class AdminController extends AbstractController
 
         return $this->render('admin/admin_list_utilisateur.html.twig', [
             'utilisateur'=>$utilisateur,
-            'utilisateurs'=>$utilisateurs
-
+            'utilisateurs'=>$utilisateurs,
+            'form_filter' => $form_filter->createView()
         ]);
     }
 
@@ -70,7 +77,6 @@ class AdminController extends AbstractController
         //-------------- GRAPH DEPARTEMENT ------------------
 
         $tableauCP = [];
-
         for ($i=0; $i<$nbre_total; $i++) {
             $cp = $utilisateurs_data[$i]->getCodePostal();
             $dep = substr($cp, -5, 2);
@@ -88,17 +94,12 @@ class AdminController extends AbstractController
                 // mettre la premiere dans un tableau
                 $tableau_sans_doublon[] = $tableauCP[$i];
             } else {
-
                 // comparé la seconde avec la précédente
                 if ($tableauCP[$i] != $tableauCP[$i-1]) {
                     // si elle est differente mettre dans le tableau
                     $tableau_sans_doublon[] = $tableauCP[$i];
                 }
-
-
             }
-
-
         }
         $tableau_sans_doublon = array_unique($tableau_sans_doublon);
 

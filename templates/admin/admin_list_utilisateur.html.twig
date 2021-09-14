@@ -20,6 +20,9 @@
 {#        {{ dump() }}#}
         <p>liste des simulations</p>
         <div>
+            <div>
+                {% include 'filter.html.twig' with {form_filter: form_filter} only %}
+            </div>
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -141,28 +144,56 @@
 
         for (let i = 0; i < checkboxs.length; i++) {
             checkboxs[i].addEventListener('change', e => {
-                if(e.target.checked){
-                    value_bouton = checkboxs[i]['attributes']['value']['value'];
-                    console.log(value_bouton)
+                if(e.target.checked === true ){
+                    value_bouton[i] = checkboxs[i]['attributes']['value']['value'];
 
-                    let url_delete = '{{ path('utilisateur_delete', {'id' :  'utilisateur.id'  }) }}';
+                    let value_bouton_filtered = value_bouton.filter(function (el) {
+                        return el != null;
+                    });
+
+                    console.log(value_bouton_filtered);
+
+
+                    let url_delete = '{{ path('utilisateur_delete', {'id' :  'utilisateur.id' }) }}';
                     let url_edit = '{{ path('utilisateur_edit', {'id' :  'utilisateur.id'  }) }}';
 
-                    url_delete = url_delete.replace("utilisateur.id", value_bouton);
-                    url_edit = url_edit.replace("utilisateur.id", value_bouton);
+                    url_delete = url_delete.replace("utilisateur.id", value_bouton_filtered);
+                    url_edit = url_edit.replace("utilisateur.id", value_bouton_filtered);
                     console.log(url_delete)
                     console.log(url_edit)
                     bouton_delete.href = url_delete
                     bouton_edit.href = url_edit
-                } else if (checkboxs[i]['checked'] === false) {
+                } else if (e.target.checked === false ) {
+                    value_bouton[i] = null;
+                    console.log(value_bouton)
+                     value_bouton_filtered = value_bouton.filter(function (el) {
+                        return el != null;
+                    });
 
-                    let url_delete = '{{ path('utilisateur_list') }}';
-                    let url_edit = '{{ path('utilisateur_list') }}';
-                    bouton_delete.href = url_delete
-                    bouton_edit.href = url_edit
+                    console.log(value_bouton_filtered);
+
+
+                    if ( value_bouton_filtered.length > 0 ){
+                        let url_delete = '{{ path('utilisateur_delete', {'id' :  'utilisateur.id'  }) }}';
+                        let url_edit = '{{ path('utilisateur_edit', {'id' :  'utilisateur.id'  }) }}';
+
+                        url_delete = url_delete.replace('utilisateur.id', value_bouton_filtered);
+                        url_edit = url_edit.replace('utilisateur.id', value_bouton_filtered);
+                        console.log(url_delete)
+                        console.log(url_edit)
+                        bouton_delete.href = url_delete
+                        bouton_edit.href = url_edit
+                    } else {
+                        value_bouton[i] = null;
+                        console.log(value_bouton)
+                        let url_delete = '{{ path('utilisateur_list') }}';
+                        let  url_edit = '{{ path('utilisateur_list') }}';
+                        bouton_delete.href = url_delete
+                        bouton_edit.href = url_edit
+
+                    }
                 }
             });
-
         }
 
 

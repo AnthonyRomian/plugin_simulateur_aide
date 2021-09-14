@@ -2,6 +2,8 @@
 
 namespace App\Repository;
 
+use App\Data\SearchData;
+use App\Entity\Resultat;
 use App\Entity\Utilisateur;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -35,7 +37,44 @@ class UtilisateurRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findSearch(SearchData $search): array
+    {
+        $queryBuilder = $this
+            //récupère les utilisateurs
+            ->createQueryBuilder('u')
+            //sélectionne toutes les infos liées aux utilisateurs et resultats
+            ->select('r', 'u')
+            //liaison campus / sorties
+            ->join('u.resultat', 'r');
 
+        //recherche nom de utilisateur contient
+        if (!empty($search->q)) {
+            $queryBuilder = $queryBuilder
+                ->andWhere('u.nom LIKE :q')
+                ->setParameter('q', "%{$search->q}%");
+        }
+
+        //recherche departement
+        if (!empty($search->departement)) {
+            $queryBuilder = $queryBuilder
+                ->andWhere('u.code_postal LIKE :departement')
+                ->setParameter('departement', "%{$search->departement}%");
+        }
+
+        //recherche checkbox
+        if (!empty($search->eauChaudeSanitaire)) {
+            $queryBuilder = $queryBuilder
+                ->andWhere('u.produit_vise = :EauChaudeSanitaire')
+                ->setParameter('EauChaudeSanitaire', 'Eau chaude sanitaire');
+        }
+
+        if (!empty($search->eauChaudeSanitaireChauffage)) {
+            $queryBuilder = $queryBuilder
+                ->andWhere('u.produit_vise = :eauChaudeSanitaireChauffage')
+                ->setParameter('eauChaudeSanitaireChauffage', 'Eau chaude sanitaire et chauffage');
+        }
+        return $queryBuilder->getQuery()->getResult();
+    }
     /*
     public function findOneBySomeField($value): ?Utilisateur
     {
