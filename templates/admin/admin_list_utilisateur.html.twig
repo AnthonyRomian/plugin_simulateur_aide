@@ -45,7 +45,7 @@
                     <th scope="col" class="table-secondary">Nbre foyer</th>
                     <th scope="col" class="table-secondary">RFR</th>
 
-                    <th scope="col" class="table-secondary">Prime RENOV</th>
+                    <th scope="col" class="table-secondary">MaPrimeRénov'</th>
                     <th scope="col" class="table-secondary">CEE</th>
                     <th scope="col" class="table-secondary">CDP FIOUL</th>
                     <th scope="col" class="table-secondary">Total</th>
@@ -126,6 +126,9 @@
             {{ knp_pagination_render(utilisateurs, 'admin/pagination.html.twig') }}
         </div>
     </div>
+    <div>
+        {{  render(controller('App\\Controller\\AdminController::statistiques')) }}
+    </div>
 
 {% endblock %}
 {% block javascrips %}
@@ -134,23 +137,27 @@
         let bouton_delete = document.getElementById('delete_button')
         let bouton_edit = document.getElementById('edit_button')
         console.log(checkboxs)
-
         var value_bouton = [];
+
         for (let i = 0; i < checkboxs.length; i++) {
-
             checkboxs[i].addEventListener('change', e => {
-
                 if(e.target.checked){
                     value_bouton = checkboxs[i]['attributes']['value']['value'];
                     console.log(value_bouton)
 
-                    var url_delete = '{{ path('utilisateur_delete', {'id' :  'utilisateur.id'  }) }}';
-                    var url_edit = '{{ path('utilisateur_edit', {'id' :  'utilisateur.id'  }) }}';
+                    let url_delete = '{{ path('utilisateur_delete', {'id' :  'utilisateur.id'  }) }}';
+                    let url_edit = '{{ path('utilisateur_edit', {'id' :  'utilisateur.id'  }) }}';
 
                     url_delete = url_delete.replace("utilisateur.id", value_bouton);
                     url_edit = url_edit.replace("utilisateur.id", value_bouton);
                     console.log(url_delete)
                     console.log(url_edit)
+                    bouton_delete.href = url_delete
+                    bouton_edit.href = url_edit
+                } else if (checkboxs[i]['checked'] === false) {
+
+                    let url_delete = '{{ path('utilisateur_list') }}';
+                    let url_edit = '{{ path('utilisateur_list') }}';
                     bouton_delete.href = url_delete
                     bouton_edit.href = url_edit
                 }
