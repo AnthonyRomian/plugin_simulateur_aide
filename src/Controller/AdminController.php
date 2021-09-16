@@ -41,7 +41,7 @@ class AdminController extends AbstractController
         $utilisateurs = $paginator->paginate(
             $data,
             $request->query->getInt('page', 1),
-            10
+            5
         );
         $utilisateur = new Utilisateur();
 
@@ -102,6 +102,8 @@ class AdminController extends AbstractController
             }
         }
         $tableau_sans_doublon = array_unique($tableau_sans_doublon);
+
+        $tableau_sans_doublon = array_values($tableau_sans_doublon);
 
         // ------------RECUP LES NOMBRES DE DEPARTEMENTS---------
         $count_dep = array_count_values($tableauCP);

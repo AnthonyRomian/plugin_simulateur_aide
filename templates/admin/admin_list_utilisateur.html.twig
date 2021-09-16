@@ -27,7 +27,7 @@
                 <thead>
                 <tr>
                     <td scope="col" class="table-secondary">
-                        <input id="selected" type="checkbox">
+                        <input id="select_all_bouton" type="checkbox">
                     </td>
                     <th scope="col" class="table-secondary">Nom</th>
                     <th scope="col" class="table-secondary">Prénom</th>
@@ -59,7 +59,7 @@
                     <tr>
                         {# -----------    contact  -----------#}
                         <th>
-                            <input name="delete_button" id="selected_checkbox" type="checkbox" value="{{ utilisateur.id }}" >
+                            <input name="delete_checkbox" id="selected_checkbox" type="checkbox" value="{{ utilisateur.id }}" >
                         </th>
                         <td><a href="{{ path('utilisateur_profil', {'id': utilisateur.id }) }}">{{ utilisateur.nom }}</a></td>
                         <td><a href="{{ path('utilisateur_profil', {'id': utilisateur.id }) }}">{{ utilisateur.prenom }}</a></td>
@@ -121,11 +121,11 @@
                 </tbody>
             </table>
         </div>
-        <a id="delete_button" href="{{ path('utilisateur_delete', {'id' :  'utilisateur.id'  }) }}">Supprimer</a>
+        <a id="delete_button" href="" onclick="functionDelete()">Supprimer</a>
         <a id="edit_button" href="{{ path('utilisateur_edit', {'id' :  'utilisateur.id'  }) }}">Editer</a>
 
         <div class="d-flex justify-content-center">
-            {% do utilisateurs.setPageRange(2) %}
+            {% do utilisateurs.setPageRange(10) %}
             {{ knp_pagination_render(utilisateurs, 'admin/pagination.html.twig') }}
         </div>
     </div>
@@ -136,66 +136,98 @@
 {% endblock %}
 {% block javascrips %}
     <script>
-        let checkboxs = document.getElementsByName('delete_button')
+        let checkboxs = document.getElementsByName('delete_checkbox')
+        console.log(checkboxs)
+        let bouton_select_all = document.getElementById('select_all_bouton')
         let bouton_delete = document.getElementById('delete_button')
         let bouton_edit = document.getElementById('edit_button')
-        console.log(checkboxs)
         var value_bouton = [];
+        var tableau_requete_ajax = [];
+
+
+        bouton_select_all.addEventListener('change', d => {
+                for (var i = 0; i < checkboxs.length; i++) {
+                    if (d.target.checked === true) {
+                        checkboxs[i].checked = true
+                        value_bouton[i] = checkboxs[i]['attributes']['value']['value'];
+                        value_bouton = value_bouton.filter(function (el) {
+                            return el != null;
+                        });
+                        console.log(value_bouton)
+                    } else if (d.target.checked === false) {
+                        checkboxs[i].checked = false
+                        value_bouton.pop()
+                    }
+                }
+            console.log(value_bouton)
+        })
+
 
         for (let i = 0; i < checkboxs.length; i++) {
             checkboxs[i].addEventListener('change', e => {
-                if(e.target.checked === true ){
-                    value_bouton[i] = checkboxs[i]['attributes']['value']['value'];
-
-                    let value_bouton_filtered = value_bouton.filter(function (el) {
-                        return el != null;
-                    });
-
-                    console.log(value_bouton_filtered);
-
-
-                    let url_delete = '{{ path('utilisateur_delete', {'id' :  'utilisateur.id' }) }}';
-                    let url_edit = '{{ path('utilisateur_edit', {'id' :  'utilisateur.id'  }) }}';
-
-                    url_delete = url_delete.replace("utilisateur.id", value_bouton_filtered);
-                    url_edit = url_edit.replace("utilisateur.id", value_bouton_filtered);
-                    console.log(url_delete)
-                    console.log(url_edit)
-                    bouton_delete.href = url_delete
-                    bouton_edit.href = url_edit
-                } else if (e.target.checked === false ) {
-                    value_bouton[i] = null;
+                if (e.target.checked === true) {
+                    let val_checkbox_current = checkboxs[i].value
+                    console.log('true : ' +val_checkbox_current)
+                    value_bouton[i] = checkboxs[i].value
                     console.log(value_bouton)
-                     value_bouton_filtered = value_bouton.filter(function (el) {
+                    tableau_requete_ajax = value_bouton.filter(function (el) {
                         return el != null;
                     });
 
-                    console.log(value_bouton_filtered);
-
-
-                    if ( value_bouton_filtered.length > 0 ){
-                        let url_delete = '{{ path('utilisateur_delete', {'id' :  'utilisateur.id'  }) }}';
-                        let url_edit = '{{ path('utilisateur_edit', {'id' :  'utilisateur.id'  }) }}';
-
-                        url_delete = url_delete.replace('utilisateur.id', value_bouton_filtered);
-                        url_edit = url_edit.replace('utilisateur.id', value_bouton_filtered);
-                        console.log(url_delete)
-                        console.log(url_edit)
-                        bouton_delete.href = url_delete
-                        bouton_edit.href = url_edit
-                    } else {
+                } else if (e.target.checked === false) {
+                    // si + de 1 restant alors on met le dernier
+                    if ( value_bouton.length > 1 ){
+                        let val_checkbox_current = checkboxs[i].value
+                        console.log('false : ' +val_checkbox_current)
+                        console.log('value bouton i : ' +value_bouton[i])
                         value_bouton[i] = null;
                         console.log(value_bouton)
-                        let url_delete = '{{ path('utilisateur_list') }}';
-                        let  url_edit = '{{ path('utilisateur_list') }}';
-                        bouton_delete.href = url_delete
+                        tableau_requete_ajax = value_bouton.filter(function (el) {
+                            return el != null;
+                        });
+                    } else {
+                        // si inferieur a 1 ou egal a zero on met le lien de la list utilisateur
+                        let url_edit = '{{ path('utilisateur_list') }}';
+                        console.log(url_edit)
                         bouton_edit.href = url_edit
-
                     }
                 }
             });
         }
 
+        console.log(tableau_requete_ajax)
 
+        function functionDelete() {
+            console.log('Appel de la fonction delete' + tableau_requete_ajax)
+            if (tableau_requete_ajax.length > 0 && tableau_requete_ajax.length <= 10) {
+                for (let f = 0; f < tableau_requete_ajax.length; f++) {
+                    // j'affiche un message de suppression en cours de l'utilisateur
+                    let idUser = tableau_requete_ajax[f]
+                    console.log(idUser)
+                    // Executer une requete pour chaque selectionné
+                    fetch("/simulateur_aide/public/admin/utilisateur/delete/" + idUser, {
+                        method: "POST"
+                    }).then(response => {
+                        // je teste si je suis sur le dernier utilisateur à traiter
+                        if (f === tableau_requete_ajax.length-1) {
+                            console.log('je suis bien au dernier ')
+                            if (response.ok) {
+                                // si j'ai fini de traiter le dernier utilisateur de mon tableau
+                                console.log('la derniere requete est terminé')
+                                // j'appelle la fonction de réactualisation de la page
+                                setTimeout(function () {
+                                    window.reload();
+                                }, 5000);
+                            } else {
+                                setTimeout(function () {
+                                    window.reload();
+                                }, 5000);
+                                console.error('Retour du serveur : ', response.status)
+                            }
+                        }
+                    });
+                }
+            }
+        }
     </script>
 {% endblock %}

@@ -1,9 +1,4 @@
-{% block stylesheets %}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link href="/simulateur_aide/public/assets/css/style_admin.css" rel="stylesheet">
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg==" crossorigin="anonymous" referrerpolicy="no-referrer">
-{% endblock %}
 
 {% block body %}
 <div class="container">
@@ -14,14 +9,14 @@
             <div class="graph-info">
                 <p class="graph-text">Il y a actuellement {{ nbre_sanit }} simulations effectuées en "eau chaude sanitaire" et {{ nbre_chauf }} "eau chaude sanitaire
                     et chauffage"</p>
-                <canvas id="produit_vise"  class="graph-canva" style="display: block; width: 100%; "></canvas>
+                <canvas id="graphProduitVise"  class="graph-canva" style="display: block; width: 100%; "></canvas>
             </div>
         </div>
         <div class="graph-group">
             <h5 class="graph-title">Les différents départements</h5>
             <div class="graph-info">
-                <p class="graph-text">Il y a {{  tableau_sans_doublon2|length }} départements et le plus représenté est le {{ tableau_sans_doublon2|first }} </p>
-                <canvas id="departement"  class="graph-canva" style="display: block; width: 100%; "></canvas>
+                <p class="graph-text">Il y a {{  tableau_sans_doublon2|length }} départements </p>
+                <canvas id="graphDepartement"  class="graph-canva" style="display: block; width: 100%; "></canvas>
             </div>
         </div>
     </div>
@@ -29,12 +24,12 @@
 
 {% endblock %}
 
-{% block javascrips %}
+{% block javascript %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
 
         // GRAPH PRODUIT VISE
-        let categories = document.querySelector("#produit_vise")
+        let categories = document.querySelector("#graphProduitVise")
         let nbre_chauf = {{ nbre_chauf }};
         let nbre_sanit = {{ nbre_sanit }};
 
@@ -58,9 +53,10 @@
         })
 
         // GRAPH DEPARTEMENT
-        let departement = document.querySelector("#departement")
+        let departement = document.querySelector("#graphDepartement")
         let tableau_sans_doublon = {{ tableau_sans_doublon }};
         let count_dep = {{ count_dep }};
+
         let departgraph = new Chart(departement, {
             type: "pie",
             options : {
@@ -73,7 +69,7 @@
                 datasets: [{
                     label: 'Répartition des departements',
                     data: count_dep,
-                    backgroundColor: ["red", "blue","green", "orange","grey", "yellow"]
+                    backgroundColor: ["red", "blue","green", "orange","grey", "yellow", "brown", "purple","rose" ]
                 }],
             }
         })

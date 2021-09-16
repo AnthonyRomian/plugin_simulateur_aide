@@ -73,6 +73,13 @@ class UtilisateurRepository extends ServiceEntityRepository
                 ->andWhere('u.produit_vise = :eauChaudeSanitaireChauffage')
                 ->setParameter('eauChaudeSanitaireChauffage', 'Eau chaude sanitaire et chauffage');
         }
+
+        //recherche par energie
+        if (!empty($search->energie)) {
+            $queryBuilder = $queryBuilder
+                ->andWhere('u.energie IN (:energie)')
+                ->setParameter('energie', $search->energie);
+        }
         return $queryBuilder->getQuery()->getResult();
     }
     /*

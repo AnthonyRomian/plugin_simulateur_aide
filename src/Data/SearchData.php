@@ -27,10 +27,6 @@ class SearchData
      */
     public $eauChaudeSanitaireChauffage = false;
 
-    /**
-     * @var array
-     */
-    public $energie = [];
 
     /**
      * @return string
@@ -49,6 +45,11 @@ class SearchData
     }
 
     /**
+     * @var
+     */
+    public $energie ;
+
+    /**
      * @return bool
      */
     public function isEauChaudeSanitaire(): bool
@@ -64,7 +65,10 @@ class SearchData
         return $this->eauChaudeSanitaireChauffage;
     }
 
-    public function getEnergie(): ?array
+    /**
+     * @return mixed
+     */
+    public function getEnergie()
     {
         return $this->energie;
     }

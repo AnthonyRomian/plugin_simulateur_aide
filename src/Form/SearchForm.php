@@ -38,7 +38,7 @@ class SearchForm extends AbstractType
                 'label' => false,
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'Rechercher'
+                    'placeholder' => 'Nom'
                 ]
             ])
             ->add('departement', TextType::class, [
@@ -55,6 +55,19 @@ class SearchForm extends AbstractType
             ->add('eauChaudeSanitaireChauffage', CheckboxType::class, [
                 'label' => 'Eau chaude sanitaire et chauffage',
                 'required' => false,
+            ])
+            ->add('energie', ChoiceType::class, [
+                'label' => false,
+                'required' => false,
+                'choices' => [
+                    'Fioul' => 'Fioul',
+                    'Gaz' => 'Gaz',
+                    'Electricité' => 'Electricité',
+                    'Bois / granule' => 'Bois / granule',
+                ],
+                //quelle est la classe à afficher ici ?
+                //quelle propriété utiliser pour les <option> dans la liste déroulante ?
+                'placeholder' => '-- Choisir l\'energie --'
             ]);
 
     }

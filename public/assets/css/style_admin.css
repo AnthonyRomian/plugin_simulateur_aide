@@ -17,7 +17,6 @@
     margin-top: -24px; /* half height of the spinner gif */
     text-align:center;
     z-index:1234;
-
     width: 48px; /* width of the spinner gif */
     height: 48px; /*hight of the spinner gif +2px to fix IE8 issue */
 }
@@ -26,6 +25,7 @@
     animation: disparition 1s;
     animation-fill-mode: forwards;
 }
+
 @keyframes disparition {
     100%{
         opacity: 0;
