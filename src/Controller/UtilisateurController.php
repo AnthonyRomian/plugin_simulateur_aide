@@ -77,14 +77,14 @@ class UtilisateurController extends AbstractController
             } else {
                 //n accepte pas le traitement des données
                 $this->addFlash('message', 'veuillez accepter l\'utilisation de vos données');
-                return $this->render('create.html.twig', [
+                return $this->render('utilisateur/create.html.twig', [
                     'utilisateurForm' => $utilisateurForm->createView(),
                 ]);
             }
         } else {
 
             $this->addFlash('error', 'Veuillez corriger les erreurs');
-            return $this->render('create.html.twig', [
+            return $this->render('utilisateur/create.html.twig', [
                 'utilisateurForm' => $utilisateurForm->createView(),
             ]);
         }

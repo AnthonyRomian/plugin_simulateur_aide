@@ -21,7 +21,7 @@
         <p>liste des simulations</p>
         <div>
             <div>
-                {% include 'filter.html.twig' with {form_filter: form_filter} only %}
+                {% include 'admin/filter.html.twig' with {form_filter: form_filter} only %}
             </div>
             <table class="table table-striped">
                 <thead>
@@ -142,34 +142,17 @@
         let bouton_delete = document.getElementById('delete_button')
         let bouton_edit = document.getElementById('edit_button')
         var value_bouton = [];
+        var value_bouton_edit = [];
         var tableau_requete_ajax = [];
-
-
-        bouton_select_all.addEventListener('change', d => {
-                for (var i = 0; i < checkboxs.length; i++) {
-                    if (d.target.checked === true) {
-                        checkboxs[i].checked = true
-                        value_bouton[i] = checkboxs[i]['attributes']['value']['value'];
-                        value_bouton = value_bouton.filter(function (el) {
-                            return el != null;
-                        });
-                        console.log(value_bouton)
-                    } else if (d.target.checked === false) {
-                        checkboxs[i].checked = false
-                        value_bouton.pop()
-                    }
-                }
-            console.log(value_bouton)
-        })
-
+        var tableau_requete_edit = [];
 
         for (let i = 0; i < checkboxs.length; i++) {
             checkboxs[i].addEventListener('change', e => {
                 if (e.target.checked === true) {
                     let val_checkbox_current = checkboxs[i].value
-                    console.log('true : ' +val_checkbox_current)
+                    //console.log('true : ' +val_checkbox_current)
                     value_bouton[i] = checkboxs[i].value
-                    console.log(value_bouton)
+                    //console.log(value_bouton)
                     tableau_requete_ajax = value_bouton.filter(function (el) {
                         return el != null;
                     });
@@ -178,22 +161,74 @@
                     // si + de 1 restant alors on met le dernier
                     if ( value_bouton.length > 1 ){
                         let val_checkbox_current = checkboxs[i].value
-                        console.log('false : ' +val_checkbox_current)
-                        console.log('value bouton i : ' +value_bouton[i])
+                        //console.log('false : ' +val_checkbox_current)
+                        //console.log('value bouton i : ' +value_bouton[i])
                         value_bouton[i] = null;
-                        console.log(value_bouton)
+                        //console.log(value_bouton)
                         tableau_requete_ajax = value_bouton.filter(function (el) {
                             return el != null;
                         });
                     } else {
                         // si inferieur a 1 ou egal a zero on met le lien de la list utilisateur
                         let url_edit = '{{ path('utilisateur_list') }}';
-                        console.log(url_edit)
+                        //console.log(url_edit)
                         bouton_edit.href = url_edit
                     }
                 }
             });
         }
+
+        for (let i = 0; i < checkboxs.length; i++) {
+            checkboxs[i].addEventListener('change', e => {
+                if (e.target.checked === true) {
+                    let val_checkbox_current = checkboxs[i].value
+                    //console.log('true : ' +val_checkbox_current)
+                    value_bouton_edit[i] = checkboxs[i].value
+                    //console.log(value_bouton)
+                    tableau_requete_edit = value_bouton_edit.filter(function (el) {
+                        return el != null;
+                    });
+
+                } else if (e.target.checked === false) {
+                    // si + de 1 restant alors on met le dernier
+                    if ( value_bouton_edit.length > 1 ){
+                        let val_checkbox_current = checkboxs[i].value
+                        //console.log('false : ' +val_checkbox_current)
+                        //console.log('value bouton i : ' +value_bouton[i])
+                        value_bouton_edit[i] = null;
+                        //console.log(value_bouton)
+                        tableau_requete_edit = value_bouton_edit.filter(function (el) {
+                            return el != null;
+                        });
+                    } else {
+                        // si inferieur a 1 ou egal a zero on met le lien de la list utilisateur
+                        let url_edit = '{{ path('utilisateur_list') }}';
+                        //console.log(url_edit)
+                        bouton_edit.href = url_edit
+                    }
+                }
+            });
+        }
+
+        bouton_select_all.addEventListener('change', d => {
+            for (var i = 0; i < checkboxs.length; i++) {
+                if (d.target.checked === true) {
+                    checkboxs[i].checked = true
+                    value_bouton[i] = checkboxs[i]['attributes']['value']['value'];
+                    tableau_requete_ajax = value_bouton.filter(function (el) {
+                        return el != null;
+                    });
+                    //console.log(value_bouton)
+                } else if (d.target.checked === false) {
+                    checkboxs[i].checked = false
+                    value_bouton.pop()
+                    tableau_requete_ajax = value_bouton.filter(function (el) {
+                        return el != null;
+                    });
+                }
+            }
+            console.log(tableau_requete_ajax)
+        })
 
         console.log(tableau_requete_ajax)
 
@@ -210,10 +245,8 @@
                     }).then(response => {
                         // je teste si je suis sur le dernier utilisateur à traiter
                         if (f === tableau_requete_ajax.length-1) {
-                            console.log('je suis bien au dernier ')
                             if (response.ok) {
                                 // si j'ai fini de traiter le dernier utilisateur de mon tableau
-                                console.log('la derniere requete est terminé')
                                 // j'appelle la fonction de réactualisation de la page
                                 setTimeout(function () {
                                     window.reload();

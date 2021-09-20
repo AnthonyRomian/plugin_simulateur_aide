@@ -1,0 +1,28 @@
+{{ form_start(form_filter) }}
+<div class="filter-container">
+    <div class="filter-group-1">
+        <h5 class="filter-title">Nom : </h5>
+        {{ form_row(form_filter.q) }}
+    </div>
+    <div class="filter-group-1">
+        <h5 class="filter-title">Département : </h5>
+        {{ form_row(form_filter.departement) }}
+    </div>
+
+    <div class="filter-group">
+        <h5 class="filter-title">Produit visé</h5>
+        {{ form_row(form_filter.eauChaudeSanitaire) }}
+        {{ form_row(form_filter.eauChaudeSanitaireChauffage) }}
+    </div>
+
+    <div class="filter-group">
+        <h5 class="filter-title">Energie</h5>
+        {{ form_row(form_filter.energie) }}
+    </div>
+    <div class="filter-group">
+        <button type="submit" class="">Filtrer</button>
+    </div>
+
+</div>
+
+{{ form_end(form_filter) }}

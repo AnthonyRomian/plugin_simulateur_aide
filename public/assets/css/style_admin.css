@@ -33,6 +33,23 @@
     }
 }
 
+/* FILTER */
+.filter-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+.filter-container .filter-group ,.filter-group-1 {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    margin: 5px 10px;
+}
+
+#eauChaudeSanitaire, #eauChaudeSanitaireChauffage  {
+    margin: 5px 10px;
+}
+
 
 /* TABLEAU */
 

@@ -21,7 +21,7 @@ class ResultatController extends AbstractController
     {
 
 
-        return $this->render('resultat.html.twig', [
+        return $this->render('utilisateur/resultat.html.twig', [
             'utilisateur' => $utilisateur,
         ]);
     }
