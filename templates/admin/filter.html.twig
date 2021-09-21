@@ -1,11 +1,11 @@
 {{ form_start(form_filter) }}
 <div class="filter-container">
     <div class="filter-group-1">
-        <h5 class="filter-title">Nom : </h5>
+        <h5 class="filter-title">Nom</h5>
         {{ form_row(form_filter.q) }}
     </div>
     <div class="filter-group-1">
-        <h5 class="filter-title">Département : </h5>
+        <h5 class="filter-title">Département</h5>
         {{ form_row(form_filter.departement) }}
     </div>
 
@@ -20,7 +20,7 @@
         {{ form_row(form_filter.energie) }}
     </div>
     <div class="filter-group">
-        <button type="submit" class="">Filtrer</button>
+        <button class="btn btn-secondary mb-2" type="submit" class="">Rechercher</button>
     </div>
 
 </div>

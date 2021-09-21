@@ -121,8 +121,8 @@
                 </tbody>
             </table>
         </div>
-        <a id="delete_button" href="" onclick="functionDelete()">Supprimer</a>
-        <a id="edit_button" href="{{ path('utilisateur_edit', {'id' :  'utilisateur.id'  }) }}">Editer</a>
+        <a class="btn btn-secondary mb-2" href="" onclick="functionDelete()">Supprimer</a>
+        <a class="btn btn-secondary mb-2" id="edit_button" href="{{ path('utilisateur_list') }}">Editer</a>
 
         <div class="d-flex justify-content-center">
             {% do utilisateurs.setPageRange(10) %}
@@ -146,70 +146,41 @@
         var tableau_requete_ajax = [];
         var tableau_requete_edit = [];
 
+        /* BOUTON SUPPR & EDIT */
         for (let i = 0; i < checkboxs.length; i++) {
             checkboxs[i].addEventListener('change', e => {
                 if (e.target.checked === true) {
                     let val_checkbox_current = checkboxs[i].value
-                    //console.log('true : ' +val_checkbox_current)
                     value_bouton[i] = checkboxs[i].value
-                    //console.log(value_bouton)
+                    //bouton edit
+                    let url_edit = "{{ path('utilisateur_edit',{'id':'utilisateur.id'}) }}";
+                    url_edit = url_edit.replace("utilisateur.id", value_bouton[i]);
+                    bouton_edit.href = (url_edit);
                     tableau_requete_ajax = value_bouton.filter(function (el) {
                         return el != null;
                     });
 
                 } else if (e.target.checked === false) {
                     // si + de 1 restant alors on met le dernier
-                    if ( value_bouton.length > 1 ){
+                    if (value_bouton.length > 1) {
                         let val_checkbox_current = checkboxs[i].value
-                        //console.log('false : ' +val_checkbox_current)
-                        //console.log('value bouton i : ' +value_bouton[i])
                         value_bouton[i] = null;
-                        //console.log(value_bouton)
+                        //bouton edit
+                        let url_edit = '{{ path('utilisateur_list') }}';
+                        bouton_edit.href = (url_edit);
                         tableau_requete_ajax = value_bouton.filter(function (el) {
                             return el != null;
                         });
                     } else {
                         // si inferieur a 1 ou egal a zero on met le lien de la list utilisateur
                         let url_edit = '{{ path('utilisateur_list') }}';
-                        //console.log(url_edit)
                         bouton_edit.href = url_edit
                     }
                 }
             });
         }
 
-        for (let i = 0; i < checkboxs.length; i++) {
-            checkboxs[i].addEventListener('change', e => {
-                if (e.target.checked === true) {
-                    let val_checkbox_current = checkboxs[i].value
-                    //console.log('true : ' +val_checkbox_current)
-                    value_bouton_edit[i] = checkboxs[i].value
-                    //console.log(value_bouton)
-                    tableau_requete_edit = value_bouton_edit.filter(function (el) {
-                        return el != null;
-                    });
-
-                } else if (e.target.checked === false) {
-                    // si + de 1 restant alors on met le dernier
-                    if ( value_bouton_edit.length > 1 ){
-                        let val_checkbox_current = checkboxs[i].value
-                        //console.log('false : ' +val_checkbox_current)
-                        //console.log('value bouton i : ' +value_bouton[i])
-                        value_bouton_edit[i] = null;
-                        //console.log(value_bouton)
-                        tableau_requete_edit = value_bouton_edit.filter(function (el) {
-                            return el != null;
-                        });
-                    } else {
-                        // si inferieur a 1 ou egal a zero on met le lien de la list utilisateur
-                        let url_edit = '{{ path('utilisateur_list') }}';
-                        //console.log(url_edit)
-                        bouton_edit.href = url_edit
-                    }
-                }
-            });
-        }
-
+        /* BOUTON SELECT ALL */
         bouton_select_all.addEventListener('change', d => {
             for (var i = 0; i < checkboxs.length; i++) {
                 if (d.target.checked === true) {
@@ -232,6 +203,7 @@
 
         console.log(tableau_requete_ajax)
 
+        /* FUNCTION SUPPR */
         function functionDelete() {
             console.log('Appel de la fonction delete' + tableau_requete_ajax)
             if (tableau_requete_ajax.length > 0 && tableau_requete_ajax.length <= 10) {
@@ -244,7 +216,7 @@
                         method: "POST"
                     }).then(response => {
                         // je teste si je suis sur le dernier utilisateur à traiter
-                        if (f === tableau_requete_ajax.length-1) {
+                        if (f === tableau_requete_ajax.length - 1) {
                             if (response.ok) {
                                 // si j'ai fini de traiter le dernier utilisateur de mon tableau
                                 // j'appelle la fonction de réactualisation de la page
