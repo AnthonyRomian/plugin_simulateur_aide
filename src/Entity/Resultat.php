@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use App\Repository\ResultatRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ResultatRepository::class)
+ *
  */
 class Resultat
 {
@@ -14,32 +16,39 @@ class Resultat
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"liste_utilisateurs"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"liste_utilisateurs"})
      */
     private $prime_renov;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"liste_utilisateurs"})
      */
     private $cee;
 
+
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"liste_utilisateurs"})
      */
     private $cdp_chauffage;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"liste_utilisateurs"})
      */
     private $montant_total;
 
     /**
      * @ORM\OneToOne(targetEntity=Utilisateur::class, inversedBy="resultat", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
+     *
      */
     private $utilisateur_simulation;
 

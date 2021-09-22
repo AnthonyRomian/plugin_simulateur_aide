@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UtilisateurRepository;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -16,6 +17,7 @@ class Utilisateur
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"liste_utilisateurs"})
      */
     private $id;
 
@@ -30,6 +32,7 @@ class Utilisateur
      *     maxMessage="Renseignez un prénom valide"
      * )
      * @Assert\Regex(pattern="/^([^0-9]*)$/", message="Lettres seulement")
+     * @Groups({"liste_utilisateurs"})
      */
     private $nom;
 
@@ -43,7 +46,7 @@ class Utilisateur
      *     maxMessage="Renseignez un prénom valide"
      * )
      * @Assert\Regex(pattern="/^([^0-9]*)$/", message="Lettres seulement")
-     *
+     * @Groups({"liste_utilisateurs"})
      */
     private $prenom;
 
@@ -58,6 +61,7 @@ class Utilisateur
      *     maxMessage="Renseigner un code postal valide"
      * )
      * @Assert\Regex(pattern="/^[0-9]*$/", message="Nombre seulement")
+     * @Groups({"liste_utilisateurs"})
      */
     private $code_postal;
 
@@ -71,6 +75,7 @@ class Utilisateur
      *     minMessage="Rentrez un nom de ville",
      *     maxMessage="Rentrez un nom de ville"
      * )
+     * @Groups({"liste_utilisateurs"})
      */
     private $ville;
 
@@ -84,7 +89,7 @@ class Utilisateur
      *     maxMessage="Rentrez un numero de téléphone valide"
      * )
      * @Assert\Regex(pattern="/^[0-9]*$/", message="Nombre seulement")
-     *
+     * @Groups({"liste_utilisateurs"})
      */
     private $tel;
 
@@ -98,12 +103,13 @@ class Utilisateur
      *     minMessage="Rentrez un numero de téléphone valide",
      *     maxMessage="Rentrez un numero de téléphone valide"
      * )
-     *
+     * @Groups({"liste_utilisateurs"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"liste_utilisateurs"})
      */
     private $date_simulation;
 
@@ -111,6 +117,7 @@ class Utilisateur
      *
      * @ORM\Column(type="boolean")
      * @Assert\NotNull (message="Renseignez si vous etes propriétaire ou locataire")
+     * @Groups({"liste_utilisateurs"})
      */
     private $proprietaire;
 
@@ -118,6 +125,7 @@ class Utilisateur
      *
      * @ORM\Column(type="string", length=15)
      * @Assert\NotNull(message="Renseignez votre bien")
+     * @Groups({"liste_utilisateurs"})
      */
     private $type_bien;
 
@@ -125,6 +133,7 @@ class Utilisateur
      *
      * @ORM\Column(type="boolean")
      * @Assert\NotNull(message="Renseignez l'anciennetée de votre bien")
+     * @Groups({"liste_utilisateurs"})
      */
     private $ancienneteEligible;
 
@@ -132,6 +141,7 @@ class Utilisateur
      *
      * @ORM\Column(type="string", length=255)
      * @Assert\NotNull (message="Renseignez le produit voulu")
+     * @Groups({"liste_utilisateurs"})
      */
     private $produit_vise;
 
@@ -141,17 +151,19 @@ class Utilisateur
      * @Assert\GreaterThan(
      *     value = 0,
      *     message="doit etre supérieur à 0")
-     *
+     * @Groups({"liste_utilisateurs"})
      */
     private $nbre_salle_bain;
 
     /**
      * @ORM\Column(type="json")
+     * @Groups({"liste_utilisateurs"})
      */
     private $chauffage = [];
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"liste_utilisateurs"})
      */
     private $energie;
 
@@ -160,7 +172,7 @@ class Utilisateur
      * @ORM\Column(type="integer", length=255)
      * @Assert\NotBlank (message="Renseignez un nombre")
      * @Assert\GreaterThan(value = 0, message="La valeur doit etre supérieur à 0")
-     *
+     * @Groups({"liste_utilisateurs"})
      */
     private $nbre_pers_foyer;
 
@@ -169,11 +181,13 @@ class Utilisateur
      * @ORM\Column(type="integer", length=255)
      * @Assert\NotBlank(message="Renseignez votre revenu fiscal")
      * @Assert\GreaterThan(value = 0, message="La valeur doit etre supérieur à 0")
+     * @Groups({"liste_utilisateurs"})
      */
     private $revenu_fiscal;
 
     /**
      * @ORM\OneToOne(targetEntity=Resultat::class, mappedBy="utilisateur_simulation", cascade={"persist", "remove"})
+     * @Groups({"liste_utilisateurs"})
      */
     private $resultat;
 
