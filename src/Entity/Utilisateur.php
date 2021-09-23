@@ -25,6 +25,7 @@ class Utilisateur
      *
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Veuillez renseigner votre nom")
+     * @Assert\NotNull (message="Veuillez renseigner votre nom")
      * @Assert\Length(
      *     min=1,
      *     max=50,

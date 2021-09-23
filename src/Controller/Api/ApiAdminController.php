@@ -110,7 +110,7 @@ class ApiAdminController extends AbstractController
     }
 
     /**
-     * @Route("/api/utilisateur/profil/{id}", name="utilisateur_profil", methods={"GET"})
+     * @Route("/api/utilisateur/profil/{id}", name="api_utilisateur_profil", methods={"GET"})
      */
     public function show(Utilisateur $utilisateur,
                         SerializerInterface $serializer

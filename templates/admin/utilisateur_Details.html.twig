@@ -2,41 +2,41 @@
 
 {% block body %}
     <div class="container">
-        <h3>Profil Utilisateur</h3>
+        <h4 class="p-2 mb-2 bg-secondary text-white rounded">Profil Utilisateur</h4>
         <p>Vous pouvez retrouvez les informations détaillées de l'utilisateur</p>
 
-        <div class="card-group">
-            <h4 class="card-title">Contact</h4>
+        <div class="card my-2">
+            <h4 class="card-header">Contact</h4>
             <div class="card-info">
                 <div class="card-item">
                     <label for="">Nom : </label>
-                    {{ utilisateur.nom }}
+                    <div>{{ utilisateur.nom }}</div>
                 </div>
                 <div class="card-item">
                     <label for="">Prénom : </label>
-                    {{ utilisateur.prenom }}
+                    <div>{{ utilisateur.prenom }}</div>
                 </div>
                 <div class="card-item">
-                    <label for="">Téléphone :  </label>
-                    {{ utilisateur.tel }}
+                    <label for="">Téléphone : </label>
+                    <div>{{ utilisateur.tel }}</div>
                 </div>
                 <div class="card-item">
-                    <label for="">Email :  </label>
-                    {{ utilisateur.email }}
+                    <label for="">Email : </label>
+                    <div>{{ utilisateur.email }}</div>
                 </div>
                 <div class="card-item">
-                    <label for="">Code postal :  </label>
-                    {{ utilisateur.codePostal }}
+                    <label for="">Code postal : </label>
+                    <div>{{ utilisateur.codePostal }}</div>
                 </div>
                 <div class="card-item">
-                    <label for="">Ville :  </label>
-                    {{ utilisateur.ville }}
+                    <label for="">Ville : </label>
+                    <div>{{ utilisateur.ville }}</div>
                 </div>
             </div>
         </div>
 
-        <div class="card-group">
-            <h4 class="card-title">Informations</h4>
+        <div class="card my-2">
+            <h4 class="card-header">Informations</h4>
             <div class="card-info">
                 <div class="card-item">
                     <label for="">Propriétaire : </label>
@@ -50,7 +50,7 @@
                 </div>
                 <div class="card-item">
                     <label for="">Type de bien ? : </label>
-                    {{ utilisateur.typeBien }}
+                    <div>{{ utilisateur.typeBien }}</div>
                 </div>
                 <div class="card-item">
                     <label for="">Anciennetée du logement : </label>
@@ -64,66 +64,66 @@
                 </div>
                 <div class="card-item" id="menu-deroulant">
                     <label for="">Produit visé : </label>
-                    {{ utilisateur.produitVise }}
+                    <div>{{ utilisateur.produitVise }}</div>
                 </div>
                 <div class="card-item" id="menu-deroulant">
                     <label for="">Energie : </label>
                     {% if utilisateur.energie == "Selectionnez votre energie" %}
-                        N/A
+                        <div>N/A</div>
                     {% else %}
-                        {{ utilisateur.energie }}
+                        <div>{{ utilisateur.energie }}</div>
                     {% endif %}
                 </div>
                 <div class="card-item" id="menu-deroulant">
                     <label for="">Chauffage : </label>
                     {% if utilisateur.chauffage is empty %}
-                        N/A
+                        <div>N/A</div>
                     {% endif %}
                     {% for key, chauffage in utilisateur.chauffage %}
-                        {{ utilisateur.chauffage[key] }}
+                        <div>{{ utilisateur.chauffage[key] }}</div>
                     {% endfor %}
                 </div>
                 <div class="card-item">
                     <label for="">Nombre de salle de bain : </label>
-                    {{ utilisateur.nbreSalleBain }}
+                    <div>{{ utilisateur.nbreSalleBain }}</div>
                 </div>
                 <div class="card-item">
                     <label for="">Nombre de personne au foyer : </label>
-                    {{ utilisateur.nbrePersFoyer }}
+                    <div>{{ utilisateur.nbrePersFoyer }}</div>
                 </div>
                 <div class="card-item">
                     <label for="">Revenu fiscal : </label>
-                    {{ utilisateur.revenuFiscal }}
+                    <div>{{ utilisateur.revenuFiscal }}</div>
                 </div>
             </div>
-
         </div>
 
-        <div class="card-group">
-            <h4 class="card-title">Résultat Simulation</h4>
+        <div class="card my-2">
+            <h4 class="card-header">Résultat Simulation</h4>
             <div class="card-info">
                 <div class="card-item">
                     <label for="">MaPrimeRénov' : </label>
-                    {{ utilisateur.resultat.primeRenov }}
+                    <div>{{ utilisateur.resultat.primeRenov }}</div>
                 </div>
                 <div class="card-item">
                     <label for="">CEE : </label>
-                    {{ utilisateur.resultat.cee }}
+                    <div>{{ utilisateur.resultat.cee }}</div>
                 </div>
                 <div class="card-item">
-                    <label for="">Coup de pouce Chauffage :  </label>
-                    {{ utilisateur.resultat.cdpChauffage }}
+                    <label for="">Coup de pouce Chauffage : </label>
+                    <div>{{ utilisateur.resultat.cdpChauffage }}</div>
                 </div>
                 <div class="card-item">
-                    <label for="">Montant total des primes :  </label>
-                    {{ utilisateur.resultat.montantTotal }}
+                    <label for="">Montant total des primes : </label>
+                    <div>{{ utilisateur.resultat.montantTotal }}</div>
                 </div>
             </div>
         </div>
-        <div class="card-group">
-            <h4 class="card-title">Envoyez le contact par mail</h4>
+
+        <div class="card my-2">
+            <h4 class="card-header">Envoyez le contact par mail</h4>
             <div class="card-info">
-                <select class="card-item" >
+                <select class="card-item">
                     <option>fournisseur a recup 1</option>
                     <option>fournisseur a recup 2</option>
                     <option>fournisseur a recup 3</option>
@@ -132,17 +132,15 @@
                 <button class="card-item">Envoyez</button>
                 <div class="card-item">
                     <label for="">Nom du fournisseur : </label>
-                    XXXXXXX
+                    <div>XXXXXXX</div>
                 </div>
                 <div class="card-item">
                     <label for="">Departement du Fournisseur : </label>
-                XXXXXXXXX
+                    <div>XXXXXXXXX</div>
                 </div>
             </div>
-
-
         </div>
-
+        <a class="btn btn-secondary mb-2" id="edit_button" href="{{ path('utilisateur_list') }}">Retour</a>
     </div>
 
 {% endblock %}

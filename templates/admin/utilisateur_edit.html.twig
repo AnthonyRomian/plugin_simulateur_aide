@@ -1,125 +1,118 @@
 {% extends 'admin/base_admin.html.twig' %}
 
 {% block body %}
-
     <div class="container">
-
         <h3>Simulateur d'aide</h3>
-        <p>Renseignez les informations demandées afin d'obtenir votre droit aux différentes aides</p>
-        <div class="form-outer">
-            {{ form_start(utilisateurForm, { 'id' : "registerForm", 'class': "container"}) }}
-            <div class="page slide-page">
-                <div class="card-group">
-                    <h4 class="card-title">Contact</h4>
-                    <div class="card-info">
-                        <div class="card-item">
-                            {{ form_label(utilisateurForm.nom) }}
-                            {{ form_widget(utilisateurForm.nom) }}
-                            {{ form_errors(utilisateurForm.nom) }}
-                        </div>
-                        <div class="card-item">
-                            {{ form_label(utilisateurForm.prenom) }}
-                            {{ form_widget(utilisateurForm.prenom) }}
-                            {{ form_errors(utilisateurForm.prenom) }}
-                        </div>
-                        <div class="card-item">
-                            {{ form_label(utilisateurForm.tel) }}
-                            {{ form_widget(utilisateurForm.tel) }}
-                            {{ form_errors(utilisateurForm.tel) }}
-                        </div>
-                        <div class="card-item">
-                            {{ form_label(utilisateurForm.email) }}
-                            {{ form_widget(utilisateurForm.email) }}
-                            {{ form_errors(utilisateurForm.email) }}
-                        </div>
-                        <div class="card-item">
-                            {{ form_label(utilisateurForm.code_postal) }}
-                            {{ form_widget(utilisateurForm.code_postal) }}
-                            {{ form_errors(utilisateurForm.code_postal) }}
-                        </div>
-                        <div class="card-item">
-                            {{ form_label(utilisateurForm.ville) }}
-                            {{ form_widget(utilisateurForm.ville) }}
-                            {{ form_errors(utilisateurForm.ville) }}
-                        </div>
-                    </div>
+        <h4 class="p-2 mb-2 bg-secondary text-white rounded">Editer une simulation</h4>
+        {{ form_start(utilisateurForm, { 'id' : "registerForm", 'class': "container"}) }}
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-dark" role="alert">
+                    {{ message }}
                 </div>
+            {% endfor %}
+        {% endfor %}
 
-                <div class="card-group">
-                    <h4 class="card-title">Informations</h4>
-                    <div class="card-info">
-                        <div class="card-item">
-                            {{ form_label(utilisateurForm.proprietaire) }}
-                            {{ form_widget(utilisateurForm.proprietaire) }}
-                            {{ form_errors(utilisateurForm.proprietaire) }}
-                        </div>
-                        <div class="card-item">
-                            {{ form_label(utilisateurForm.type_bien) }}
-                            {{ form_widget(utilisateurForm.type_bien) }}
-                            {{ form_errors(utilisateurForm.type_bien) }}
-                        </div>
-                        <div class="card-item">
-                            {{ form_label(utilisateurForm.ancienneteEligible) }}
-                            {{ form_widget(utilisateurForm.ancienneteEligible) }}
-                            {{ form_errors(utilisateurForm.ancienneteEligible) }}
-
-                        </div>
-                    </div>
+        <div class="card my-2">
+            <h4 class="card-header">Contact</h4>
+            <div class="card-info">
+                <div class="card-item">
+                    {{ form_label(utilisateurForm.nom) }}
+                    {{ form_widget(utilisateurForm.nom) }}
+                    {{ form_errors(utilisateurForm.nom) }}
                 </div>
-
-                <div class="card-group">
-                    <h4 class="card-title">Enquete</h4>
-                    <div class="card-info">
-                        <div class="card-item" id="menu-deroulant">
-                            {{ form_label(utilisateurForm.produit_vise) }}
-                            {{ form_widget(utilisateurForm.produit_vise) }}
-                            {{ form_errors(utilisateurForm.produit_vise) }}
-                        </div>
-                        <div class="card-item" id="menu-deroulant">
-                            {{ form_row(utilisateurForm.energie) }}
-
-                        </div>
-                        <div class="card-item" id="menu-deroulant">
-                            {{ form_row(utilisateurForm.chauffage) }}
-                        </div>
-                    </div>
+                <div class="card-item">
+                    {{ form_label(utilisateurForm.prenom) }}
+                    {{ form_widget(utilisateurForm.prenom) }}
+                    {{ form_errors(utilisateurForm.prenom) }}
                 </div>
-                <div class="card-group">
-                    <h4 class="card-title">Revenu</h4>
-                    <div class="card-info">
-                        <div class="card-item">
-                            {{ form_label(utilisateurForm.nbre_salle_bain) }}
-                            {{ form_widget(utilisateurForm.nbre_salle_bain) }}
-                            {{ form_errors(utilisateurForm.nbre_salle_bain) }}
-
-                        </div>
-                        <div class="card-item">
-                            {{ form_label(utilisateurForm.nbre_pers_foyer) }}
-                            {{ form_widget(utilisateurForm.nbre_pers_foyer) }}
-                            {{ form_errors(utilisateurForm.nbre_pers_foyer) }}
-
-                        </div>
-                        <div class="card-item">
-                            {{ form_label(utilisateurForm.revenu_fiscal) }}
-                            {{ form_widget(utilisateurForm.revenu_fiscal) }}
-                            {{ form_errors(utilisateurForm.revenu_fiscal) }}
-
-                        </div>
-                    </div>
+                <div class="card-item">
+                    {{ form_label(utilisateurForm.tel) }}
+                    {{ form_widget(utilisateurForm.tel) }}
+                    {{ form_errors(utilisateurForm.tel) }}
+                </div>
+                <div class="card-item">
+                    {{ form_label(utilisateurForm.email) }}
+                    {{ form_widget(utilisateurForm.email) }}
+                    {{ form_errors(utilisateurForm.email) }}
+                </div>
+                <div class="card-item">
+                    {{ form_label(utilisateurForm.code_postal) }}
+                    {{ form_widget(utilisateurForm.code_postal) }}
+                    {{ form_errors(utilisateurForm.code_postal) }}
+                </div>
+                <div class="card-item">
+                    {{ form_label(utilisateurForm.ville) }}
+                    {{ form_widget(utilisateurForm.ville) }}
+                    {{ form_errors(utilisateurForm.ville) }}
                 </div>
             </div>
-            <div class="accord">
-                <div class="field-4">
-
-                    {{ form_row(utilisateurForm._token) }}
-                    {{ form_start(utilisateurForm) }}
-                </div>
-            </div>
-            <button type="submit" class="submit btn btn-info buttons-2">Mettre à jour</button>
         </div>
 
+        <div class="card my-2">
+            <h4 class="card-header">Propriété</h4>
+            <div class="card-info">
+                <div class="card-item">
+                    {{ form_label(utilisateurForm.proprietaire) }}
+                    {{ form_widget(utilisateurForm.proprietaire) }}
+                    {{ form_errors(utilisateurForm.proprietaire) }}
+                </div>
+                <div class="card-item">
+                    {{ form_label(utilisateurForm.type_bien) }}
+                    {{ form_widget(utilisateurForm.type_bien) }}
+                    {{ form_errors(utilisateurForm.type_bien) }}
+                </div>
+                <div class="card-item">
+                    {{ form_label(utilisateurForm.ancienneteEligible) }}
+                    {{ form_widget(utilisateurForm.ancienneteEligible) }}
+                    {{ form_errors(utilisateurForm.ancienneteEligible) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="card my-2">
+            <h4 class="card-header">Informations - Produit</h4>
+            <div class="card-info">
+                <div class="card-item-1" id="menu-deroulant">
+                    {{ form_label(utilisateurForm.produit_vise) }}
+                    {{ form_widget(utilisateurForm.produit_vise) }}
+                    {{ form_errors(utilisateurForm.produit_vise) }}
+                </div>
+                <div class="card-item-1" id="menu-deroulant">
+                    {{ form_row(utilisateurForm.energie) }}
+                </div>
+                <div class="card-item-1" id="menu-deroulant">
+                    {{ form_row(utilisateurForm.chauffage) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="card my-2">
+            <h4 class="card-header">Informations complémentaires</h4>
+            <div class="card-info">
+                <div class="card-item">
+                    {{ form_label(utilisateurForm.nbre_salle_bain) }}
+                    {{ form_widget(utilisateurForm.nbre_salle_bain) }}
+                    {{ form_errors(utilisateurForm.nbre_salle_bain) }}
+                </div>
+                <div class="card-item">
+                    {{ form_label(utilisateurForm.nbre_pers_foyer) }}
+                    {{ form_widget(utilisateurForm.nbre_pers_foyer) }}
+                    {{ form_errors(utilisateurForm.nbre_pers_foyer) }}
+                </div>
+                <div class="card-item">
+                    {{ form_label(utilisateurForm.revenu_fiscal) }}
+                    {{ form_widget(utilisateurForm.revenu_fiscal) }}
+                    {{ form_errors(utilisateurForm.revenu_fiscal) }}
+                </div>
+                {{ form_row(utilisateurForm._token) }}
+                {{ form_start(utilisateurForm) }}
+            </div>
+        </div>
+        <div>
+            <a class="btn btn-secondary mb-2" href="{{ path('utilisateur_list') }}">Retour</a>
+            <button class="submit btn btn-secondary mb-2" type="submit">Mettre à jour</button>
+        </div>
     </div>
 
-    <script src="/simulateur_aide/public/assets/js/loader.js" type="text/javascript"></script>
-    <script src="/simulateur_aide/public/assets/js/script.js" type="text/javascript"></script>
 {% endblock %}

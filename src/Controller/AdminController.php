@@ -146,7 +146,7 @@ class AdminController extends AbstractController
         return $this->redirectToRoute("utilisateur_list");
     }
 
-    // Editer les villes
+    // Editer un utilisateur
     /**
      * @Route("/admin/utilisateur/update/{id}", name="utilisateur_edit")
      */
@@ -158,6 +158,8 @@ class AdminController extends AbstractController
         if($utilisateurForm->isSubmitted() && $utilisateurForm->isValid())
         {
             $em = $this->getDoctrine()->getManager();
+            $utilisateurForm->getData()->setNom(strtoupper($utilisateurForm->getData()->getNom()));
+            $utilisateurForm->getData()->setPrenom(ucfirst(strtolower($utilisateurForm->getData()->getPrenom())));
             $em->flush();
 
             $this->addFlash('success', 'Les informations ont été modifié avec succès!');

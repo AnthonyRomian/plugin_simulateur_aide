@@ -1,20 +1,20 @@
 {% block body %}
 <div class="container">
-    <h4>Statistiques</h4>
-    <div class="graphs-container">
-        <div class="graph-group">
-            <h5 class="graph-title">Rapport Eau chaude sanitaire / Eau chaude sanitaire et chauffage</h5>
+    <h4 class="p-2 mb-2 bg-secondary text-white rounded">Statistiques</h4>
+    <div class="card-deck d-flex flex-row ">
+        <div class="card m-2 col-6">
+            <h5 class="card-header">Rapport Eau chaude sanitaire / Eau chaude sanitaire et chauffage</h5>
             <div class="graph-info">
-                <p class="graph-text">Il y a actuellement {{ nbre_sanit }} simulations effectuées en "eau chaude sanitaire" et {{ nbre_chauf }} "eau chaude sanitaire
-                    et chauffage"</p>
-                <canvas id="graphProduitVise"  class="graph-canva" style="display: block; width: 100%; "></canvas>
+                <h6 class="card-title">Il y a actuellement {{ nbre_sanit }} simulations effectuées en "eau chaude sanitaire" et {{ nbre_chauf }} "eau chaude sanitaire
+                    et chauffage"</h6>
+                <canvas id="graphProduitVise"  class="card-text" style="display: block; width: 100%; "></canvas>
             </div>
         </div>
-        <div class="graph-group">
-            <h5 class="graph-title">Les différents départements</h5>
+        <div class="card m-2 col-6">
+            <h5 class="card-header">Les différents départements</h5>
             <div class="graph-info">
-                <p class="graph-text">Il y a {{  tableau_sans_doublon2|length }} départements </p>
-                <canvas id="graphDepartement"  class="graph-canva" style="display: block; width: 100%; "></canvas>
+                <h6 class="card-title">Il y a {{  tableau_sans_doublon2|length }} départements </h6>
+                <canvas id="graphDepartement"  class="card-text" style="display: block; width: 100%; "></canvas>
             </div>
         </div>
     </div>

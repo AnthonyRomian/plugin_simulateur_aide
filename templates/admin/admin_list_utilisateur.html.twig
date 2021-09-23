@@ -18,11 +18,12 @@
     <div class="container">
         <h3>Simulateur d'aide</h3>
 {#        {{ dump() }}#}
-        <p>liste des simulations</p>
+        <h4 class="p-2 mb-2 bg-secondary text-white rounded">Liste des simulations</h4>
         <div>
             <div>
                 {% include 'admin/filter.html.twig' with {form_filter: form_filter} only %}
             </div>
+
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -61,8 +62,8 @@
                         <th>
                             <input name="delete_checkbox" id="selected_checkbox" type="checkbox" value="{{ utilisateur.id }}" >
                         </th>
-                        <td><a href="{{ path('utilisateur_profil', {'id': utilisateur.id }) }}">{{ utilisateur.nom }}</a></td>
-                        <td><a href="{{ path('utilisateur_profil', {'id': utilisateur.id }) }}">{{ utilisateur.prenom }}</a></td>
+                        <td><a class="text-secondary" href="{{ path('utilisateur_profil', {'id': utilisateur.id }) }}">{{ utilisateur.nom }}</a></td>
+                        <td><a class="text-secondary" href="{{ path('utilisateur_profil', {'id': utilisateur.id }) }}">{{ utilisateur.prenom }}</a></td>
                         <td>{{ utilisateur.codePostal }}</td>
                         <td>{{ utilisateur.ville }}</td>
                         <td>{{ utilisateur.tel }}</td>
