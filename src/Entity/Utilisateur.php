@@ -203,6 +203,11 @@ class Utilisateur
     private $agreeEmail = [];
 
     /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $rappel;
+
+    /**
      * @return array
      */
     public function getAgreeTerms(): ?array
@@ -445,6 +450,18 @@ class Utilisateur
         }
 
         $this->resultat = $resultat;
+
+        return $this;
+    }
+
+    public function getRappel(): ?bool
+    {
+        return $this->rappel;
+    }
+
+    public function setRappel(?bool $rappel): self
+    {
+        $this->rappel = $rappel;
 
         return $this;
     }
