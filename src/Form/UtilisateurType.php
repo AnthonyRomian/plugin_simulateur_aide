@@ -123,6 +123,7 @@ class UtilisateurType extends AbstractType
                 'label' => 'Nombre de salle de bain :'
             ])
             ->add('energie', ChoiceType::class,[
+                'label' => 'Energie actuelle',
                 'label_attr' => [
                     'class' => 'label'
                 ],
@@ -140,6 +141,7 @@ class UtilisateurType extends AbstractType
                 ],
             ])
             ->add('chauffage', ChoiceType::class,[
+                'label' => 'Type de chauffage actuel',
                 'label_attr' => [
                     'class' => 'label'
                 ],

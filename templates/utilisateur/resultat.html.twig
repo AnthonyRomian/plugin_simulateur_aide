@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{#<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -9,8 +9,9 @@
 
     <!-- JS -->
 
-</head>
-<body>
+</head>#}
+{% extends 'utilisateur/base.html.twig' %}
+
 {# read and display all flash messages #}
 {% block body %}
     <div class="tableau-resultat-conteneur container">
@@ -45,13 +46,15 @@
             <p class="alerte-proprietaire">Vous êtes locataire, veuillez contacter votre propriétaire avant toutes demarches</p>
         {% endif %}
         <footer>
-            <p>Vous pouvez prendre contact avec nous en répondant directement à cet e-mail</p>
-
+            <p>Vous pouvez prendre contact avec nous en cliquant sur le bouton ci-dessous</p>
+            <p><i class="fas fa-envelope"></i> contact@top-enr.com</p>
+            <p><i class="fas fa-phone-alt"></i> +33 0622310601 / +33 0604585843</p>
             <a class="button-link" href="https://top-enr.com/contact">Nous contacter</a>
+            <a class="button-link" href="https://calendly.com/topenr/15min">Prendre un RDV</a>
         </footer>
     </div>
 
 
 {% endblock %}
-</body>
-</html>
+
+

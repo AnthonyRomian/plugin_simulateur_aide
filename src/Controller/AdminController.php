@@ -170,5 +170,25 @@ class AdminController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/admin/utilisateur/template-rappel/{id}", name="mail_rappel", methods={"GET"})
+     */
+    public function templateRappel(Utilisateur $utilisateur): Response
+    {
+        return $this->render('email/contact-rappel.html.twig', [
+            'utilisateur' => $utilisateur,
+        ]);
+    }
+
+    /**
+     * @Route("/admin/utilisateur/template/{id}", name="mail", methods={"GET"})
+     */
+    public function template(Utilisateur $utilisateur): Response
+    {
+        return $this->render('email/contact.html.twig', [
+            'utilisateur' => $utilisateur,
+        ]);
+    }
+
 
 }

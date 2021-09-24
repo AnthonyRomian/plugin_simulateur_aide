@@ -37,7 +37,7 @@ ChauffageOk.addEventListener("click", () => {
                 } else {
                     div2.style.display = "none";
                     div1.style.display = "none";
-                    Chauffage.style.height = "12em"
+                    Chauffage.style.height = "15em"
                 }
             }
         })
@@ -66,7 +66,7 @@ ChauffageOk.addEventListener("click", () => {
                 } else {
                     div2.style.display = "none";
                     div1.style.display = "none";
-                    Chauffage.style.height = "12em"
+                    Chauffage.style.height = "15em"
                 }
             }
         })

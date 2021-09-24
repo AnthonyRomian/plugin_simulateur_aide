@@ -45,7 +45,7 @@ class SearchForm extends AbstractType
                 'label' => false,
                 'required' => false,
                 'attr' => [
-                    'placeholder' => '31'
+                    'placeholder' => 'Exemple : 31'
                 ]
             ])
             ->add('eauChaudeSanitaire', CheckboxType::class, [
