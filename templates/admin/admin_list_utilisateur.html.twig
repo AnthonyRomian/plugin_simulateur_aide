@@ -37,6 +37,8 @@
                     <th scope="col" class="table-secondary">Téléphone</th>
                     <th scope="col" class="table-secondary">E-mail</th>
                     <th scope="col" class="table-secondary">Date de simulation</th>
+                    <th scope="col" class="table-secondary">Rappel</th>
+
                     <th scope="col" class="table-secondary">Proprietaire</th>
                     <th scope="col" class="table-secondary">Type_de_bien</th>
                     <th scope="col" class="table-secondary">Anciennetée</th>
@@ -70,6 +72,13 @@
                         <td>{{ utilisateur.email }}</td>
 
                         <td>{{ utilisateur.dateSimulation|format_datetime('short', 'none', locale='en') }}</td>
+                        <td>{% set rappelOK = false %}
+                            {% if utilisateur.rappel == true  %}
+                                {% set rappelOK = true %}
+                                <input type="checkbox" value="rappel"   disabled="disabled" checked readonly>
+                            {% else %}
+                                <input type="checkbox" value="rappel"   disabled="disabled" readonly>
+                            {% endif %}</td>
                         <td>
                             {% set jesuisproprio = false %}
                             {% if utilisateur.proprietaire == true  %}

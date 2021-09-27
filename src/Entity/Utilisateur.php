@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UtilisateurRepository::class)
+ * @ORM\Table(name="wp_simulateur_aide_utilisateur")
  */
 class Utilisateur
 {

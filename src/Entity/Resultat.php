@@ -8,6 +8,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ResultatRepository::class)
+ * @ORM\Table(name="wp_simulateur_aide_resultat")
  *
  */
 class Resultat
