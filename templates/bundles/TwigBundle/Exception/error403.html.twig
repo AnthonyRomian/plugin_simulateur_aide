@@ -1,0 +1,9 @@
+{% extends '/bundles/TwigBundle/Exception/base_error.html.twig' %}
+
+{% block body %}
+    <h2>Vous n'avez pas les droits</h2>
+    <a href="https://top-enr.com/"><img src="/simulateur_aide/public/assets/file/error-403.png" alt="erreur_403"></a>
+
+{% endblock %}
+
+{% block title %}Erreur 403 ! | {{ parent() }}{% endblock %}

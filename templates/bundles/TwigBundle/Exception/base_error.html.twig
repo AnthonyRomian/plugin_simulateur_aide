@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Simulateur d'aide{% endblock %}</title>
+
+    <!-- CSS -->
+    <link href="/simulateur_aide/public/assets/css/normalize.css" rel="stylesheet">
+    <link href="/simulateur_aide/public/assets/css/style_error.css" rel="stylesheet">
+
+</head>
+<body>
+<div class="box">
+    <img src="/simulateur_aide/public/assets/file/ajax-loader.gif" alt="" class="loader">
+</div>
+<div class="container">
+    <a href="https://top-enr.com/"><img src="/simulateur_aide/public/assets/file/Logo-top-fond-noirv41.png" alt="erreur_404"></a>
+
+    {# read and display all flash messages #}
+{% block body %}
+
+{% endblock %}
+<p><a href="https://top-enr.com/" title="Go back to homepage">Revenir à l'accueil du site</a></p>
+</div>
+</body>
+{% block javascript %}
+<script src="/simulateur_aide/public/assets/js/loader.js" type="text/javascript" ></script>
+
+{% endblock %}
+
+</html>

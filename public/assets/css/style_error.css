@@ -1,0 +1,55 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    outline: none;
+    font-family: 'Poppins', sans-serif;
+}
+
+.loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    overflow: hidden;
+    margin-left: -24px; /* half width of the spinner gif */
+    margin-top: -24px; /* half height of the spinner gif */
+    text-align:center;
+    z-index:1234;
+    width: 48px; /* width of the spinner gif */
+    height: 48px; /*hight of the spinner gif +2px to fix IE8 issue */
+}
+
+.hidden {
+    animation: disparition 1s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes disparition {
+    100%{
+        opacity: 0;
+        display: none;
+    }
+}
+
+body {
+    margin: 20px 0;
+    overflow: auto;
+    height: 100%;
+
+    background: url("../file/bg.png"), -webkit-linear-gradient(top, #3bc436, #325e32);
+}
+h1, h2, a {
+    margin: 20px 0;
+    text-decoration: none;
+    color: black;
+}
+
+.container {
+    text-align: center;
+
+}
+
+a:hover {
+    color: white;
+}
+

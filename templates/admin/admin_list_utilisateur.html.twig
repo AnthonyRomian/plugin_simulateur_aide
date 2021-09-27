@@ -19,6 +19,11 @@
         <h3>Simulateur d'aide</h3>
 {#        {{ dump() }}#}
         <h4 class="p-2 mb-2 bg-secondary text-white rounded">Liste des simulations</h4>
+        {% if app.user %}
+            <div class="mb-3">
+                You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+            </div>
+        {% endif %}
         <div>
             <div>
                 {% include 'admin/filter.html.twig' with {form_filter: form_filter} only %}

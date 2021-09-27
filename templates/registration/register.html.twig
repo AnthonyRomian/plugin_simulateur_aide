@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+
+<title>S'enregistrer</title>
+
+{% block body %}
+    <h1>S'enregistrer</h1>
+
+    {{ form_start(registrationForm) }}
+        {{ form_errors(registrationForm) }}
+        {{ form_row(registrationForm.email) }}
+        {{ form_row(registrationForm.name) }}
+        {{ form_row(registrationForm.plainPassword, {
+            label: 'Password'
+        }) }}
+
+        <button type="submit" class="btn">S'enregistrer</button>
+    {{ form_end(registrationForm) }}
+{% endblock %}
