@@ -12,6 +12,7 @@ use App\Repository\UtilisateurRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use phpDocumentor\Reflection\Types\Array_;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,6 +24,7 @@ class AdminController extends AbstractController
 
     // Afficher les villes
     /**
+     * @IsGranted("ROLE_ADMIN")
      * @Route("/admin/utilisateur", name="utilisateur_list")
      */
     public function list(UtilisateurRepository $utilisateurRepository,
@@ -123,6 +125,7 @@ class AdminController extends AbstractController
 
     // Afficher un profil
     /**
+     * @IsGranted("ROLE_ADMIN")
      * @Route("/admin/utilisateur/profil/{id}", name="utilisateur_profil", methods={"GET"})
      */
     public function show(Utilisateur $utilisateur): Response
@@ -134,6 +137,7 @@ class AdminController extends AbstractController
 
     // Supprimer un utilisateur
     /**
+     * @IsGranted("ROLE_ADMIN")
      * @Route("/admin/utilisateur/delete/{id}", name="utilisateur_delete")
      */
     public function delete(Request $request, Utilisateur $id): Response
@@ -148,6 +152,7 @@ class AdminController extends AbstractController
 
     // Editer un utilisateur
     /**
+     * @IsGranted("ROLE_ADMIN")
      * @Route("/admin/utilisateur/update/{id}", name="utilisateur_edit")
      */
     public function update(Utilisateur $id, Request $request):Response
@@ -171,6 +176,7 @@ class AdminController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_ADMIN")
      * @Route("/admin/utilisateur/template-rappel/{id}", name="mail_rappel", methods={"GET"})
      */
     public function templateRappel(Utilisateur $utilisateur): Response
@@ -181,6 +187,7 @@ class AdminController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_ADMIN")
      * @Route("/admin/utilisateur/template/{id}", name="mail", methods={"GET"})
      */
     public function template(Utilisateur $utilisateur): Response

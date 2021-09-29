@@ -1,11 +1,18 @@
-<!DOCTYPE html>
+{% extends 'admin/base_admin.html.twig' %}
 
-<title>S'enregistrer</title>
+{% block title %}Enregistrer un compte{% endblock %}
 
 {% block body %}
-    <h1>S'enregistrer</h1>
+    <div class="container">
+        <form method="post">
+        <h1>Enregistrer un compte</h1>
 
-    {{ form_start(registrationForm) }}
+        {% if app.user %}
+            <div class="mb-3">
+                Vous êtes loguer en tant que {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+            </div>
+        {% endif %}
+        {{ form_start(registrationForm) }}
         {{ form_errors(registrationForm) }}
         {{ form_row(registrationForm.email) }}
         {{ form_row(registrationForm.name) }}
@@ -14,5 +21,8 @@
         }) }}
 
         <button type="submit" class="btn">S'enregistrer</button>
-    {{ form_end(registrationForm) }}
+        {{ form_end(registrationForm) }}
+        </form>
+    </div>
+
 {% endblock %}

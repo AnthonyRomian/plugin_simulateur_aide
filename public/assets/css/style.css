@@ -38,7 +38,7 @@ body {
     margin: 20px 0;
     overflow: auto;
     height: 100%;
-    min-width: 390px;
+    min-width: 430px;
     background: url("../file/bg.png"), -webkit-linear-gradient(bottom, #3bc436, #070707);
 }
 
@@ -373,6 +373,15 @@ table tr:last-child {
     border-radius: 0.2em;
 }
 
+footer {
+    display: flex;
+    flex-direction: column;
+
+}
+footer div {
+    margin: 10px 0;
+}
+
 @media screen and (min-width: 738px) and (max-width: 1024px) {
 
     body {
@@ -511,6 +520,8 @@ table tr:last-child {
         margin: 5px 7px;
         width: 90%;
     }
+
+
 
     /* BOUTONS */
     #button-2 {

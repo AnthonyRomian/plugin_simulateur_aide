@@ -16,13 +16,16 @@ use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 class RegistrationController extends AbstractController
 {
     /**
-     *
-     * @Route("/register", name="app_register")
+     * @IsGranted("ROLE_SUPER_ADMIN")
+     * @Route("/admin/register", name="app_register")
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, AppAuthenticator $authenticator): Response
     {
+
         $user = new UserAdmin();
         $form = $this->createForm(RegistrationFormType::class, $user);
+        $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -46,6 +49,8 @@ class RegistrationController extends AbstractController
                 'main' // firewall name in security.yaml
             );
         }
+
+
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),

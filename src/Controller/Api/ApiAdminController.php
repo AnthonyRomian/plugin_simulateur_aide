@@ -4,9 +4,14 @@ namespace App\Controller\Api;
 
 
 use App\Entity\Utilisateur;
+use App\Form\UtilisateurType;
 use App\Repository\ResultatRepository;
 use App\Repository\UtilisateurRepository;
+use App\Service\MailerService;
+use DateTime;
 use stdClass;
+use App\Service\Calculateur;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -120,6 +125,64 @@ class ApiAdminController extends AbstractController
         $json = $serializer->serialize($utilisateur, 'json', ['groups' => 'liste_utilisateurs']);
 
         return  new JsonResponse($json, 200, [], true);
+    }
+
+    /**
+     * @Route("/api/create", name="api_create", methods={"POST"})
+     */
+    public function createApi(Utilisateur $utilisateur): Response
+    {
+        $utilisateur->setDateSimulation(new DateTime('now'));
+        $utilisateurForm = $this->createForm(UtilisateurType::class, $utilisateur);
+        $calculateur = new Calculateur();
+        $mailerService = new MailerService();
+
+        //$utilisateurForm->handleRequest($request);
+        $agree = $utilisateur->getAgreeTerms();
+        $agreeEmail = $utilisateur->getAgreeEmail();
+
+
+
+            if ( sizeof($agree) == 1) {
+
+                if ( sizeof($agreeEmail) == 1) {
+                    // ENVOIE MAIL OK
+                    $entityManager = $this->getDoctrine()->getManager();
+
+                    $calculateur->calculerAide($utilisateur, $entityManager, $mailerService);
+                    $utilisateur->setRappel(false);
+                    $utilisateurForm->getData()->setNom(strtoupper($utilisateurForm->getData()->getNom()));
+                    $utilisateurForm->getData()->setPrenom(ucfirst(strtolower($utilisateurForm->getData()->getPrenom())));
+                    dd($utilisateurForm);
+                    $entityManager->persist($utilisateur);
+                    $entityManager->flush();
+                    $this->addFlash('success', 'Simulation réalisée avec succès');
+
+                    return $this->$utilisateur;
+
+                } else {
+                    // ENVOIE MAIL NON
+                    $entityManager = $this->getDoctrine()->getManager();
+
+                    $calculateur->calculerAide($utilisateur, $entityManager, $mailerService);
+
+                    $utilisateurForm->getData()->setNom(strtoupper($utilisateurForm->getData()->getNom()));
+                    $utilisateurForm->getData()->setPrenom(ucfirst(strtolower($utilisateurForm->getData()->getPrenom())));
+
+                    $entityManager->persist($utilisateur);
+                    $entityManager->flush();
+                    $this->addFlash('success', 'Simulation réalisée avec succès');
+                    return $this->$utilisateur->getId();
+
+                }
+            } else {
+                //n accepte pas le traitement des données
+                $this->addFlash('message', 'veuillez accepter l\'utilisation de vos données');
+                return $this->render('utilisateur/create.html.twig', [
+                    'utilisateurForm' => $utilisateurForm->createView(),
+                ]);
+            }
+
     }
 
 }
