@@ -1,4 +1,4 @@
-# This file is the entry point to configure your own services.
+# This images is the entry point to configure your own services.
 # Files in the packages/ subdirectory configure your dependencies.
 
 # Put parameters here that don't need to change on each machine where the app is deployed
@@ -6,7 +6,7 @@
 parameters:
 
 services:
-    # default configuration for services in *this* file
+    # default configuration for services in *this* images
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.

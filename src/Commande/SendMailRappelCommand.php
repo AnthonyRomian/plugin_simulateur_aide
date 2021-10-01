@@ -34,6 +34,7 @@ class SendMailRappelCommand extends Command
         $utilisateurs = $this->utilisateurRepository->findAll();
 
 
+
         for ( $i = 0; $i < sizeof($utilisateurs) ; $i++){
             $utilisateur = $utilisateurs[$i];
 
@@ -43,9 +44,8 @@ class SendMailRappelCommand extends Command
             $dateDuJour = time();
             //  comparer avec date de simulation + X mois.
             // si date actuelle superieure ou egale a date de simul + 30 jours alors envoyé mail de rappel
-            if ( $dateDuJour >= $dateSimulationRappel && $utilisateur->getRappel() == 0 ){
+            if ( $dateDuJour >= $dateSimulationRappel && $utilisateur->getRappel() == 0 && $utilisateur->getAgreeEmail() == true ){
                 $email = $utilisateur->getEmail();
-
                 $utilisateur->setRappel(true);
                 $this->mailerService->send("Rappel - Votre simulation", "contact@top-enr.com", $email, "email/contact.html.twig",
                     [

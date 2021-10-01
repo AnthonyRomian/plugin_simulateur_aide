@@ -39,7 +39,7 @@ body {
     overflow: auto;
     height: 100%;
     min-width: 430px;
-    background: url("../file/bg.png"), -webkit-linear-gradient(bottom, #3bc436, #070707);
+    background: url("../images/bg.png"), -webkit-linear-gradient(bottom, #3bc436, #070707);
 }
 
 ::selection {
@@ -391,7 +391,7 @@ footer div {
         margin: 20px 0;
         overflow: auto;
         height: 100%;
-        background: url("../file/bg.png"), -webkit-linear-gradient(bottom, #3bc436, #070707);
+        background: url("../images/bg.png"), -webkit-linear-gradient(bottom, #3bc436, #070707);
     }
 
     h3 {
@@ -568,7 +568,7 @@ footer div {
         margin: 20px 0;
         overflow: auto;
         height: 100%;
-        background: url("../file/bg.png"), -webkit-linear-gradient(bottom, #3bc436, #070707);
+        background: url("../images/bg.png"), -webkit-linear-gradient(bottom, #3bc436, #070707);
     }
 
     h3 {

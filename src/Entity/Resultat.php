@@ -11,6 +11,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Table(name="wp_simulateur_aide_resultat")
  *
  */
+
+//
 class Resultat
 {
     /**

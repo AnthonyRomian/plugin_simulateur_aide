@@ -1,8 +1,8 @@
-# Use the front controller as index file. It serves as a fallback solution when
+# Use the front controller as index images. It serves as a fallback solution when
 # every other rewrite/redirect fails (e.g. in an aliased environment without
 # mod_rewrite). Additionally, this reduces the matching process for the
 # start page (path "/") because otherwise Apache will apply the rewriting rules
-# to each configured DirectoryIndex file (e.g. index.php, index.html, index.pl).
+# to each configured DirectoryIndex images (e.g. index.php, index.html, index.pl).
 DirectoryIndex index.php
 
 # By default, Apache does not evaluate symbolic links if you did not enable this
@@ -23,7 +23,7 @@ DirectoryIndex index.php
     # Determine the RewriteBase automatically and set it as environment variable.
     # If you are using Apache aliases to do mass virtual hosting or installed the
     # project in a subdirectory, the base path will be prepended to allow proper
-    # resolution of the index.php file and to redirect to the correct URI. It will
+    # resolution of the index.php images and to redirect to the correct URI. It will
     # work in environments without path prefix as well, providing a safe, one-size
     # fits all solution. But as you do not need it in this case, you can comment
     # the following 2 lines to eliminate the overhead.

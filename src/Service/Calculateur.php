@@ -179,7 +179,7 @@ class Calculateur extends AbstractController
                 $entityManager->persist($resultat);
                 $entityManager->flush();
 
-                if (sizeof($agreeEmail) == 1) {
+                if ($agreeEmail  == 1) {
                     $email = $utilisateur->getEmail();
 
                     $mailerService->send("Votre simulation", "contact@top-enr.com", $email, "email/contact.html.twig",

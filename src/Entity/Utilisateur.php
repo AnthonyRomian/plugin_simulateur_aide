@@ -12,6 +12,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass=UtilisateurRepository::class)
  * @ORM\Table(name="wp_simulateur_aide_utilisateur")
  */
+
+//
 class Utilisateur
 {
     /**
@@ -199,9 +201,9 @@ class Utilisateur
     private $agreeTerms = [];
 
     /**
-     * @var array (type="boolean" , "mapped=false)
+     * @ORM\Column (type="boolean", nullable=true)
      */
-    private $agreeEmail = [];
+    private $agreeEmail;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
@@ -224,20 +226,17 @@ class Utilisateur
         $this->agreeTerms = $agreeTerms;
     }
 
-    /**
-     * @return array
-     */
-    public function getAgreeEmail(): ?array
+
+    public function getAgreeEmail(): ?bool
     {
         return $this->agreeEmail;
     }
 
-    /**
-     * @param array $agreeEmail
-     */
-    public function setAgreeEmail(array $agreeEmail): void
+
+    public function setAgreeEmail(bool $agreeEmail): self
     {
         $this->agreeEmail = $agreeEmail;
+        return $this;
     }
 
     public function getId(): ?int

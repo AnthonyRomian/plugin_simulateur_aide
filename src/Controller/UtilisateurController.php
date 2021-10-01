@@ -37,13 +37,15 @@ class UtilisateurController extends AbstractController
 
         $utilisateurForm->handleRequest($request);
         $agree = $utilisateur->getAgreeTerms();
+
         $agreeEmail = $utilisateur->getAgreeEmail();
 
 
         if ($utilisateurForm->isSubmitted() && $utilisateurForm->isValid()) {
+
             if ( sizeof($agree) == 1) {
 
-                if ( sizeof($agreeEmail) == 1) {
+                if ( $agreeEmail == 1) {
                     // ENVOIE MAIL OK
                     $calculateur->calculerAide($utilisateur, $entityManager, $mailerService);
                     $utilisateur->setRappel(false);

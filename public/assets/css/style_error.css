@@ -36,7 +36,7 @@ body {
     overflow: auto;
     height: 100%;
 
-    background: url("../file/bg.png"), -webkit-linear-gradient(top, #3bc436, #325e32);
+    background: url("../images/bg.png"), -webkit-linear-gradient(top, #3bc436, #325e32);
 }
 h1, h2, a {
     margin: 20px 0;
