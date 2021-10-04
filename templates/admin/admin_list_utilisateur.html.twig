@@ -137,7 +137,7 @@
             </table>
         </div>
         <a class="btn btn-secondary mb-2" href="" onclick="functionDelete()">Supprimer</a>
-        <a class="btn btn-secondary mb-2" id="edit_button" href="{{ path('utilisateur_edit',{'id':'utilisateur.id'}) }}">Editer</a>
+        <a class="btn btn-secondary mb-2" id="edit_button" href="{{ path('utilisateur_list') }}">Editer</a>
 
         <div class="d-flex justify-content-center">
             {% do utilisateurs.setPageRange(10) %}
