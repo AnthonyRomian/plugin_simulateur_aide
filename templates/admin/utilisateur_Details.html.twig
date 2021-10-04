@@ -1,7 +1,7 @@
 {% extends 'admin/base_admin.html.twig' %}
 
 {% block body %}
-    <div class="container">
+<div class="container">
     <h4 class="p-2 mb-2 bg-secondary text-white rounded">Profil Utilisateur</h4>
     <p>Vous pouvez retrouvez les informations détaillées de l'utilisateur</p>
     <div class="card my-2">
@@ -119,9 +119,7 @@
             </div>
         </div>
     </div>
-
     <div class="card my-2">
-{#        {{ dump() }}#}
         <h4 class="card-header">Envoyez le contact par mail</h4>
         <div class="card-info">
             <div class="card-item">
@@ -132,17 +130,17 @@
                     {% endfor %}
                 </select>
             </div>
-
             <div class="card-item">
                 <label for="">Envoyez au fournisseur : </label>
-                <a id="SendMailButton" class="btn btn-secondary mb-2 col-3" href="http://localhost/simulateur_aide/public/admin/sendFournisseur/fournisseurId"   >Envoyez </a>
+                <a id="SendMailButton" class="btn btn-secondary mb-2"
+                   href="http://localhost/simulateur_aide/public/admin/sendFournisseur/fournisseurId">Envoyez </a>
             </div>
         </div>
     </div>
     <a class="btn btn-secondary mb-2" id="edit_button" href="{{ path('utilisateur_list') }}">Retour</a>
 
 
-{% endblock %}
-{% block javascript %}
-    <script src="/simulateur_aide\public\assets\js\scriptMailFournisseur.js" type="text/javascript" ></script>
+    {% endblock %}
+    {% block javascript %}
+    <script src="/simulateur_aide\public\assets\js\scriptMailFournisseur.js" type="text/javascript"></script>
 {% endblock %}

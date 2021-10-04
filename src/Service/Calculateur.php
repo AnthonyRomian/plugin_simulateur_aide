@@ -17,36 +17,16 @@ use Twig\Error\SyntaxError;
 class Calculateur extends AbstractController
 {
 
-
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        $this->entityManager = $entityManager;
-    }
-
     /**
      * @throws SyntaxError
      * @throws TransportExceptionInterface
      * @throws RuntimeError
      * @throws LoaderError
      */
-    public function calculerAide(Utilisateur $utilisateur, EntityManagerInterface $entityManager, MailerService $mailerService)
+    public function calculerAide(Utilisateur $utilisateur, EntityManagerInterface $entityManager, MailerService $mailerService): Resultat
     {
-
-        $nbre_pers_foy = $utilisateur->getNbrePersFoyer();
-        $rfi = $utilisateur->getRevenuFiscal();
-        $cp = $utilisateur->getCodePostal();
-        $anciennete = $utilisateur->getAncienneteEligible();
-        $produitVise = $utilisateur->getProduitVise();
-        $energie = $utilisateur->getEnergie();
-
-        //$simulHeure = $utilisateur->getDateSimulation();
-        //$simulHeureObj = $simulHeure->format('Y-m-d H:i:s');
-
+        /*$simulHeure = $utilisateur->getDateSimulation();
+        $simulHeureObj = $simulHeure->format('Y-m-d H:i:s');*/
         //-------------PRIME RENOV---------//
         //---------CESI------//
         $renov_cesi_Jaune = 4000;
@@ -55,13 +35,11 @@ class Calculateur extends AbstractController
         $renov_cesi_Bleu = 0;
         $renov_non = 0;
 
-        //---------SSC------//
+        //---------S Sanitaire et Chauffage------//
         $renov_ssc_Jaune = 10000;
         $renov_ssc_Gris = 8000;
         $renov_ssc_Rouge = 4000;
         $renov_ssc_Bleu = 0;
-
-
 
         //-------------CEE-----------------//
         //---------CESI------//
@@ -71,7 +49,7 @@ class Calculateur extends AbstractController
         $cee_cesi_Bleu = 137;
         $cee_non = 0;
 
-        //---------SSC------//
+        //---------S Sanitaire et Chauffage------//
         $cee_ssc_Jaune = 1400;
         $cee_ssc_Gris = 1400;
         $cee_ssc_Rouge = 650;
@@ -84,19 +62,27 @@ class Calculateur extends AbstractController
         $pouce_Bleu = 2500;
         $pouce_Non = 0;
 
+        $nbre_pers_foy = $utilisateur->getNbrePersFoyer();
+        $rfi = $utilisateur->getRevenuFiscal();
+        $cp = $utilisateur->getCodePostal();
+        $anciennete = $utilisateur->getAncienneteEligible();
+        $produitVise = $utilisateur->getProduitVise();
+        $energie = $utilisateur->getEnergie();
         $dep = substr($cp, -5, 2);
-        $resultat = new Resultat();
-
-        $resultat->setUtilisateurSimulation($utilisateur);
         $agreeEmail = $utilisateur->getAgreeEmail();
 
+        // nouvelle instance de resultat
+        $resultat = new Resultat();
 
-        if ($anciennete == true) {
+        //attribution du resultat a l'utilisateur
+        $resultat->setUtilisateurSimulation($utilisateur);
 
+        if ($anciennete == true)
+        {
             //il est elligible aux aides
-            //si code postal ile de france
 
             # ile de france
+            # $typedeplafond_nbreFoyer_palier
             $plafond_prime_renov_1_1 = 20593;
             $plafond_prime_renov_1_2 = 25068;
             $plafond_prime_renov_1_3 = 38184;
@@ -113,13 +99,14 @@ class Calculateur extends AbstractController
             $plafond_prime_renov_4_2 = 51597;
             $plafond_prime_renov_4_3 = 79041;
 
-            $plafond_prime_renov_5_1 = 42381;
-            $plafond_prime_renov_5_2 = 51597;
-            $plafond_prime_renov_5_3 = 79041;
+            # $typedeplafond_nbreFoyer_palier
+            $plafond_prime_renov_5_1 = 48488;
+            $plafond_prime_renov_5_2 = 59026;
+            $plafond_prime_renov_5_3 = 90496;
 
-            $plafond_prime_renov_6_1 = 34993 + (($nbre_pers_foy - 5) * 6096);
-            $plafond_prime_renov_6_2 = 44860 + (($nbre_pers_foy - 5) * 7422);
-            $plafond_prime_renov_6_3 = 69081 + (($nbre_pers_foy - 5) * 11455);
+            $plafond_prime_renov_6_1 = $plafond_prime_renov_5_1 + (($nbre_pers_foy - 5) * 6096);
+            $plafond_prime_renov_6_2 = $plafond_prime_renov_5_2 + (($nbre_pers_foy - 5) * 7422);
+            $plafond_prime_renov_6_3 = $plafond_prime_renov_5_3 + (($nbre_pers_foy - 5) * 11455);
 
             # HORS ile de france
             $plafond_prime_renov_province_1_1 = 14879;
@@ -142,29 +129,31 @@ class Calculateur extends AbstractController
             $plafond_prime_renov_province_5_2 = 44860;
             $plafond_prime_renov_province_5_3 = 69081;
 
-            $plafond_prime_renov_province_6_1 = 34993 + (($nbre_pers_foy - 5) * 4412);
-            $plafond_prime_renov_province_6_2 = 44860 + (($nbre_pers_foy - 5) * 5651);
-            $plafond_prime_renov_province_6_3 = 69081 + (($nbre_pers_foy - 5) * 8744);
+            $plafond_prime_renov_province_6_1 = $plafond_prime_renov_province_5_1 + (($nbre_pers_foy - 5) * 4412);
+            $plafond_prime_renov_province_6_2 = $plafond_prime_renov_province_5_2 + (($nbre_pers_foy - 5) * 5651);
+            $plafond_prime_renov_province_6_3 = $plafond_prime_renov_province_5_3 + (($nbre_pers_foy - 5) * 8744);
 
+
+            # ZONE JAUNE
             if ($rfi > 0 && $rfi < $plafond_prime_renov_1_1 && $nbre_pers_foy == 1 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
                 $rfi > 0 && $rfi < $plafond_prime_renov_2_1 && $nbre_pers_foy == 2 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
                 $rfi > 0 && $rfi < $plafond_prime_renov_3_1 && $nbre_pers_foy == 3 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
                 $rfi > 0 && $rfi < $plafond_prime_renov_4_1 && $nbre_pers_foy == 4 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
                 $rfi > 0 && $rfi < $plafond_prime_renov_5_1 && $nbre_pers_foy == 5 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
                 $rfi > 0 && $rfi < $plafond_prime_renov_6_1 && $nbre_pers_foy >= 6 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
+
                 $rfi > 0 && $rfi < $plafond_prime_renov_province_1_1 && $nbre_pers_foy == 1 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95) ||
                 $rfi > 0 && $rfi < $plafond_prime_renov_province_2_1 && $nbre_pers_foy == 2 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95) ||
                 $rfi > 0 && $rfi < $plafond_prime_renov_province_3_1 && $nbre_pers_foy == 3 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95) ||
                 $rfi > 0 && $rfi < $plafond_prime_renov_province_4_1 && $nbre_pers_foy == 4 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95) ||
                 $rfi > 0 && $rfi < $plafond_prime_renov_province_5_1 && $nbre_pers_foy == 5 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95) ||
-                $rfi > 0 && $rfi < $plafond_prime_renov_province_6_1 && $nbre_pers_foy >= 6 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95)) {
-
+                $rfi > 0 && $rfi < $plafond_prime_renov_province_6_1 && $nbre_pers_foy >= 6 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95))
+            {
                 if ($produitVise == 'Eau chaude sanitaire') {
                     $resultat->setPrimeRenov($renov_cesi_Jaune);
                     $resultat->setCee($cee_cesi_Jaune);
                     $resultat->setCdpChauffage($pouce_Non);
                     $resultat->setMontantTotal($renov_cesi_Jaune + $cee_cesi_Jaune + $pouce_Non);
-
                 } elseif ($produitVise == 'Eau chaude sanitaire et chauffage' && $energie == 'Fioul') {
                     $resultat->setPrimeRenov($renov_ssc_Jaune);
                     $resultat->setCee($cee_ssc_Jaune);
@@ -179,9 +168,9 @@ class Calculateur extends AbstractController
                 $entityManager->persist($resultat);
                 $entityManager->flush();
 
+                //MAIL OK
                 if ($agreeEmail  == 1) {
                     $email = $utilisateur->getEmail();
-
                     $mailerService->send("Votre simulation", "contact@top-enr.com", $email, "email/contact.html.twig",
                         [
                             // ajouter tout les infos resultats
@@ -197,12 +186,14 @@ class Calculateur extends AbstractController
                 }
                 return $resultat;
 
+            # ZONE GRISE
             } elseif ($rfi > $plafond_prime_renov_1_1 && $rfi < $plafond_prime_renov_1_2 && $nbre_pers_foy == 1 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
                 $rfi > $plafond_prime_renov_2_1 && $rfi < $plafond_prime_renov_2_2 && $nbre_pers_foy == 2 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
                 $rfi > $plafond_prime_renov_3_1 && $rfi < $plafond_prime_renov_3_2 && $nbre_pers_foy == 3 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
                 $rfi > $plafond_prime_renov_4_1 && $rfi < $plafond_prime_renov_4_2 && $nbre_pers_foy == 4 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
                 $rfi > $plafond_prime_renov_5_1 && $rfi < $plafond_prime_renov_5_2 && $nbre_pers_foy == 5 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
                 $rfi > $plafond_prime_renov_6_1 && $rfi < $plafond_prime_renov_6_2 && $nbre_pers_foy >= 6 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
+
                 $rfi > $plafond_prime_renov_province_1_1 && $rfi < $plafond_prime_renov_province_1_2 && $nbre_pers_foy == 1 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95) ||
                 $rfi > $plafond_prime_renov_province_2_1 && $rfi < $plafond_prime_renov_province_2_2 && $nbre_pers_foy == 2 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95) ||
                 $rfi > $plafond_prime_renov_province_3_1 && $rfi < $plafond_prime_renov_province_3_2 && $nbre_pers_foy == 3 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95) ||
@@ -229,7 +220,7 @@ class Calculateur extends AbstractController
                 $entityManager->persist($resultat);
                 $entityManager->flush();
 
-                /*if (sizeof($agreeEmail) == 1) {
+                /*if ($agreeEmail == 1) {
 
                     $email = $utilisateur->getEmail();
 
@@ -246,12 +237,15 @@ class Calculateur extends AbstractController
                     $this->addFlash('success', 'Mail envoyé');
                 }*/
                 return $resultat;
+
+            # ZONE ROUGE
             } elseif ($rfi > $plafond_prime_renov_1_2 && $rfi < $plafond_prime_renov_1_3 && $nbre_pers_foy == 1 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
                 $rfi > $plafond_prime_renov_2_2 && $rfi < $plafond_prime_renov_2_3 && $nbre_pers_foy == 2 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
                 $rfi > $plafond_prime_renov_3_2 && $rfi < $plafond_prime_renov_3_3 && $nbre_pers_foy == 3 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
                 $rfi > $plafond_prime_renov_4_2 && $rfi < $plafond_prime_renov_4_3 && $nbre_pers_foy == 4 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
                 $rfi > $plafond_prime_renov_5_2 && $rfi < $plafond_prime_renov_5_3 && $nbre_pers_foy == 5 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
                 $rfi > $plafond_prime_renov_6_2 && $rfi < $plafond_prime_renov_6_3 && $nbre_pers_foy >= 6 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
+
                 $rfi > $plafond_prime_renov_province_1_2 && $rfi < $plafond_prime_renov_province_1_3 && $nbre_pers_foy == 1 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95) ||
                 $rfi > $plafond_prime_renov_province_2_2 && $rfi < $plafond_prime_renov_province_2_3 && $nbre_pers_foy == 2 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95) ||
                 $rfi > $plafond_prime_renov_province_3_2 && $rfi < $plafond_prime_renov_province_3_3 && $nbre_pers_foy == 3 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95) ||
@@ -278,7 +272,7 @@ class Calculateur extends AbstractController
                 $entityManager->persist($resultat);
                 $entityManager->flush();
 
-                /*if (sizeof($agreeEmail) == 1) {
+                /*if ($agreeEmail == 1) {
 
                     $email = $utilisateur->getEmail();
 
@@ -295,12 +289,15 @@ class Calculateur extends AbstractController
                     $this->addFlash('success', 'Mail envoyé');
                 }*/
                 return $resultat;
+
+            # ZONE BLEUE
             } elseif ($rfi > $plafond_prime_renov_1_3 && $nbre_pers_foy == 1 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
                 $rfi > $plafond_prime_renov_2_3 && $nbre_pers_foy == 2 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
                 $rfi > $plafond_prime_renov_3_3 && $nbre_pers_foy == 3 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
                 $rfi > $plafond_prime_renov_4_3 && $nbre_pers_foy == 4 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
                 $rfi > $plafond_prime_renov_5_3 && $nbre_pers_foy == 5 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
                 $rfi > $plafond_prime_renov_6_3 && $nbre_pers_foy >= 6 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
+
                 $rfi > $plafond_prime_renov_province_1_3 && $nbre_pers_foy == 1 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95) ||
                 $rfi > $plafond_prime_renov_province_2_3 && $nbre_pers_foy == 2 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95) ||
                 $rfi > $plafond_prime_renov_province_3_3 && $nbre_pers_foy == 3 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95) ||
@@ -327,7 +324,7 @@ class Calculateur extends AbstractController
                 $entityManager->persist($resultat);
                 $entityManager->flush();
 
-                /*if (sizeof($agreeEmail) == 1) {
+                /*if ($agreeEmail == 1) {
 
                     $email = $utilisateur->getEmail();
 
@@ -346,10 +343,12 @@ class Calculateur extends AbstractController
                 return $resultat;
             }
 
-        } else {
-
+        }
+        else
+        {
             $resultat->setUtilisateurSimulation($utilisateur);
 
+            //Definition des primes a ZERO
             $resultat->setPrimeRenov($renov_non);
             $resultat->setCee($cee_non);
             $resultat->setCdpChauffage($pouce_Non);
@@ -357,10 +356,9 @@ class Calculateur extends AbstractController
             $entityManager->persist($resultat);
             $entityManager->flush();
 
-            /*if (sizeof($agreeEmail) == 1) {
 
+            if ($agreeEmail== 1) {
                 $email = $utilisateur->getEmail();
-
                 $mailerService->send("Votre simulation", "contact@top-enr.com", $email, "email/contact.html.twig",
                     [
                         // ajouter tout les infos resultats
@@ -372,7 +370,7 @@ class Calculateur extends AbstractController
                     ]
                 );
                 $this->addFlash('success', 'Mail envoyé');
-            }*/
+            }
             return $resultat;
         }
         return $resultat;

@@ -166,7 +166,7 @@ class AdminController extends AbstractController
 
     // Editer un utilisateur
     /**
-     * @IsGranted("ROLE_ADMIN")
+     *
      * @Route("/admin/utilisateur/update/{id}", name="utilisateur_edit")
      */
     public function update(Utilisateur $id, Request $request):Response

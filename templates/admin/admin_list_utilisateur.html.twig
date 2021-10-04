@@ -1,27 +1,16 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>{% block title %}Simulateur d'aide{% endblock %}</title>
+{% extends 'admin/base_admin.html.twig' %}
 
-    <!-- CSS -->
-    <link href="../assets/css/normalize.css" rel="stylesheet">
-    <link href="../assets/css/style_admin.css" rel="stylesheet">
-{#    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">#}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-    <!-- JS -->
-
-</head>
+{% block title %}Simulateur d'aide{% endblock %}
 
 {% block body %}
     <div class="container">
         <h3>Simulateur d'aide</h3>
-{#        {{ dump() }}#}
+       {# {{ dump() }}#}
         <h4 class="p-2 mb-2 bg-secondary text-white rounded">Liste des simulations</h4>
         {% if app.user %}
             {% if is_granted("ROLE_SUPER_ADMIN") %}
-                <a class="btn btn-secondary mb-2" id="edit_button" href="{{ path('app_register') }}">Enregistrer un utilisateur</a>
+                <a class="btn btn-secondary mb-2" id="register_user_button" href="{{ path('app_register') }}">Enregistrer un
+                    utilisateur</a>
             {% endif %}
 
         {% endif %}
@@ -71,12 +60,17 @@
                 <tbody>
                 {% for utilisateur in utilisateurs %}
                     <tr>
-                        {# -----------    contact  -----------#}
+{#                        ----------- contact -----------#}
                         <th>
-                            <input name="delete_checkbox" id="selected_checkbox" type="checkbox" value="{{ utilisateur.id }}" >
+                            <input name="delete_checkbox" id="selected_checkbox" type="checkbox"
+                                   value="{{ utilisateur.id }}">
                         </th>
-                        <td><a class="text-secondary" href="{{ path('utilisateur_profil', {'id': utilisateur.id }) }}">{{ utilisateur.nom }}</a></td>
-                        <td><a class="text-secondary" href="{{ path('utilisateur_profil', {'id': utilisateur.id }) }}">{{ utilisateur.prenom }}</a></td>
+                        <td><a class="text-secondary"
+                               href="{{ path('utilisateur_profil', {'id': utilisateur.id }) }}">{{ utilisateur.nom }}</a>
+                        </td>
+                        <td><a class="text-secondary"
+                               href="{{ path('utilisateur_profil', {'id': utilisateur.id }) }}">{{ utilisateur.prenom }}</a>
+                        </td>
                         <td>{{ utilisateur.codePostal }}</td>
                         <td>{{ utilisateur.ville }}</td>
                         <td>{{ utilisateur.tel }}</td>
@@ -84,38 +78,38 @@
 
                         <td>{{ utilisateur.dateSimulation|format_datetime('short', 'none', locale='en') }}</td>
                         <td>{% set rappelOK = false %}
-                            {% if utilisateur.rappel == true  %}
+                            {% if utilisateur.rappel == true %}
                                 {% set rappelOK = true %}
-                                <input type="checkbox" value="rappel"   disabled="disabled" checked readonly>
+                                <input type="checkbox" value="rappel" disabled="disabled" checked readonly>
                             {% else %}
-                                <input type="checkbox" value="rappel"   disabled="disabled" readonly>
+                                <input type="checkbox" value="rappel" disabled="disabled" readonly>
                             {% endif %}</td>
                         <td>
                             {% set jesuisproprio = false %}
-                            {% if utilisateur.proprietaire == true  %}
+                            {% if utilisateur.proprietaire == true %}
                                 {% set jesuisproprio = true %}
-                                <input type="checkbox" value="proprio"   disabled="disabled" checked readonly>
-                                {% else %}
-                                    <input type="checkbox" value="proprio"   disabled="disabled" readonly>
+                                <input type="checkbox" value="proprio" disabled="disabled" checked readonly>
+                            {% else %}
+                                <input type="checkbox" value="proprio" disabled="disabled" readonly>
                             {% endif %}
                         </td>
                         <td>{{ utilisateur.typeBien }}</td>
                         <td>
                             {% set plsude2ans = false %}
-                            {% if utilisateur.ancienneteEligible == true  %}
+                            {% if utilisateur.ancienneteEligible == true %}
                                 {% set plsude2ans = true %}
-                                <input type="checkbox" value="plusDe2ans"   disabled="disabled" checked readonly>
+                                <input type="checkbox" value="plusDe2ans" disabled="disabled" checked readonly>
                             {% else %}
-                                <input type="checkbox" value="plusDe2ans"   disabled="disabled" readonly>
+                                <input type="checkbox" value="plusDe2ans" disabled="disabled" readonly>
                             {% endif %}
                         </td>
 
-                        {# -----------    enquete  -----------#}
+{#                        ----------- enquete -----------#}
                         <td>{{ utilisateur.produitVise }}</td>
                         <td>
                             {% if utilisateur.energie == "Selectionnez votre energie" %}
                                 N/A
-                            {% else  %}
+                            {% else %}
                                 {{ utilisateur.energie }}
                             {% endif %}
                         </td>
@@ -128,11 +122,11 @@
                             {% endfor %}
                         </td>
 
-                        {# -----------    enquete  -----------#}
+{#                        ----------- enquete -----------#}
                         <td>{{ utilisateur.nbreSalleBain }}</td>
                         <td>{{ utilisateur.nbrePersFoyer }}</td>
                         <td>{{ utilisateur.revenuFiscal }}</td>
-                        {# -----------    resultat  -----------#}
+{#                        ----------- resultat -----------#}
                         <td>{{ utilisateur.resultat.primeRenov }}</td>
                         <td>{{ utilisateur.resultat.cee }}</td>
                         <td>{{ utilisateur.resultat.cdpChauffage }}</td>
@@ -143,7 +137,7 @@
             </table>
         </div>
         <a class="btn btn-secondary mb-2" href="" onclick="functionDelete()">Supprimer</a>
-        <a class="btn btn-secondary mb-2" id="edit_button" href="{{ path('utilisateur_list') }}">Editer</a>
+        <a class="btn btn-secondary mb-2" id="edit_button" href="{{ path('utilisateur_edit',{'id':'utilisateur.id'}) }}">Editer</a>
 
         <div class="d-flex justify-content-center">
             {% do utilisateurs.setPageRange(10) %}
@@ -151,67 +145,68 @@
         </div>
     </div>
     <div>
-        {{  render(controller('App\\Controller\\AdminController::statistiques')) }}
+        {{ render(controller('App\\Controller\\AdminController::statistiques')) }}
     </div>
-
 {% endblock %}
-{% block javascrips %}
+{% block javascripts %}
     <script>
-        let checkboxs = document.getElementsByName('delete_checkbox')
-        console.log(checkboxs)
-        let bouton_select_all = document.getElementById('select_all_bouton')
-        let bouton_delete = document.getElementById('delete_button')
-        let bouton_edit = document.getElementById('edit_button')
+        let checkboxs = document.getElementsByName('delete_checkbox');
+        console.log(checkboxs);
+        let bouton_select_all = document.getElementById('select_all_bouton');
+        let bouton_delete = document.getElementById('delete_button');
+        let bouton_edit = document.getElementById('edit_button');
         var value_bouton = [];
         var value_bouton_edit = [];
         var tableau_requete_ajax = [];
         var tableau_requete_edit = [];
+        console.log(tableau_requete_edit);
 
-        /* BOUTON SUPPR & EDIT */
+        // BOUTON SUPPR & EDIT
         for (let i = 0; i < checkboxs.length; i++) {
             checkboxs[i].addEventListener('change', e => {
                 if (e.target.checked === true) {
                     let val_checkbox_current = checkboxs[i].value
-                    value_bouton[i] = checkboxs[i].value
+                    console.log(val_checkbox_current)
+                    value_bouton[i] = checkboxs[i].value;
                     //bouton edit
-                    let url_edit = "{{ path('utilisateur_edit',{'id':'utilisateur.id'}) }}";
-                    url_edit = url_edit.replace("utilisateur.id", value_bouton[i]);
-                    bouton_edit.href = (url_edit);
+                    let url_edit_list = "{{ path('utilisateur_edit',{'id':'utilisateur.id'}) }}";
+                    url_edit_list = url_edit_list.replace("utilisateur.id", value_bouton[i]);
+                    bouton_edit.href = url_edit_list;
                     tableau_requete_ajax = value_bouton.filter(function (el) {
                         return el != null;
                     });
-
+                    console.log(tableau_requete_ajax)
                 } else if (e.target.checked === false) {
                     // si + de 1 restant alors on met le dernier
                     if (value_bouton.length > 1) {
                         let val_checkbox_current = checkboxs[i].value
                         value_bouton[i] = null;
                         //bouton edit
-                        let url_edit = '{{ path('utilisateur_list') }}';
-                        bouton_edit.href = (url_edit);
+                        let url_edit_list = '{{ path('utilisateur_list') }}';
+                        bouton_edit.href = (url_edit_list);
                         tableau_requete_ajax = value_bouton.filter(function (el) {
                             return el != null;
                         });
                     } else {
                         // si inferieur a 1 ou egal a zero on met le lien de la list utilisateur
-                        let url_edit = '{{ path('utilisateur_list') }}';
-                        bouton_edit.href = url_edit
+                        let url_edit_list = '{{ path('utilisateur_list') }}';
+                        //bouton_edit.href = url_edit_list
                     }
                 }
             });
         }
 
         /* BOUTON SELECT ALL */
-        bouton_select_all.addEventListener('change', d => {
+        bouton_select_all.addEventListener('change', e => {
             for (var i = 0; i < checkboxs.length; i++) {
-                if (d.target.checked === true) {
+                if (e.target.checked === true) {
                     checkboxs[i].checked = true
                     value_bouton[i] = checkboxs[i]['attributes']['value']['value'];
                     tableau_requete_ajax = value_bouton.filter(function (el) {
                         return el != null;
                     });
                     //console.log(value_bouton)
-                } else if (d.target.checked === false) {
+                } else if (e.target.checked === false) {
                     checkboxs[i].checked = false
                     value_bouton.pop()
                     tableau_requete_ajax = value_bouton.filter(function (el) {
@@ -257,3 +252,4 @@
         }
     </script>
 {% endblock %}
+

@@ -34,7 +34,6 @@ class MailerService
     public function __construct (MailerInterface $mailer, Environment $twig){
         $this->mailer = $mailer;
         $this->twig = $twig;
-
     }
 
     /**
@@ -58,13 +57,6 @@ class MailerService
                 $this->twig->render($template, $parameters),
                 'text/html'
             );
-
-
-
         $this->mailer->send($email);
-
     }
-
-
-
 }

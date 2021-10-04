@@ -102,6 +102,7 @@ table{
     flex-wrap: wrap;
     flex-direction: row;
     width: 100%;
+    margin: 10px 0;
 }
 
 .card-item {

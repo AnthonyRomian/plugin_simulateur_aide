@@ -13,11 +13,6 @@ const fetchSearch = async(url) => {
 
     console.log(cp)
 
-    //'https://geo.api.gouv.fr/communes?nom=${url}&fields=code,nom,centre,codesPostaux'
-    //        `https://api-adresse.data.gouv.fr/search/?q=${url}&type=municipality&autocomplete=1`)
-
-    //console.log(ville[0]['properties']['postcode']);
-
 };
 
 
@@ -46,11 +41,16 @@ const searchDisplay = async() => {
             a.setAttribute('id', ville)
             a.setAttribute('value', ville)
             a.setAttribute('href', '#')
+
+
             a.setAttribute('onclick', "remplirField(this.textContent)")
             a.innerHTML = ville;
-
             div.append(a)
             console.log(div)
+
+
+
+
         }
 
     }

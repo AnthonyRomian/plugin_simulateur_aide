@@ -4,16 +4,18 @@ namespace App\Controller;
 
 use App\Entity\Utilisateur;
 use App\Form\UtilisateurType;
-use App\Repository\UtilisateurRepository;
 use App\Service\Calculateur;
 use App\Service\MailerService;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 
 class UtilisateurController extends AbstractController
@@ -33,52 +35,50 @@ class UtilisateurController extends AbstractController
         $utilisateur = new Utilisateur();
 
         $utilisateurForm = $this->createForm(UtilisateurType::class, $utilisateur);
+
+        // definition de la date de simulation de l utilisateur
         $utilisateur->setDateSimulation(new DateTime('now'));
 
         $utilisateurForm->handleRequest($request);
         $agree = $utilisateur->getAgreeTerms();
 
-        $agreeEmail = $utilisateur->getAgreeEmail();
-
-
         if ($utilisateurForm->isSubmitted() && $utilisateurForm->isValid()) {
 
-            if ( sizeof($agree) == 1) {
+            if (sizeof($agree) == 1) {
+                // l utlisateur accepte le traitement de ses données
 
-                if ( $agreeEmail == 1) {
-                    // ENVOIE MAIL OK
+                // Envoie vers service calculateur qui calcule les droits aux aides
+                try {
                     $calculateur->calculerAide($utilisateur, $entityManager, $mailerService);
-                    $utilisateur->setRappel(false);
-                    $entityManager = $this->getDoctrine()->getManager();
-                    $utilisateurForm->getData()->setNom(strtoupper($utilisateurForm->getData()->getNom()));
-                    $utilisateurForm->getData()->setPrenom(ucfirst(strtolower($utilisateurForm->getData()->getPrenom())));
-
-                    $entityManager->persist($utilisateur);
-                    $entityManager->flush();
-                    $this->addFlash('success', 'Simulation réalisée avec succès');
-
-                    return $this->redirectToRoute('resultat', [
-                        'id' => $utilisateur->getId(),
-                        'utilisateur' => $utilisateur
-                    ]);
-
-                } else {
-                    // ENVOIE MAIL NON
-                    $calculateur->calculerAide($utilisateur, $entityManager, $mailerService);
-
-                    $entityManager = $this->getDoctrine()->getManager();
-                    $utilisateurForm->getData()->setNom(strtoupper($utilisateurForm->getData()->getNom()));
-                    $utilisateurForm->getData()->setPrenom(ucfirst(strtolower($utilisateurForm->getData()->getPrenom())));
-
-                    $entityManager->persist($utilisateur);
-                    $entityManager->flush();
-                    $this->addFlash('success', 'Simulation réalisée avec succès');
-                    return $this->redirectToRoute('resultat', [
-                        'id' => $utilisateur->getId()
+                } catch (TransportExceptionInterface | RuntimeError | LoaderError | SyntaxError $e) {
+                    return $this->render('utilisateur/create.html.twig', [
+                        'utilisateurForm' => $utilisateurForm->createView(),
                     ]);
                 }
+
+                // le rappel est automatiquement mit a false l'utilisateur n'a pas été rappélé apres 1 mois
+                $utilisateur->setRappel(false);
+
+
+                $entityManager = $this->getDoctrine()->getManager();
+
+                // Formattage de nom et prenom
+                $utilisateurForm->getData()->setNom(strtoupper($utilisateurForm->getData()->getNom()));
+                $utilisateurForm->getData()->setPrenom(ucfirst(strtolower($utilisateurForm->getData()->getPrenom())));
+
+                // persist des données utilisateurs
+                $entityManager->persist($utilisateur);
+                $entityManager->flush();
+                $this->addFlash('success', 'Simulation réalisée avec succès');
+
+                // redirection vers la page résultat
+                return $this->redirectToRoute('resultat', [
+                    'id' => $utilisateur->getId(),
+                    'utilisateur' => $utilisateur
+                ]);
+
             } else {
-                //n accepte pas le traitement des données
+                // l utilisateur n accepte pas le traitement des données
                 $this->addFlash('message', 'veuillez accepter l\'utilisation de vos données');
                 return $this->render('utilisateur/create.html.twig', [
                     'utilisateurForm' => $utilisateurForm->createView(),

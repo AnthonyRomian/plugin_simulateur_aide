@@ -9,6 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserAdminRepository::class)
+ * @ORM\Table(name="wp_simulateur_aide_user_admin")
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
 class UserAdmin implements UserInterface
@@ -49,13 +50,6 @@ class UserAdmin implements UserInterface
     public function getEmail(): ?string
     {
         return $this->email;
-    }
-
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
-
-        return $this;
     }
 
     /**
