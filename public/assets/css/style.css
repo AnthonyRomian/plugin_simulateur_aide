@@ -35,11 +35,10 @@ body {
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
-    margin: 20px 0;
+    margin: 0;
     overflow: auto;
     height: 100%;
-    min-width: 430px;
-    background: url("../images/bg.png"), -webkit-linear-gradient(bottom, #3bc436, #070707);
+    min-width: 290px;
 }
 
 ::selection {
@@ -48,14 +47,13 @@ body {
 }
 
 .container {
-    width: 100%;
+    min-width: 290px;
     background: #fff;
     border-radius: 5px;
-    padding: 20px;
 }
 
 h3 {
-    font-size: 5em;
+    font-size: 3em;
 }
 
 .container p {
@@ -105,13 +103,13 @@ h3 {
     display: block;
     font-weight: 500;
     font-size: 2em;
-    margin: 5px 30px 10px 5px;
+    margin: 10px 5px 10px 5px;
 }
 
 .field input {
     font-size: 3em;
     width: 95%;
-    margin: 5px 10px 5px 10px;
+    margin: 10px 10px 5px 10px;
 }
 
 .logement {
@@ -146,12 +144,12 @@ h3 {
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-between;
-    width: 100%;
+    width: 40%;
 }
 form .page .field-2 input {
     margin: 0 20px;
-    height: 3em;
-    width: 5%;
+    height: 2.5em;
+    width: 15%;
 }
 
 .field-2 div label {
@@ -176,12 +174,20 @@ form .page .field-2 input {
     width: 100%;
     transition : 0.5s ease;
 }
-form .page .field-3 label {
+
+
+
+.field-3 label {
     font-size: 3em;
     display: block;
     font-weight: 500;
     width: 80%;
     margin: 5px 0;
+}
+
+.field-3 label:first-child {
+    font-size: 2em;
+    width: 100%;
 }
 
 form .page .field-3 input {
@@ -200,10 +206,7 @@ form .page .field-3 input {
     flex-direction: row;
     align-content: flex-start;
     margin: 15px 10px;
-}
-
-form .page .field-3 div label {
-    font-size: 3em;
+    width: 100%;
 }
 
 form .page .field-3 div div label {
@@ -254,7 +257,7 @@ form .page .field-4 input {
 /* BOUTONS */
 
 form .page .buttons {
-    margin-top: 4em;
+    margin-top: 3em;
 }
 
 form .page .buttons button {
@@ -337,7 +340,7 @@ header h5 {
 
 table{
     border-collapse: collapse;
-    width: 400px;
+    min-width: 290px;
     border: 2px solid;
     margin: 20px auto;
 }
@@ -382,16 +385,18 @@ footer div {
     margin: 10px 0;
 }
 
-@media screen and (min-width: 738px) and (max-width: 1024px) {
+@media screen and (min-width: 460px) and (max-width: 767px) {
 
     body {
-        display: flex;
-        align-items: flex-start;
-        justify-content: flex-start;
         margin: 20px 0;
-        overflow: auto;
         height: 100%;
-        background: url("../images/bg.png"), -webkit-linear-gradient(bottom, #3bc436, #070707);
+    }
+
+
+
+    .container {
+        margin: 0 20px;
+        width: 100%;
     }
 
     h3 {
@@ -458,12 +463,21 @@ footer div {
         height: 6em;
     }
 
-    .logement .field-2 .label {
-        font-size: 1.5em;
+    .field-2 div {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+    }
+    form .page .field-2 input {
+        margin: 0 10px;
+        height: 1.5em;
+        width: 5%;
     }
 
-    form .page .field-2 input {
-        height: 1.5em;
+    .logement .field-2 .label {
+        font-size: 1.5em;
     }
 
     .field-2 div label {
@@ -471,12 +485,12 @@ footer div {
     }
 
     .form-outer form .page .field-3 {
-        height: 6em;
+        height: 8em;
     }
 
-    form .page .field-3 label {
+    form .page .field-3 label:first-child {
         font-size: 2em;
-        width: 35%;
+        width: 100%;
     }
 
     form .page .field-3 input {
@@ -492,7 +506,7 @@ footer div {
     }
 
     form .page .field-3 div div label {
-        width: 35%;
+        width: 80%;
         font-size: 1.1em;
     }
 
@@ -508,6 +522,11 @@ footer div {
         flex-direction: row;
     }
 
+    .accord .field-4 {
+        height: 14em;
+
+    }
+
     .accord .field-4 div {
         display: flex;
         flex-wrap: wrap;
@@ -518,7 +537,7 @@ footer div {
     form .page .field-4 label {
         font-size: 1.5em;
         margin: 5px 7px;
-        width: 90%;
+        width: 85%;
     }
 
 
@@ -537,7 +556,7 @@ footer div {
         width: 50%;
         margin: 0 25%;
         height: calc(100% + 1em);
-        font-size: 2.5em;
+        font-size: 2em;
     }
 
     form .page .buttons {
@@ -548,7 +567,7 @@ footer div {
     }
 
     form .page .buttons .buttons-2 {
-        font-size: 2.5em;
+        font-size: 2em;
         margin: 0 0 0 0 !important;
     }
 
@@ -559,16 +578,16 @@ footer div {
 }
 
 /* PC */
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 767px) {
 
     body {
-        display: flex;
-        align-items: flex-start;
-        justify-content: flex-start;
         margin: 20px 0;
-        overflow: auto;
         height: 100%;
-        background: url("../images/bg.png"), -webkit-linear-gradient(bottom, #3bc436, #070707);
+    }
+
+    .container {
+        margin: 0 20px;
+        width: 100%;
     }
 
     h3 {
@@ -615,9 +634,16 @@ footer div {
         font-size: 1.5em;
     }
 
+    .field-2 div {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+    }
+
     .logement {
         flex-direction: row;
-        width: 100%;
     }
 
     .form-outer form .page .field-2 {
@@ -631,26 +657,30 @@ footer div {
     }
     form .page .field-2 input {
         height: 1.5em;
+        width: 5%;
     }
 
     .field-2 div label {
         font-size: 1.1em;
+        width: 30%;
     }
 
+
     .form-outer form .page .field-3 {
-        height: 6em;
+        height: 7em;
     }
     form .page .field-3 label {
         font-size: 2em;
-        width: 35%;
     }
 
     form .page .field-3 input {
         height: 1.1em;
+        margin: 5px 0;
     }
 
     #utilisateur_produit_vise label {
         font-size: 1.1em;
+        width: 45%;
     }
 
     form .page .field-3 div label {
@@ -658,7 +688,7 @@ footer div {
     }
 
     form .page .field-3 div div label {
-        width: 40%;
+        width: 45%;
         font-size: 1.1em;
     }
 

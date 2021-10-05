@@ -7,7 +7,7 @@
     <div class="container">
 
         <h3>Simulateur d'aide</h3>
-        <p>Renseignez les informations demandées afin d'obtenir votre droit aux différentes aides</p>
+        <p id="reframe_top">Renseignez les informations demandées afin d'obtenir votre droit aux différentes aides</p>
         <div class="form-outer">
             {{ form_start(utilisateurForm, { 'id' : "registerForm", 'class': "container"}) }}
             <div class="page slide-page">
@@ -18,7 +18,7 @@
                         </div>
                     {% endfor %}
                 {% endfor %}
-                <div class="title">Contact</div>
+                <div class="title" >Contact</div>
                 <div class="coordonnees">
                     <div class="field">
                         {{ form_label(utilisateurForm.nom) }}
@@ -78,8 +78,8 @@
                     <button class="firstNext next">Suivant</button>
                 </div>
             </div>
-            <div class="page">
-                <div class="title">Informations</div>
+            <div class="page" >
+                <div class="title" >Informations</div>
                 {{ form_errors(utilisateurForm) }}
                 <div class="enquete">
                     <div class="field-3" id="menu-deroulant">
