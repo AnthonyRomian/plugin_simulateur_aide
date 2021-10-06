@@ -50,7 +50,10 @@
                     </div>
                     <div class="field test2">
                         {{ form_label(utilisateurForm.ville) }}
-                        {{ form_widget(utilisateurForm.ville, {'id': 'villeField', 'value': ''}) }}
+{#                        {{ form_widget(utilisateurForm.ville, {'id': 'villeField', 'value': ''}) }}#}
+                        <input list="lstVilles" type="text" id="villeField" name="utilisateur[ville]">
+                        <datalist id="lstVilles">
+                        </datalist>
                         {{ form_errors(utilisateurForm.ville) }}
 
                     </div>
@@ -132,7 +135,6 @@
                     <button class="prev-1 prev buttons-2 ">Précédent</button>
                     <button type="submit" class="submit btn btn-info buttons-2">Calculer</button>
                 </div>
-
             </div>
         </div>
     </div>

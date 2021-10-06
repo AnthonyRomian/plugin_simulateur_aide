@@ -175,6 +175,7 @@ class Calculateur extends AbstractController
                         [
                             // ajouter tout les infos resultats
                             "name" => $resultat->getUtilisateurSimulation()->getNom(),
+                            "prenom" => $resultat->getUtilisateurSimulation()->getPrenom(),
                             "prime_renov" => $resultat->getPrimeRenov(),
                             "prime_cee" => $resultat->getCee(),
                             "prime_fioul" => $resultat->getCdpChauffage(),
@@ -228,6 +229,7 @@ class Calculateur extends AbstractController
                         [
                             // ajouter tout les infos resultats
                             "name" => $utilisateur->getNom(),
+                            "prenom" => $resultat->getUtilisateurSimulation()->getPrenom(),
                             "prime_renov" => $utilisateur->getResultat()->getPrimeRenov(),
                             "prime_cee" => $utilisateur->getResultat()->getCee(),
                             "prime_fioul" => $utilisateur->getResultat()->getCdpChauffage(),
@@ -280,6 +282,7 @@ class Calculateur extends AbstractController
                         [
                             // ajouter tout les infos resultats
                             "name" => $utilisateur->getNom(),
+                            "prenom" => $resultat->getUtilisateurSimulation()->getPrenom(),
                             "prime_renov" => $utilisateur->getResultat()->getPrimeRenov(),
                             "prime_cee" => $utilisateur->getResultat()->getCee(),
                             "prime_fioul" => $utilisateur->getResultat()->getCdpChauffage(),
@@ -332,6 +335,7 @@ class Calculateur extends AbstractController
                         [
                             // ajouter tout les infos resultats
                             "name" => $utilisateur->getNom(),
+                            "prenom" => $resultat->getUtilisateurSimulation()->getPrenom(),
                             "prime_renov" => $utilisateur->getResultat()->getPrimeRenov(),
                             "prime_cee" => $utilisateur->getResultat()->getCee(),
                             "prime_fioul" => $utilisateur->getResultat()->getCdpChauffage(),
@@ -363,6 +367,7 @@ class Calculateur extends AbstractController
                     [
                         // ajouter tout les infos resultats
                         "name" => $utilisateur->getNom(),
+                        "prenom" => $resultat->getUtilisateurSimulation()->getPrenom(),
                         "prime_renov" => $utilisateur->getResultat()->getPrimeRenov(),
                         "prime_cee" => $utilisateur->getResultat()->getCee(),
                         "prime_fioul" => $utilisateur->getResultat()->getCdpChauffage(),

@@ -10,11 +10,10 @@ const fetchSearch = async(url) => {
     cp = await fetch(
         `https://apicarto.ign.fr/api/codes-postaux/communes/${url}`)
         .then(res => res.json())
-
     console.log(cp)
-
 };
 
+const dataList = document.getElementById('lstVilles')
 
 //search
 const searchDisplay = async() => {
@@ -27,48 +26,35 @@ const searchDisplay = async() => {
     for (var i = 0 ; i < cp.length ; i++){
         let ville = cp[i]['nomCommune'];
         if (cp.length <= 1 ) {
-
             villeField.value = ville;
-
         }
         else if (cp.length > 1){
 
+            optionListVille = document.createElement('option')
 
-            a = document.createElement('div')
             //tableau de ville
-
             villes.push(ville);
-            a.setAttribute('id', ville)
-            a.setAttribute('value', ville)
-            a.setAttribute('href', '#')
+            optionListVille.setAttribute('id', ville)
+            optionListVille.setAttribute('value', ville)
+            optionListVille.setAttribute('href', '#')
+            optionListVille.setAttribute('onclick', "remplirField(this.textContent)")
 
-
-            a.setAttribute('onclick', "remplirField(this.textContent)")
-            a.innerHTML = ville;
-            div.append(a)
-            console.log(div)
-
-
-
-
+            optionListVille.innerHTML = ville;
+            dataList.append(optionListVille)
         }
 
     }
-
     console.log(divVille[0])
-    divVille[0].appendChild(div);
-
-
-
+    divVille[0].appendChild(dataList);
 };
 
 searchInput.addEventListener('input', (e) => {
     search = `${e.target.value}`
-    searchDisplay();
-    console.log(search)
+    if(search.length == 5)
+    {
+        searchDisplay();
+        console.log(search);
+    }
 })
-
-
-
 
 fetchSearch();

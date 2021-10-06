@@ -79,6 +79,7 @@ class Utilisateur
      *     minMessage="Rentrez un nom de ville",
      *     maxMessage="Rentrez un nom de ville"
      * )
+     * @Assert\Regex(pattern="/^([^0-9]*)$/", message="Lettres seulement")
      * @Groups({"liste_utilisateurs"})
      */
     private $ville;

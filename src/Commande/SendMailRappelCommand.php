@@ -52,6 +52,7 @@ class SendMailRappelCommand extends Command
                         [
                             // ajouter tous les infos resultats
                             "name" => $utilisateur->getNom(),
+                            "prenom" => $utilisateur->getPrenom(),
                             "prime_renov" => $utilisateur->getResultat()->getPrimeRenov(),
                             "prime_cee" => $utilisateur->getResultat()->getCee(),
                             "prime_fioul" => $utilisateur->getResultat()->getCdpChauffage(),
