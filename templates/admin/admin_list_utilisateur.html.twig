@@ -3,14 +3,14 @@
 {% block title %}Simulateur d'aide{% endblock %}
 
 {% block body %}
-    <div class="container">
+    <div class="m-4">
         <h3>Simulateur d'aide</h3>
        {# {{ dump() }}#}
         <h4 class="p-2 mb-2 bg-secondary text-white rounded">Liste des simulations</h4>
         {% if app.user %}
             {% if is_granted("ROLE_SUPER_ADMIN") %}
                 <a class="btn btn-secondary mb-2" id="register_user_button" href="{{ path('app_register') }}">Enregistrer un
-                    utilisateur</a>
+                    Administrateur plugin</a>
             {% endif %}
 
         {% endif %}

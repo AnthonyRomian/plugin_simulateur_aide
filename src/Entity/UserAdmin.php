@@ -27,6 +27,14 @@ class UserAdmin implements UserInterface
     private $email;
 
     /**
+     * @param mixed $email
+     */
+    public function setEmail($email): void
+    {
+        $this->email = $email;
+    }
+
+    /**
      * @ORM\Column(type="json")
      */
     private $roles = [];
@@ -69,7 +77,7 @@ class UserAdmin implements UserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        $roles[] = 'ROLE_ADMIN';
 
         return array_unique($roles);
     }

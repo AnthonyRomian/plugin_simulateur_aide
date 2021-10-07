@@ -9,6 +9,7 @@ use App\Form\SearchForm;
 use App\Form\UtilisateurType;
 use App\Repository\WpUsersRepository;
 use App\Repository\UtilisateurRepository;
+use App\Service\Calculateur;
 use App\Service\MailerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -28,7 +29,7 @@ class AdminController extends AbstractController
 
     // Afficher les villes
     /**
-     * @IsGranted("ROLE_ADMIN")
+     *
      * @Route("/admin/utilisateur", name="utilisateur_list")
      */
     public function list(UtilisateurRepository $utilisateurRepository,
@@ -169,14 +170,22 @@ class AdminController extends AbstractController
      *
      * @Route("/admin/utilisateur/update/{id}", name="utilisateur_edit")
      */
-    public function update(Utilisateur $id, Request $request):Response
+    public function update(Utilisateur $id,
+                           Request $request,
+                           Calculateur $calculateur,
+                           EntityManagerInterface $entityManager,
+                           MailerService $mailerService
+    ):Response
     {
 
         $utilisateurForm = $this->createForm(UtilisateurType::class, $id);
         $utilisateurForm->handleRequest($request);
+
         if($utilisateurForm->isSubmitted() && $utilisateurForm->isValid())
         {
             $em = $this->getDoctrine()->getManager();
+
+            $calculateur->majAide($id, $entityManager, $mailerService);
             $utilisateurForm->getData()->setNom(strtoupper($utilisateurForm->getData()->getNom()));
             $utilisateurForm->getData()->setPrenom(ucfirst(strtolower($utilisateurForm->getData()->getPrenom())));
             $em->flush();
