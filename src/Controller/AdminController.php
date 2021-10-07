@@ -287,14 +287,8 @@ class AdminController extends AbstractController
                     "total" => $total,
                 ]
             );
-        } catch (TransportExceptionInterface $e) {
-
-        } catch (LoaderError $e) {
-
-        } catch (RuntimeError $e) {
-
-        } catch (SyntaxError $e) {
-
+        } catch (TransportExceptionInterface | LoaderError | RuntimeError | SyntaxError $e) {
+            return $this->redirectToRoute("utilisateur_list");
         }
 
         return $this->redirectToRoute("utilisateur_list");

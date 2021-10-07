@@ -2,9 +2,7 @@ const searchInput = document.getElementById('searchInput');
 const villeField = document.getElementById('villeField')
 const divVille = document.getElementsByClassName('test2')
 
-
 let search = '';
-
 
 const fetchSearch = async(url) => {
     cp = await fetch(

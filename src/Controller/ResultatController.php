@@ -17,10 +17,8 @@ class ResultatController extends AbstractController
     /**
      * @Route("/resultat/{id}", name="resultat", methods={"GET"})
      */
-    public function resultat(Utilisateur $utilisateur, MailerService $mailerService): Response
+    public function resultat(Utilisateur $utilisateur): Response
     {
-
-
         return $this->render('utilisateur/resultat.html.twig', [
             'utilisateur' => $utilisateur,
         ]);
