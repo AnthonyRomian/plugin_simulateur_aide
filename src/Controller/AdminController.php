@@ -155,7 +155,7 @@ class AdminController extends AbstractController
      * @IsGranted("ROLE_ADMIN")
      * @Route("/admin/utilisateur/delete/{id}", name="utilisateur_delete")
      */
-    public function delete(Request $request, Utilisateur $id): Response
+    public function delete(Utilisateur $id): Response
     {
 
         $em = $this->getDoctrine()->getManager();
@@ -191,7 +191,6 @@ class AdminController extends AbstractController
             $em->flush();
 
             $this->addFlash('success', 'Les informations ont été modifié avec succès!');
-            return $this->redirectToRoute("utilisateur_list");
         }
         return $this->render('admin/utilisateur_edit.html.twig', [
             'utilisateurForm' => $utilisateurForm->createView()
@@ -223,9 +222,9 @@ class AdminController extends AbstractController
 
     /**
      * @IsGranted("ROLE_ADMIN")
-     * @Route("/admin/sendFournisseur/{id}/{idUser}", name="send_fournisseur")
+     * @Route("/admin/utilisateur/profil/sendFournisseur/{id}/{idUser}", name="send_fournisseur")
      */
-    public function SendMailFounisseur(Request $request,WpUsers  $fournisseur, Utilisateur $idUser, MailerService $mailerService)
+    public function SendMailFounisseur(WpUsers  $fournisseur, Utilisateur $idUser, MailerService $mailerService)
     {
 
         $email = $fournisseur->getUserEmail();

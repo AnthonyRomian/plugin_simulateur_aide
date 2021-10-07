@@ -141,12 +141,13 @@
     </div>
 {% endblock %}
 {% block javascript %}
-    <script>
-        function remplirField(villeChoisie){
+
+    <script src="{{ asset('assets/js/script.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('assets/js/script_ville.js') }}" type="text/javascript"></script>
+    <script >
+    function remplirField(villeChoisie){
         villeField.value = villeChoisie;
     }
     </script>
-    <script src="{{ asset('assets/js/script_ville.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('assets/js/script.js') }}" type="text/javascript"></script>
 {% endblock %}
 

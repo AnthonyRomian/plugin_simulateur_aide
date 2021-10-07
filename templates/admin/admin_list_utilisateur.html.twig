@@ -228,7 +228,7 @@
                     let idUser = tableau_requete_ajax[f]
                     console.log(idUser)
                     // Executer une requete pour chaque selectionné
-                    fetch("/wordpress_test/simulateur_aide/public/admin/utilisateur/delete/" + idUser, {
+                    fetch("{{ path }}utilisateur/delete/" + idUser, {
                         method: "POST"
                     }).then(response => {
                         // je teste si je suis sur le dernier utilisateur à traiter
@@ -240,10 +240,10 @@
                                     window.reload();
                                 }, 5000);
                             } else {
-                                /*setTimeout(function () {
+                                setTimeout(function () {
                                     window.reload();
                                 }, 5000);
-                                console.error('Retour du serveur : ', response.status)*/
+                                console.error('Retour du serveur : ', response.status)
                             }
                         }
                     });
