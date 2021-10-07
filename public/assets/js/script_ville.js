@@ -13,17 +13,18 @@ const fetchSearch = async(url) => {
     console.log(cp)
 };
 
-const dataList = document.getElementById('lstVilles')
+let dataList = document.getElementById('lstVilles')
 
 //search
 const searchDisplay = async() => {
     await fetchSearch(search);
-    let villes = [];
 
+    var villes = [];
 
     var select = document.createElement('select')
     var div = document.createElement('div')
     for (var i = 0 ; i < cp.length ; i++){
+
         let ville = cp[i]['nomCommune'];
         if (cp.length <= 1 ) {
             villeField.value = ville;

@@ -116,7 +116,7 @@ header h5 {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-evenly;
     width: 100%;
 }
 .card-item label:first-child,

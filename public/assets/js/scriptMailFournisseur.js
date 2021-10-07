@@ -14,8 +14,8 @@ document.addEventListener('DOMContentLoaded', function() {
 function getNameFournisseur() {
     fournisseurChoisi = fournisseurChoisiSelect.value;
     console.log(fournisseurChoisi);
-    var url_edit = "http://localhost/simulateur_aide/public/admin/sendFournisseur/fournisseurId";
-    url_edit = url_edit.replace("http://localhost/simulateur_aide/public/admin/sendFournisseur/fournisseurId", "http://localhost/simulateur_aide/public/admin/sendFournisseur/"+fournisseurChoisi+"/"+idUtil);
+    var url_edit = "http://localhost/wordpress_test/simulateur_aide/public/admin/sendFournisseur/fournisseurId";
+    url_edit = url_edit.replace("http://localhost/wordpress_test/simulateur_aide/public/admin/sendFournisseur/fournisseurId", "http://localhost/wordpress_test/simulateur_aide/public/admin/sendFournisseur/"+fournisseurChoisi+"/"+idUtil);
     buttonEnvoyer.href = (url_edit);
     console.log(buttonEnvoyer.href)
 }

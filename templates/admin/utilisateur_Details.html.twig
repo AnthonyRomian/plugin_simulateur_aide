@@ -133,7 +133,7 @@
             <div class="card-item">
                 <label for="">Envoyez au fournisseur : </label>
                 <a id="SendMailButton" class="btn btn-secondary mb-2"
-                   href="http://localhost/simulateur_aide/public/admin/sendFournisseur/fournisseurId">Envoyez </a>
+                   href="">Envoyez </a>
             </div>
         </div>
     </div>
@@ -141,6 +141,6 @@
 
 
     {% endblock %}
-    {% block javascript %}
-    <script src="/simulateur_aide\public\assets\js\scriptMailFournisseur.js" type="text/javascript"></script>
+    {% block javascripts %}
+    <script src="{{ asset('assets/js/scriptMailFournisseur.js') }}" type="text/javascript"></script>
 {% endblock %}

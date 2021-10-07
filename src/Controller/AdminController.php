@@ -29,7 +29,7 @@ class AdminController extends AbstractController
 
     // Afficher les villes
     /**
-     *
+     * @IsGranted("ROLE_ADMIN")
      * @Route("/admin/utilisateur", name="utilisateur_list")
      */
     public function list(UtilisateurRepository $utilisateurRepository,
@@ -167,7 +167,7 @@ class AdminController extends AbstractController
 
     // Editer un utilisateur
     /**
-     *
+     * @IsGranted("ROLE_ADMIN")
      * @Route("/admin/utilisateur/update/{id}", name="utilisateur_edit")
      */
     public function update(Utilisateur $id,
@@ -185,7 +185,7 @@ class AdminController extends AbstractController
         {
             $em = $this->getDoctrine()->getManager();
 
-            $calculateur->majAide($id, $entityManager, $mailerService);
+            $calculateur->calculerAide($id, $entityManager, $mailerService);
             $utilisateurForm->getData()->setNom(strtoupper($utilisateurForm->getData()->getNom()));
             $utilisateurForm->getData()->setPrenom(ucfirst(strtolower($utilisateurForm->getData()->getPrenom())));
             $em->flush();
@@ -298,7 +298,7 @@ class AdminController extends AbstractController
 
         }
 
-//        return $this->redirectToRoute("utilisateur_list");
+        return $this->redirectToRoute("utilisateur_list");
 
 
         // --------- TEST RENDER MAIL------

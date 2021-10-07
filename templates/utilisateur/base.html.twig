@@ -5,9 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% block title %}Simulateur d'aide{% endblock %}</title>
         <!-- CSS -->
-        <link href="/simulateur_aide/public/assets/css/normalize.css" rel="stylesheet">
-        {#<link href="../public/assets/css/bootstrap.min.css" rel="stylesheet">#}
-        <link href="/simulateur_aide/public/assets/css/style.css" rel="stylesheet">
+        <link href="{{ asset('assets/css/normalize.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
 
         <!-- JS -->
         <script src="https://kit.fontawesome.com/8c1ccebd78.js" crossorigin="anonymous"></script>
@@ -17,7 +16,7 @@
     </head>
     <body>
     <div class="box">
-        <img src="/simulateur_aide/public/assets/images/ajax-loader.gif" alt="" class="loader">
+        <img src="{{ asset('assets/images/ajax-loader.gif') }}" alt="" class="loader">
     </div>
 
         {# read and display all flash messages #}
@@ -29,5 +28,5 @@
 
 
     {% endblock %}
-    <script src="/simulateur_aide/public/assets/js/loader.js" type="text/javascript" ></script>
+    <script src="{{ asset('assets/js/loader.js') }}" type="text/javascript" ></script>
 </html>
