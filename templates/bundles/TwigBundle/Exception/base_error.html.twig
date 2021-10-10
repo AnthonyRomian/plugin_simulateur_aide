@@ -15,17 +15,17 @@
     <img src="{{ asset('assets/images/ajax-loader.gif') }}" alt="" class="loader">
 </div>
 <div class="container">
-    <a href="https://top-enr.com/"><img src="{{ asset('assets/images/Logo-top-fond-noirv41.png') }}" alt="erreur_404"></a>
+    <a href="https://top-enr.com/" target="_blank"><img src="{{ asset('assets/images/Logo-top-fond-noirv41.png') }}" alt="logo_fond_noir"></a>
 
     {# read and display all flash messages #}
 {% block body %}
 
 {% endblock %}
-<p><a href="https://top-enr.com/" title="Go back to homepage">Revenir à l'accueil du site</a></p>
+<p><a href="https://top-enr.com/" title="Go back to homepage" target="_blank">Revenir à l'accueil du site</a></p>
 </div>
 </body>
 {% block javascript %}
-<script src="{{ asset('assets/images/ajax-loader.gif') }}" type="text/javascript" ></script>
+<script src="{{ asset('assets/js/loader.js') }}" type="text/javascript" ></script>
 {% endblock %}
 
 </html>

@@ -228,7 +228,7 @@
                     let idUser = tableau_requete_ajax[f]
                     console.log(idUser)
                     // Executer une requete pour chaque selectionné
-                    fetch("{{ path }}utilisateur/delete/" + idUser, {
+                    fetch("/simulateur_aide/public/admin/utilisateur/delete/" + idUser, {
                         method: "POST"
                     }).then(response => {
                         // je teste si je suis sur le dernier utilisateur à traiter
