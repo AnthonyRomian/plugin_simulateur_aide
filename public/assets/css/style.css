@@ -181,7 +181,7 @@ form .page .field-2 input {
     font-size: 3em;
     display: block;
     font-weight: 500;
-    width: 80%;
+    width: 85%;
     margin: 5px 0;
 }
 
@@ -191,7 +191,7 @@ form .page .field-2 input {
 }
 
 form .page .field-3 input {
-    margin: 5px 20px;
+    margin: 5px 10px;
     height: 2em;
     width: 5%;
 }
@@ -485,7 +485,7 @@ footer div {
     }
 
     .form-outer form .page .field-3 {
-        height: 8em;
+        height: 10em;
     }
 
     form .page .field-3 label:first-child {
@@ -499,6 +499,7 @@ footer div {
 
     #utilisateur_produit_vise label {
         font-size: 1.1em;
+        width: 87%;
     }
 
     form .page .field-3 div label {
@@ -506,7 +507,7 @@ footer div {
     }
 
     form .page .field-3 div div label {
-        width: 80%;
+        width: 85%;
         font-size: 1.1em;
     }
 
@@ -578,7 +579,7 @@ footer div {
 }
 
 /* PC */
-@media screen and (min-width: 767px) {
+@media screen and (min-width: 768px) {
 
     body {
         margin: 20px 0;
@@ -665,10 +666,10 @@ footer div {
         width: 30%;
     }
 
-
     .form-outer form .page .field-3 {
         height: 7em;
     }
+
     form .page .field-3 label {
         font-size: 2em;
     }
@@ -680,7 +681,7 @@ footer div {
 
     #utilisateur_produit_vise label {
         font-size: 1.1em;
-        width: 45%;
+        width: 27%;
     }
 
     form .page .field-3 div label {

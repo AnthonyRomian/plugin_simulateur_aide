@@ -27,39 +27,53 @@ class Calculateur extends AbstractController
     {
         /*$simulHeure = $utilisateur->getDateSimulation();
         $simulHeureObj = $simulHeure->format('Y-m-d H:i:s');*/
-        //-------------PRIME RENOV---------//
+        //-------------PRIME RENOV SEUL---------//
         //---------CESI------//
-        $renov_cesi_Jaune = 4000;
-        $renov_cesi_Gris = 3000;
-        $renov_cesi_Rouge = 2000;
-        $renov_cesi_Bleu = 0;
+        $renov_cesi_Bleue = 4000;
+        $renov_cesi_Jaune = 3000;
+        $renov_cesi_Violet = 2000;
+        $renov_cesi_Rose = 0;
         $renov_non = 0;
 
         //---------S Sanitaire et Chauffage------//
-        $renov_ssc_Jaune = 10000;
-        $renov_ssc_Gris = 8000;
-        $renov_ssc_Rouge = 4000;
-        $renov_ssc_Bleu = 0;
+        $renov_ssc_Bleue = 10000;
+        $renov_ssc_Jaune = 8000;
+        $renov_ssc_Violet = 4000;
+        $renov_ssc_Rose = 0;
+
+        //-------------PRIME RENOV electricité ---------//
+        //---------ELEC------//
+        $renov_elec_Bleue = 2500;
+        $renov_elec_Jaune = 2000;
+        $renov_elec_Violet = 1000;
+        $renov_elec_Rose = 0;
+
+        //-------------CEE ELEC-----------------//
+        //---------ELEC------//
+        $cee_elec_Bleue = 251;
+        $cee_elec_Jaune = 125;
+        $cee_elec_Violet = 125;
+        $cee_elec_Rose = 125;
 
         //-------------CEE-----------------//
         //---------CESI------//
-        $cee_cesi_Jaune = 275;
-        $cee_cesi_Gris = 137;
-        $cee_cesi_Rouge = 137;
-        $cee_cesi_Bleu = 137;
+        $cee_cesi_Bleue = 275;
+        $cee_cesi_Jaune = 137;
+        $cee_cesi_Violet = 137;
+        $cee_cesi_Rose = 137;
         $cee_non = 0;
 
         //---------S Sanitaire et Chauffage------//
+        $cee_ssc_Bleue = 1400;
         $cee_ssc_Jaune = 1400;
-        $cee_ssc_Gris = 1400;
-        $cee_ssc_Rouge = 650;
-        $cee_ssc_Bleu = 650;
+        $cee_ssc_Violet = 650;
+        $cee_ssc_Rose = 650;
 
         //------Coup de pouce fioul--------//
+        $pouce_Bleue = 4000;
         $pouce_Jaune = 4000;
-        $pouce_Gris = 4000;
-        $pouce_Rouge = 2500;
-        $pouce_Bleu = 2500;
+        $pouce_Violet = 2500;
+        $pouce_Rose = 2500;
         $pouce_Non = 0;
 
         $nbre_pers_foy = $utilisateur->getNbrePersFoyer();
@@ -140,7 +154,7 @@ class Calculateur extends AbstractController
             $plafond_prime_renov_province_6_3 = $plafond_prime_renov_province_5_3 + (($nbre_pers_foy - 5) * 8744);
 
 
-            # ZONE JAUNE
+            # ZONE BLEUE
             if ($rfi > 0 && $rfi < $plafond_prime_renov_1_1 && $nbre_pers_foy == 1 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
                 $rfi > 0 && $rfi < $plafond_prime_renov_2_1 && $nbre_pers_foy == 2 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
                 $rfi > 0 && $rfi < $plafond_prime_renov_3_1 && $nbre_pers_foy == 3 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
@@ -156,20 +170,25 @@ class Calculateur extends AbstractController
                 $rfi > 0 && $rfi < $plafond_prime_renov_province_6_1 && $nbre_pers_foy >= 6 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95))
             {
                 if ($produitVise == 'Eau chaude sanitaire') {
-                    $resultat->setPrimeRenov($renov_cesi_Jaune);
-                    $resultat->setCee($cee_cesi_Jaune);
+                    $resultat->setPrimeRenov($renov_cesi_Bleue);
+                    $resultat->setCee($cee_cesi_Bleue);
                     $resultat->setCdpChauffage($pouce_Non);
-                    $resultat->setMontantTotal($renov_cesi_Jaune + $cee_cesi_Jaune + $pouce_Non);
+                    $resultat->setMontantTotal($renov_cesi_Bleue + $cee_cesi_Bleue + $pouce_Non);
+                } elseif ($produitVise == 'Eau chaude sanitaire et électricité') {
+                    $resultat->setPrimeRenov($renov_elec_Bleue);
+                    $resultat->setCee($cee_elec_Bleue);
+                    $resultat->setCdpChauffage($pouce_Non);
+                    $resultat->setMontantTotal($renov_elec_Bleue + $cee_elec_Bleue + $pouce_Non);
                 } elseif ($produitVise == 'Eau chaude sanitaire et chauffage' && $energie == 'Fioul') {
-                    $resultat->setPrimeRenov($renov_ssc_Jaune);
-                    $resultat->setCee($cee_ssc_Jaune);
-                    $resultat->setCdpChauffage($pouce_Jaune);
-                    $resultat->setMontantTotal($renov_ssc_Jaune + $cee_ssc_Jaune + $pouce_Jaune);
+                    $resultat->setPrimeRenov($renov_ssc_Bleue);
+                    $resultat->setCee($cee_ssc_Bleue);
+                    $resultat->setCdpChauffage($pouce_Bleue);
+                    $resultat->setMontantTotal($renov_ssc_Bleue + $cee_ssc_Bleue + $pouce_Bleue);
                 } elseif ($produitVise == 'Eau chaude sanitaire et chauffage' && $energie != 'Fioul') {
-                    $resultat->setPrimeRenov($renov_ssc_Jaune);
-                    $resultat->setCee($cee_ssc_Jaune);
+                    $resultat->setPrimeRenov($renov_ssc_Bleue);
+                    $resultat->setCee($cee_ssc_Bleue);
                     $resultat->setCdpChauffage($pouce_Non);
-                    $resultat->setMontantTotal($renov_ssc_Jaune + $cee_ssc_Jaune + $pouce_Non);
+                    $resultat->setMontantTotal($renov_ssc_Bleue + $cee_ssc_Bleue + $pouce_Non);
                 }
                 $entityManager->persist($resultat);
                 $entityManager->flush();
@@ -193,7 +212,7 @@ class Calculateur extends AbstractController
                 }
                 return $resultat;
 
-            # ZONE GRISE
+            # ZONE JAUNE
             } elseif ($rfi > $plafond_prime_renov_1_1 && $rfi < $plafond_prime_renov_1_2 && $nbre_pers_foy == 1 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
                 $rfi > $plafond_prime_renov_2_1 && $rfi < $plafond_prime_renov_2_2 && $nbre_pers_foy == 2 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
                 $rfi > $plafond_prime_renov_3_1 && $rfi < $plafond_prime_renov_3_2 && $nbre_pers_foy == 3 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
@@ -208,21 +227,25 @@ class Calculateur extends AbstractController
                 $rfi > $plafond_prime_renov_province_5_1 && $rfi < $plafond_prime_renov_province_5_2 && $nbre_pers_foy == 5 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95) ||
                 $rfi > $plafond_prime_renov_province_6_1 && $rfi < $plafond_prime_renov_province_6_2 && $nbre_pers_foy >= 6 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95)) {
                 if ($produitVise == 'Eau chaude sanitaire') {
-                    $resultat->setPrimeRenov($renov_cesi_Gris);
-                    $resultat->setCee($cee_cesi_Gris);
+                    $resultat->setPrimeRenov($renov_cesi_Jaune);
+                    $resultat->setCee($cee_cesi_Jaune);
                     $resultat->setCdpChauffage($pouce_Non);
-                    $resultat->setMontantTotal($renov_cesi_Gris + $cee_cesi_Gris + $pouce_Non);
-
+                    $resultat->setMontantTotal($renov_cesi_Jaune + $cee_cesi_Jaune + $pouce_Non);
+                } elseif ($produitVise == 'Eau chaude sanitaire et électricité') {
+                    $resultat->setPrimeRenov($renov_elec_Jaune);
+                    $resultat->setCee($cee_elec_Jaune);
+                    $resultat->setCdpChauffage($pouce_Non);
+                    $resultat->setMontantTotal($renov_elec_Jaune + $cee_elec_Jaune + $pouce_Non);
                 } elseif ($produitVise == 'Eau chaude sanitaire et chauffage' && $energie == 'Fioul') {
-                    $resultat->setPrimeRenov($renov_ssc_Gris);
-                    $resultat->setCee($cee_ssc_Gris);
-                    $resultat->setCdpChauffage($pouce_Gris);
-                    $resultat->setMontantTotal($renov_ssc_Gris + $cee_ssc_Gris + $pouce_Gris);
+                    $resultat->setPrimeRenov($renov_ssc_Jaune);
+                    $resultat->setCee($cee_ssc_Jaune);
+                    $resultat->setCdpChauffage($pouce_Jaune);
+                    $resultat->setMontantTotal($renov_ssc_Jaune + $cee_ssc_Jaune + $pouce_Jaune);
                 } elseif ($produitVise == 'Eau chaude sanitaire et chauffage' && $energie != 'Fioul') {
-                    $resultat->setPrimeRenov($renov_ssc_Gris);
-                    $resultat->setCee($cee_ssc_Gris);
+                    $resultat->setPrimeRenov($renov_ssc_Jaune);
+                    $resultat->setCee($cee_ssc_Jaune);
                     $resultat->setCdpChauffage($pouce_Non);
-                    $resultat->setMontantTotal($renov_ssc_Gris + $cee_ssc_Gris + $pouce_Non);
+                    $resultat->setMontantTotal($renov_ssc_Jaune + $cee_ssc_Jaune + $pouce_Non);
                 }
                 $entityManager->persist($resultat);
                 $entityManager->flush();
@@ -246,7 +269,7 @@ class Calculateur extends AbstractController
                 }*/
                 return $resultat;
 
-            # ZONE ROUGE
+            # ZONE VIOLET
             } elseif ($rfi > $plafond_prime_renov_1_2 && $rfi < $plafond_prime_renov_1_3 && $nbre_pers_foy == 1 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
                 $rfi > $plafond_prime_renov_2_2 && $rfi < $plafond_prime_renov_2_3 && $nbre_pers_foy == 2 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
                 $rfi > $plafond_prime_renov_3_2 && $rfi < $plafond_prime_renov_3_3 && $nbre_pers_foy == 3 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
@@ -261,21 +284,25 @@ class Calculateur extends AbstractController
                 $rfi > $plafond_prime_renov_province_5_2 && $rfi < $plafond_prime_renov_province_5_3 && $nbre_pers_foy == 5 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95) ||
                 $rfi > $plafond_prime_renov_province_6_2 && $rfi < $plafond_prime_renov_province_6_3 && $nbre_pers_foy >= 6 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95)) {
                 if ($produitVise == 'Eau chaude sanitaire') {
-                    $resultat->setPrimeRenov($renov_cesi_Rouge);
-                    $resultat->setCee($cee_cesi_Rouge);
+                    $resultat->setPrimeRenov($renov_cesi_Violet);
+                    $resultat->setCee($cee_cesi_Violet);
                     $resultat->setCdpChauffage($pouce_Non);
-                    $resultat->setMontantTotal($renov_cesi_Rouge + $cee_cesi_Rouge + $pouce_Non);
-
+                    $resultat->setMontantTotal($renov_cesi_Violet + $cee_cesi_Violet + $pouce_Non);
+                } elseif ($produitVise == 'Eau chaude sanitaire et électricité') {
+                    $resultat->setPrimeRenov($renov_elec_Violet);
+                    $resultat->setCee($cee_elec_Violet);
+                    $resultat->setCdpChauffage($pouce_Non);
+                    $resultat->setMontantTotal($renov_elec_Violet + $cee_elec_Violet + $pouce_Non);
                 } elseif ($produitVise == 'Eau chaude sanitaire et chauffage' && $energie == 'Fioul') {
-                    $resultat->setPrimeRenov($renov_ssc_Rouge);
-                    $resultat->setCee($cee_ssc_Rouge);
-                    $resultat->setCdpChauffage($pouce_Rouge);
-                    $resultat->setMontantTotal($renov_ssc_Rouge + $cee_ssc_Rouge + $pouce_Rouge);
+                    $resultat->setPrimeRenov($renov_ssc_Violet);
+                    $resultat->setCee($cee_ssc_Violet);
+                    $resultat->setCdpChauffage($pouce_Violet);
+                    $resultat->setMontantTotal($renov_ssc_Violet + $cee_ssc_Violet + $pouce_Violet);
                 } elseif ($produitVise == 'Eau chaude sanitaire et chauffage' && $energie != 'Fioul') {
-                    $resultat->setPrimeRenov($renov_ssc_Rouge);
-                    $resultat->setCee($cee_ssc_Rouge);
+                    $resultat->setPrimeRenov($renov_ssc_Violet);
+                    $resultat->setCee($cee_ssc_Violet);
                     $resultat->setCdpChauffage($pouce_Non);
-                    $resultat->setMontantTotal($renov_ssc_Rouge + $cee_ssc_Rouge + $pouce_Non);
+                    $resultat->setMontantTotal($renov_ssc_Violet + $cee_ssc_Violet + $pouce_Non);
                 }
                 $entityManager->persist($resultat);
                 $entityManager->flush();
@@ -299,7 +326,7 @@ class Calculateur extends AbstractController
                 }*/
                 return $resultat;
 
-            # ZONE BLEUE
+            # ZONE ROSE
             } elseif ($rfi > $plafond_prime_renov_1_3 && $nbre_pers_foy == 1 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
                 $rfi > $plafond_prime_renov_2_3 && $nbre_pers_foy == 2 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
                 $rfi > $plafond_prime_renov_3_3 && $nbre_pers_foy == 3 && ($dep == 75 || $dep == 77 || $dep == 78 || $dep == 91 || $dep == 92 || $dep == 93 || $dep == 94 || $dep == 95) ||
@@ -314,20 +341,25 @@ class Calculateur extends AbstractController
                 $rfi > $plafond_prime_renov_province_5_3 && $nbre_pers_foy == 5 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95) ||
                 $rfi > $plafond_prime_renov_province_6_3 && $nbre_pers_foy >= 6 && ($dep != 75 && $dep != 77 && $dep != 78 && $dep != 91 && $dep != 92 && $dep != 93 && $dep != 94 && $dep != 95)) {
                 if ($produitVise == 'Eau chaude sanitaire') {
-                    $resultat->setPrimeRenov($renov_cesi_Bleu);
-                    $resultat->setCee($cee_cesi_Bleu);
+                    $resultat->setPrimeRenov($renov_cesi_Rose);
+                    $resultat->setCee($cee_cesi_Rose);
                     $resultat->setCdpChauffage($pouce_Non);
-                    $resultat->setMontantTotal($renov_cesi_Bleu + $cee_cesi_Bleu + $pouce_Non);
+                    $resultat->setMontantTotal($renov_cesi_Rose + $cee_cesi_Rose + $pouce_Non);
+                } elseif ($produitVise == 'Eau chaude sanitaire et électricité') {
+                    $resultat->setPrimeRenov($renov_elec_Rose);
+                    $resultat->setCee($cee_elec_Rose);
+                    $resultat->setCdpChauffage($pouce_Non);
+                    $resultat->setMontantTotal($renov_elec_Rose + $cee_elec_Rose + $pouce_Non);
                 } elseif ($produitVise == 'Eau chaude sanitaire et chauffage' && $energie == 'Fioul') {
-                    $resultat->setPrimeRenov($renov_ssc_Bleu);
-                    $resultat->setCee($cee_ssc_Bleu);
-                    $resultat->setCdpChauffage($pouce_Bleu);
-                    $resultat->setMontantTotal($renov_ssc_Bleu + $cee_ssc_Bleu + $pouce_Bleu);
+                    $resultat->setPrimeRenov($renov_ssc_Rose);
+                    $resultat->setCee($cee_ssc_Rose);
+                    $resultat->setCdpChauffage($pouce_Rose);
+                    $resultat->setMontantTotal($renov_ssc_Rose + $cee_ssc_Rose + $pouce_Rose);
                 } elseif ($produitVise == 'Eau chaude sanitaire et chauffage' && $energie != 'Fioul') {
-                    $resultat->setPrimeRenov($renov_ssc_Bleu);
-                    $resultat->setCee($cee_ssc_Bleu);
+                    $resultat->setPrimeRenov($renov_ssc_Rose);
+                    $resultat->setCee($cee_ssc_Rose);
                     $resultat->setCdpChauffage($pouce_Non);
-                    $resultat->setMontantTotal($renov_ssc_Bleu + $cee_ssc_Bleu + $pouce_Non);
+                    $resultat->setMontantTotal($renov_ssc_Rose + $cee_ssc_Rose + $pouce_Non);
                 }
 
                 $entityManager->persist($resultat);

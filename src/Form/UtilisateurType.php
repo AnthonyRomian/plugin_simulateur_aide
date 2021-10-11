@@ -110,7 +110,8 @@ class UtilisateurType extends AbstractType
                 'label' => 'Produit désiré : ',
                 'choices' => [
                     'Eau chaude sanitaire' => 'Eau chaude sanitaire',
-                    'Eau chaude sanitaire et chauffage' => 'Eau chaude sanitaire et chauffage'
+                    'Eau chaude sanitaire et chauffage' => 'Eau chaude sanitaire et chauffage',
+                    'Eau chaude sanitaire et électricité' => 'Eau chaude sanitaire et électricité'
                 ],
                 'multiple' => false,
                 'expanded' => true,
