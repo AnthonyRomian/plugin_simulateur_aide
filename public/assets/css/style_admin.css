@@ -61,9 +61,6 @@ header h5 {
     font-weight: 100;
 }
 
-
-
-
 .button-link {
     text-decoration: none;
     width: 50%;
@@ -135,6 +132,7 @@ header h5 {
 
 /* EDIT MENU DEROULANT */
 
+
 #utilisateur_produit_vise,
 #utilisateur_chauffage {
     display: flex;
@@ -142,19 +140,20 @@ header h5 {
     flex-direction: row;
     align-content: flex-start;
     margin: 15px 10px;
+    width: 100%;
 }
 
 #utilisateur_produit_vise label,
 #utilisateur_chauffage label
 {
-    width: 35%;
+    width: 30%;
 }
 
 #utilisateur_produit_vise input,
 #utilisateur_chauffage input{
-    margin: 5px 20px;
+    margin: 5px 0px;
     height: 1em;
-    width: 5%;
+    width: 3%;
 }
 
 #ElemChauffage1 {

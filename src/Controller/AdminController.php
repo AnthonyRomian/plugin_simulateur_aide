@@ -70,6 +70,7 @@ class AdminController extends AbstractController
         $nbre_total = sizeof($utilisateurs_data);
         $nbre_sanit = 0;
         $nbre_sanit_chauff = 0;
+        $nbre_sanit_elec = 0;
 
         //nombre de sanitaire simple
         //-------------- GRAPH PRODUIT VISE ------------------
@@ -77,10 +78,13 @@ class AdminController extends AbstractController
             $produit_vise = $utilisateurs_data[$i]->getProduitVise();
             if ( $produit_vise == "Eau chaude sanitaire et chauffage") {
                 $nbre_sanit_chauff++;
-            } else {
+            } else if ( $produit_vise == "Eau chaude sanitaire"){
                 $nbre_sanit++;
+            } else if ($produit_vise == "Eau chaude sanitaire et électricité") {
+                $nbre_sanit_elec++;
             }
         }
+
         //-------------- GRAPH DEPARTEMENT ------------------
 
         $tableauCP = [];
@@ -121,6 +125,7 @@ class AdminController extends AbstractController
 
         return $this->render('admin/graphique.html.twig', [
             'nbre_sanit'=> $nbre_sanit,
+            'nbre_sanit_elec'=> $nbre_sanit_elec,
             'nbre_chauf'=> $nbre_sanit_chauff,
             'tableau_sans_doublon'=> json_encode($tableau_sans_doublon),
             'tableau_sans_doublon2'=> $tableau_sans_doublon,

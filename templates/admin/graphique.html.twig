@@ -1,16 +1,16 @@
 {% block body %}
 <div class="m-4">
     <h4 class="p-2 mb-2 bg-secondary text-white rounded">Statistiques</h4>
-    <div class="card-deck d-flex flex-row ">
-        <div class="card m-2 col-6">
+    <div class="card-deck d-flex flex-row p-2 mb-2">
+        <div class="card col-md-6 my-2">
             <h5 class="card-header">Rapport Eau chaude sanitaire / Eau chaude sanitaire et chauffage</h5>
             <div class="graph-info">
-                <h6 class="card-title">Il y a actuellement {{ nbre_sanit }} simulations effectuées en "eau chaude sanitaire" et {{ nbre_chauf }} "eau chaude sanitaire
-                    et chauffage"</h6>
+                <h6 class="card-title">Il y a actuellement {{ nbre_sanit }} simulations effectuées en "eau chaude sanitaire", {{ nbre_chauf }} "eau chaude sanitaire
+                    et chauffage" et {{ nbre_sanit_elec }} en "eau chaude sanitaire et électricité"</h6>
                 <canvas id="graphProduitVise"  class="card-text" style="display: block; width: 100%; "></canvas>
             </div>
         </div>
-        <div class="card m-2 col-6">
+        <div class="card col-md-6 m-2">
             <h5 class="card-header">Les différents départements</h5>
             <div class="graph-info">
                 <h6 class="card-title">Il y a {{  tableau_sans_doublon2|length }} départements </h6>
@@ -29,6 +29,7 @@
         let categories = document.querySelector("#graphProduitVise")
         let nbre_chauf = {{ nbre_chauf }};
         let nbre_sanit = {{ nbre_sanit }};
+        let nbre_sanit_elec = {{ nbre_sanit_elec }};
 
         let categraph = new Chart(categories, {
             type: "pie",
@@ -39,11 +40,11 @@
             showScale: true,
 
             data: {
-                labels: ["Eau chaude sanitaire","Eau chaude sanitaire et chauffage"],
+                labels: ["Eau chaude sanitaire","Eau chaude sanitaire et chauffage" ,"Eau chaude sanitaire et électricité"],
                 datasets: [{
                     label: 'Répartition des catégories',
-                    data: [nbre_sanit, nbre_chauf],
-                    backgroundColor: ["red", "blue"],
+                    data: [nbre_sanit, nbre_chauf, nbre_sanit_elec ],
+                    backgroundColor: ["red", "blue", "green"],
                     // borderColor: 'black'
                 }],
             }

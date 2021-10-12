@@ -122,18 +122,17 @@
     <div class="card my-2">
         <h4 class="card-header">Envoyez le contact par mail</h4>
         <div class="card-info">
-            <div class="card-item">
+            <div class="card-item col-6">
                 <label for="">Nom du fournisseur : </label>
-                <select onchange="getNameFournisseur()" id="fournisseurChoisi" class="card-item">
+                <select onchange="getNameFournisseur()" id="fournisseurChoisi" class="card-item col-8">
                     {% for fournisseur in fournisseursList %}
                         <option value="{{ fournisseur.id }}">{{ fournisseur.displayName }}</option>
                     {% endfor %}
                 </select>
             </div>
-            <div class="card-item">
+            <div class="card-item col-6">
                 <label for="">Envoyez au fournisseur : </label>
-                <a id="SendMailButton" class="btn btn-secondary mb-2"
-                   href="">Envoyez </a>
+                <a id="SendMailButton" class="btn btn-secondary mb-2 col-5" href="">Envoyez </a>
             </div>
         </div>
     </div>

@@ -61,19 +61,6 @@ class UtilisateurRepository extends ServiceEntityRepository
                 ->setParameter('departement', "%{$search->departement}%");
         }
 
-        //recherche checkbox
-        if (!empty($search->eauChaudeSanitaire)) {
-            $queryBuilder = $queryBuilder
-                ->andWhere('u.produit_vise = :EauChaudeSanitaire')
-                ->setParameter('EauChaudeSanitaire', 'Eau chaude sanitaire');
-        }
-
-        if (!empty($search->eauChaudeSanitaireChauffage)) {
-            $queryBuilder = $queryBuilder
-                ->andWhere('u.produit_vise = :eauChaudeSanitaireChauffage')
-                ->setParameter('eauChaudeSanitaireChauffage', 'Eau chaude sanitaire et chauffage');
-        }
-
         //recherche par produit vise
         if (!empty($search->produitVise)) {
             $queryBuilder = $queryBuilder

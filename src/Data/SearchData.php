@@ -18,21 +18,6 @@ class SearchData
     public $departement ;
 
     /**
-     * @var boolean
-     */
-//    public $eauChaudeSanitaire = false;
-
-    /**
-     * @var boolean
-     */
-//    public $eauChaudeSanitaireChauffage = false;
-
-    /**
-     * @var boolean
-     */
-//    public $eauChaudeSanitaireElectricite = false;
-
-    /**
      * @var
      */
     public $produitVise ;
@@ -58,30 +43,6 @@ class SearchData
      */
     public $energie ;
 
-    /*/**
-     * @return bool
-     */
-    /*public function isEauChaudeSanitaire(): bool
-    {
-        return $this->eauChaudeSanitaire;
-    }*/
-
-    /**
-     * @return bool
-     */
-    /*public function isEauChaudeSanitaireChauffage(): bool
-    {
-        return $this->eauChaudeSanitaireChauffage;
-    }*/
-
-    /**
-     * @return bool
-     */
-    /*public function isEauChaudeSanitaireElectricite(): bool
-    {
-        return $this->eauChaudeSanitaireElectricite;
-    }*/
-
     /**
      * @return mixed
      */
@@ -97,7 +58,4 @@ class SearchData
     {
         return $this->produitVise;
     }
-
-
-
 }

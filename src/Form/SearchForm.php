@@ -15,7 +15,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SearchForm extends AbstractType
 {
-
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -29,7 +28,6 @@ class SearchForm extends AbstractType
     {
         return '';
     }
-
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -58,20 +56,8 @@ class SearchForm extends AbstractType
                 ],
                 //quelle est la classe à afficher ici ?
                 //quelle propriété utiliser pour les <option> dans la liste déroulante ?
-                'placeholder' => ' Choisir le produit Visé '
+                'placeholder' => ' Choisir le produit visé '
             ])
-            /*->add('eauChaudeSanitaire', CheckboxType::class, [
-                'label' => 'Eau chaude sanitaire',
-                'required' => false,
-            ])
-            ->add('eauChaudeSanitaireChauffage', CheckboxType::class, [
-                'label' => 'Eau chaude sanitaire et chauffage',
-                'required' => false,
-            ])
-            ->add('eauChaudeSanitaireElectricite', CheckboxType::class, [
-                'label' => 'Eau chaude sanitaire et électricité',
-                'required' => false,
-            ])*/
             ->add('energie', ChoiceType::class, [
                 'label' => false,
                 'required' => false,
@@ -85,9 +71,5 @@ class SearchForm extends AbstractType
                 //quelle propriété utiliser pour les <option> dans la liste déroulante ?
                 'placeholder' => ' Choisir l\'energie '
             ]);
-
     }
-
-
-
 }

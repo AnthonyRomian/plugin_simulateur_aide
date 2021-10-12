@@ -3,139 +3,137 @@
 {% block title %}Simulateur d'aide{% endblock %}
 
 {% block body %}
-    <div class="m-4">
+    <div class="m-4 overflow-auto" >
         <h3>Simulateur d'aide</h3>
-       {# {{ dump() }}#}
+        {# {{ dump() }} #}
         <h4 class="p-2 mb-2 bg-secondary text-white rounded">Liste des simulations</h4>
         {% if app.user %}
             {% if is_granted("ROLE_SUPER_ADMIN") %}
-                <a class="btn btn-secondary mb-2" id="register_user_button" href="{{ path('app_register') }}">Enregistrer un
+                <a class="btn btn-secondary mb-2" id="register_user_button" href="{{ path('app_register') }}">Enregistrer
+                    un
                     Administrateur plugin</a>
             {% endif %}
 
         {% endif %}
         {% if app.user %}
             <div class="mb-3">
-                You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+                Vous êtes loguer en tant que {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
             </div>
         {% endif %}
         <div>
-            <div>
-                {% include 'admin/filter.html.twig' with {form_filter: form_filter} only %}
-            </div>
-
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <td scope="col" class="table-secondary">
-                        <input id="select_all_bouton" type="checkbox">
-                    </td>
-                    <th scope="col" class="table-secondary">Nom</th>
-                    <th scope="col" class="table-secondary">Prénom</th>
-                    <th scope="col" class="table-secondary">Code Postal</th>
-                    <th scope="col" class="table-secondary">Ville</th>
-                    <th scope="col" class="table-secondary">Téléphone</th>
-                    <th scope="col" class="table-secondary">E-mail</th>
-                    <th scope="col" class="table-secondary">Date de simulation</th>
-                    <th scope="col" class="table-secondary">Rappel</th>
-
-                    <th scope="col" class="table-secondary">Proprietaire</th>
-                    <th scope="col" class="table-secondary">Type_de_bien</th>
-                    <th scope="col" class="table-secondary">Anciennetée</th>
-
-                    <th scope="col" class="table-secondary">Produit_visé</th>
-                    <th scope="col" class="table-secondary">Energie</th>
-                    <th scope="col" class="table-secondary">Chauffage</th>
-
-                    <th scope="col" class="table-secondary">Nbre salle_de_bain</th>
-                    <th scope="col" class="table-secondary">Nbre foyer</th>
-                    <th scope="col" class="table-secondary">RFR</th>
-
-                    <th scope="col" class="table-secondary">MaPrimeRénov'</th>
-                    <th scope="col" class="table-secondary">CEE</th>
-                    <th scope="col" class="table-secondary">CDP FIOUL</th>
-                    <th scope="col" class="table-secondary">Total</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for utilisateur in utilisateurs %}
-                    <tr>
-{#                        ----------- contact -----------#}
-                        <th>
-                            <input name="delete_checkbox" id="selected_checkbox" type="checkbox"
-                                   value="{{ utilisateur.id }}">
-                        </th>
-                        <td><a class="text-secondary"
-                               href="{{ path('utilisateur_profil', {'id': utilisateur.id }) }}">{{ utilisateur.nom }}</a>
-                        </td>
-                        <td><a class="text-secondary"
-                               href="{{ path('utilisateur_profil', {'id': utilisateur.id }) }}">{{ utilisateur.prenom }}</a>
-                        </td>
-                        <td>{{ utilisateur.codePostal }}</td>
-                        <td>{{ utilisateur.ville }}</td>
-                        <td>{{ utilisateur.tel }}</td>
-                        <td>{{ utilisateur.email }}</td>
-
-                        <td>{{ utilisateur.dateSimulation|format_datetime('short', 'none', locale='en') }}</td>
-                        <td>{% set rappelOK = false %}
-                            {% if utilisateur.rappel == true %}
-                                {% set rappelOK = true %}
-                                <input type="checkbox" value="rappel" disabled="disabled" checked readonly>
-                            {% else %}
-                                <input type="checkbox" value="rappel" disabled="disabled" readonly>
-                            {% endif %}</td>
-                        <td>
-                            {% set jesuisproprio = false %}
-                            {% if utilisateur.proprietaire == true %}
-                                {% set jesuisproprio = true %}
-                                <input type="checkbox" value="proprio" disabled="disabled" checked readonly>
-                            {% else %}
-                                <input type="checkbox" value="proprio" disabled="disabled" readonly>
-                            {% endif %}
-                        </td>
-                        <td>{{ utilisateur.typeBien }}</td>
-                        <td>
-                            {% set plsude2ans = false %}
-                            {% if utilisateur.ancienneteEligible == true %}
-                                {% set plsude2ans = true %}
-                                <input type="checkbox" value="plusDe2ans" disabled="disabled" checked readonly>
-                            {% else %}
-                                <input type="checkbox" value="plusDe2ans" disabled="disabled" readonly>
-                            {% endif %}
-                        </td>
-
-{#                        ----------- enquete -----------#}
-                        <td>{{ utilisateur.produitVise }}</td>
-                        <td>
-                            {% if utilisateur.energie == "Selectionnez votre energie" %}
-                                N/A
-                            {% else %}
-                                {{ utilisateur.energie }}
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% if utilisateur.chauffage is empty %}
-                                N/A
-                            {% endif %}
-                            {% for key, chauffage in utilisateur.chauffage %}
-                                {{ utilisateur.chauffage[key] }}
-                            {% endfor %}
-                        </td>
-
-{#                        ----------- enquete -----------#}
-                        <td>{{ utilisateur.nbreSalleBain }}</td>
-                        <td>{{ utilisateur.nbrePersFoyer }}</td>
-                        <td>{{ utilisateur.revenuFiscal }}</td>
-{#                        ----------- resultat -----------#}
-                        <td>{{ utilisateur.resultat.primeRenov }}</td>
-                        <td>{{ utilisateur.resultat.cee }}</td>
-                        <td>{{ utilisateur.resultat.cdpChauffage }}</td>
-                        <td>{{ utilisateur.resultat.montantTotal }}</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+            {% include 'admin/filter.html.twig' with {form_filter: form_filter} only %}
         </div>
+        <table class="table table-striped ">
+            <thead>
+            <tr>
+                <td scope="col" class="table-secondary">
+                    <input id="select_all_bouton" type="checkbox">
+                </td>
+                <th scope="col" class="table-secondary">Nom</th>
+                <th scope="col" class="table-secondary">Prénom</th>
+                <th scope="col" class="table-secondary">Code Postal</th>
+                <th scope="col" class="table-secondary">Ville</th>
+                <th scope="col" class="table-secondary">Téléphone</th>
+                <th scope="col" class="table-secondary">E-mail</th>
+                <th scope="col" class="table-secondary">Date de simulation</th>
+                <th scope="col" class="table-secondary">Rappel</th>
+
+                <th scope="col" class="table-secondary">Proprietaire</th>
+                <th scope="col" class="table-secondary">Type_de_bien</th>
+                <th scope="col" class="table-secondary">Anciennetée</th>
+
+                <th scope="col" class="table-secondary">Produit_visé</th>
+                <th scope="col" class="table-secondary">Energie</th>
+                <th scope="col" class="table-secondary">Chauffage</th>
+
+                <th scope="col" class="table-secondary">Nbre salle_de_bain</th>
+                <th scope="col" class="table-secondary">Nbre foyer</th>
+                <th scope="col" class="table-secondary">RFR</th>
+
+                <th scope="col" class="table-secondary">MaPrimeRénov'</th>
+                <th scope="col" class="table-secondary">CEE</th>
+                <th scope="col" class="table-secondary">CDP FIOUL</th>
+                <th scope="col" class="table-secondary">Total</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for utilisateur in utilisateurs %}
+                <tr>
+                    {# ----------- contact ---------- -#}
+                    <th>
+                        <input name="delete_checkbox" id="selected_checkbox" type="checkbox"
+                               value="{{ utilisateur.id }}">
+                    </th>
+                    <td><a class="text-secondary"
+                           href="{{ path('utilisateur_profil', {'id': utilisateur.id }) }}">{{ utilisateur.nom }}</a>
+                    </td>
+                    <td><a class="text-secondary"
+                           href="{{ path('utilisateur_profil', {'id': utilisateur.id }) }}">{{ utilisateur.prenom }}</a>
+                    </td>
+                    <td>{{ utilisateur.codePostal }}</td>
+                    <td>{{ utilisateur.ville }}</td>
+                    <td>{{ utilisateur.tel }}</td>
+                    <td>{{ utilisateur.email }}</td>
+
+                    <td>{{ utilisateur.dateSimulation|format_datetime('short', 'none', locale='en') }}</td>
+                    <td>{% set rappelOK = false %}
+                        {% if utilisateur.rappel == true %}
+                            {% set rappelOK = true %}
+                            <input type="checkbox" value="rappel" disabled="disabled" checked readonly>
+                        {% else %}
+                            <input type="checkbox" value="rappel" disabled="disabled" readonly>
+                        {% endif %}</td>
+                    <td>
+                        {% set jesuisproprio = false %}
+                        {% if utilisateur.proprietaire == true %}
+                            {% set jesuisproprio = true %}
+                            <input type="checkbox" value="proprio" disabled="disabled" checked readonly>
+                        {% else %}
+                            <input type="checkbox" value="proprio" disabled="disabled" readonly>
+                        {% endif %}
+                    </td>
+                    <td>{{ utilisateur.typeBien }}</td>
+                    <td>
+                        {% set plsude2ans = false %}
+                        {% if utilisateur.ancienneteEligible == true %}
+                            {% set plsude2ans = true %}
+                            <input type="checkbox" value="plusDe2ans" disabled="disabled" checked readonly>
+                        {% else %}
+                            <input type="checkbox" value="plusDe2ans" disabled="disabled" readonly>
+                        {% endif %}
+                    </td>
+
+                    {# ----------- enquete ---------- -#}
+                    <td>{{ utilisateur.produitVise }}</td>
+                    <td>
+                        {% if utilisateur.energie == "Selectionnez votre energie" %}
+                            N/A
+                        {% else %}
+                            {{ utilisateur.energie }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if utilisateur.chauffage is empty %}
+                            N/A
+                        {% endif %}
+                        {% for key, chauffage in utilisateur.chauffage %}
+                            {{ utilisateur.chauffage[key] }}
+                        {% endfor %}
+                    </td>
+
+                    {# ----------- enquete ---------- -#}
+                    <td>{{ utilisateur.nbreSalleBain }}</td>
+                    <td>{{ utilisateur.nbrePersFoyer }}</td>
+                    <td>{{ utilisateur.revenuFiscal }}</td>
+                    {# ----------- resultat ---------- -#}
+                    <td>{{ utilisateur.resultat.primeRenov }}</td>
+                    <td>{{ utilisateur.resultat.cee }}</td>
+                    <td>{{ utilisateur.resultat.cdpChauffage }}</td>
+                    <td>{{ utilisateur.resultat.montantTotal }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
         <a class="btn btn-secondary mb-2" href="" onclick="functionDelete()">Supprimer</a>
         <a class="btn btn-secondary mb-2" id="edit_button" href="{{ path('utilisateur_list') }}">Editer</a>
 
@@ -147,6 +145,7 @@
     <div>
         {{ render(controller('App\\Controller\\AdminController::statistiques')) }}
     </div>
+
 {% endblock %}
 {% block javascripts %}
     <script>
