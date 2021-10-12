@@ -48,7 +48,19 @@ class SearchForm extends AbstractType
                     'placeholder' => 'Exemple : 31'
                 ]
             ])
-            ->add('eauChaudeSanitaire', CheckboxType::class, [
+            ->add('produitVise', ChoiceType::class, [
+                'label' => false,
+                'required' => false,
+                'choices' => [
+                    'Eau chaude sanitaire' => 'Eau chaude sanitaire',
+                    'Eau chaude sanitaire et chauffage' => 'Eau chaude sanitaire et chauffage',
+                    'Eau chaude sanitaire et électricité' => 'Eau chaude sanitaire et électricité'
+                ],
+                //quelle est la classe à afficher ici ?
+                //quelle propriété utiliser pour les <option> dans la liste déroulante ?
+                'placeholder' => ' Choisir le produit Visé '
+            ])
+            /*->add('eauChaudeSanitaire', CheckboxType::class, [
                 'label' => 'Eau chaude sanitaire',
                 'required' => false,
             ])
@@ -56,6 +68,10 @@ class SearchForm extends AbstractType
                 'label' => 'Eau chaude sanitaire et chauffage',
                 'required' => false,
             ])
+            ->add('eauChaudeSanitaireElectricite', CheckboxType::class, [
+                'label' => 'Eau chaude sanitaire et électricité',
+                'required' => false,
+            ])*/
             ->add('energie', ChoiceType::class, [
                 'label' => false,
                 'required' => false,
@@ -67,7 +83,7 @@ class SearchForm extends AbstractType
                 ],
                 //quelle est la classe à afficher ici ?
                 //quelle propriété utiliser pour les <option> dans la liste déroulante ?
-                'placeholder' => '-- Choisir l\'energie --'
+                'placeholder' => ' Choisir l\'energie '
             ]);
 
     }

@@ -46,10 +46,10 @@
     margin: 5px 10px;
 }
 
-#eauChaudeSanitaire, #eauChaudeSanitaireChauffage  {
-    margin: 5px 10px;
+#produitVise, #energie {
+    padding: 5px 0px 5px 10px;
+    width: 250px;
 }
-
 
 /* TABLEAU */
 

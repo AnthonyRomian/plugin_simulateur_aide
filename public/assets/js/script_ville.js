@@ -1,7 +1,6 @@
 const searchInput = document.getElementById('searchInput');
 const villeField = document.getElementById('villeField')
 const divVille = document.getElementsByClassName('test2')
-
 let search = '';
 
 const fetchSearch = async(url) => {
@@ -12,13 +11,10 @@ const fetchSearch = async(url) => {
 };
 
 let dataList = document.getElementById('lstVilles')
-
 //search
 const searchDisplay = async() => {
     await fetchSearch(search);
-
     var villes = [];
-
     var select = document.createElement('select')
     var div = document.createElement('div')
     for (var i = 0 ; i < cp.length ; i++){
@@ -28,7 +24,6 @@ const searchDisplay = async() => {
             villeField.value = ville;
         }
         else if (cp.length > 1){
-
             optionListVille = document.createElement('option')
 
             //tableau de ville
@@ -41,12 +36,10 @@ const searchDisplay = async() => {
             optionListVille.innerHTML = ville;
             dataList.append(optionListVille)
         }
-
     }
     console.log(divVille[0])
     divVille[0].appendChild(dataList);
 };
-
 searchInput.addEventListener('input', (e) => {
     search = `${e.target.value}`
     if(search.length == 5)
@@ -55,5 +48,4 @@ searchInput.addEventListener('input', (e) => {
         console.log(search);
     }
 })
-
 fetchSearch();
