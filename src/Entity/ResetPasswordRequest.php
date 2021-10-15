@@ -9,7 +9,7 @@ use SymfonyCasts\Bundle\ResetPassword\Model\ResetPasswordRequestTrait;
 
 /**
  * @ORM\Entity(repositoryClass=ResetPasswordRequestRepository::class)
- * @ORM\Table(name="wp_reset_password_request")
+ * @ORM\Table(name="wp_reset_pwd")
  */
 class ResetPasswordRequest implements ResetPasswordRequestInterface
 {

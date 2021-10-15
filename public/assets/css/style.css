@@ -52,8 +52,13 @@ body {
     border-radius: 5px;
 }
 
-h3 {
-    font-size: 3em;
+
+.simulation-title {
+    font-size: 2em;
+    background: #181818;
+    color: #70bf4a;
+    border-radius: 0.5rem;
+    text-align: center;
 }
 
 .container p {
@@ -329,6 +334,14 @@ input[type='radio']:checked {
 
 /* RESULTAT */
 
+.resultat-title {
+    font-size: 0.9em;
+    background: #181818;
+    color: #70bf4a;
+    border-radius: 0.5rem;
+    text-align: center;
+}
+
 .tableau-resultat-conteneur {
     text-align: center;
 }
@@ -338,7 +351,7 @@ header h5 {
 }
 
 
-table{
+table {
     border-collapse: collapse;
     min-width: 290px;
     border: 2px solid;
@@ -358,14 +371,14 @@ table tr:last-child {
     text-decoration: none;
     width: 50%;
     height: 100%;
-    padding: 0 20px;
+    padding: 0 10px;
     border: none;
     background: #070707FF;
     margin-top: 0px;
     border-radius: 5px;
     color: #fff;
     cursor: pointer;
-    font-size: 2em;
+    font-size: 1.7em;
     font-weight: 500;
     letter-spacing: 1px;
     text-transform: uppercase;
@@ -397,10 +410,6 @@ footer div {
     .container {
         margin: 0 20px;
         width: 100%;
-    }
-
-    h3 {
-        font-size: 2.5em;
     }
 
     p {
@@ -586,13 +595,11 @@ footer div {
         height: 100%;
     }
 
+
+
     .container {
         margin: 0 20px;
         width: 100%;
-    }
-
-    h3 {
-        font-size: 2.5em;
     }
 
     p {
