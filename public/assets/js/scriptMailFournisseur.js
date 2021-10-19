@@ -20,19 +20,20 @@ function getNameFournisseur() {
     console.log(buttonEnvoyer.href)
 }
 
-
-
-
-
 function sendMail() {
         fetch("http://localhost/simulateur_aide/public/admin/sendFournisseur/"+fournisseurChoisi+"/"+idUtil, {
                 method: "POST"
         }).then(response => {
 
                         if (response.ok) {
-
+                            setTimeout(function () {
+                                window.reload();
+                            }, 2000);
                         } else {
-
+                            setTimeout(function () {
+                                window.reload();
+                            }, 2000);
+                            console.error('Retour du serveur : ', response.status)
 
                         }
         });

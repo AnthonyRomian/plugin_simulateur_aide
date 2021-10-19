@@ -427,6 +427,6 @@ class AdminController extends AbstractController
 
         $writer->save('assets/simul_File_list/liste_des_simulations.xlsx');
 
-        return $this->file('assets/simul_File_list/liste_des_simulations.xlsx'); // That's it! 😁
+        return $this->file('assets/simul_File_list/liste_des_simulations.xlsx');
     }
 }
