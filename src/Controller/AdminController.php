@@ -87,6 +87,7 @@ class AdminController extends AbstractController
         $nbre_sanit = 0;
         $nbre_sanit_chauff = 0;
         $nbre_sanit_elec = 0;
+        $compteur_departement = 0;
 
         //nombre de sanitaire simple
         //-------------- GRAPH PRODUIT VISE ------------------
