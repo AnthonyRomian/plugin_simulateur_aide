@@ -3,9 +3,7 @@
 {% block title %}Réaliser une simulation{% endblock %}
 
 {% block body %}
-
     <div class="container">
-
         <h3 class="simulation-title">Simulateur d'aide</h3>
         <p id="reframe_top">Renseignez les informations demandées afin d'obtenir votre droit aux différentes aides</p>
         <div class="form-outer">
@@ -34,7 +32,6 @@
                         {{ form_label(utilisateurForm.tel) }}
                         {{ form_widget(utilisateurForm.tel) }}
                         {{ form_errors(utilisateurForm.tel) }}
-
                     </div>
                     <div class="field">
                         {{ form_label(utilisateurForm.email) }}
@@ -46,16 +43,13 @@
                         {{ form_label(utilisateurForm.code_postal) }}
                         {{ form_widget(utilisateurForm.code_postal, {'id': 'searchInput'}) }}
                         {{ form_errors(utilisateurForm.code_postal) }}
-
                     </div>
                     <div class="field test2">
                         {{ form_label(utilisateurForm.ville) }}
-{#                        {{ form_widget(utilisateurForm.ville, {'id': 'villeField', 'value': ''}) }}#}
                         <input list="lstVilles" type="text" id="villeField" name="utilisateur[ville]">
                         <datalist id="lstVilles">
                         </datalist>
                         {{ form_errors(utilisateurForm.ville) }}
-
                     </div>
                 </div>
                 <div class="logement">
@@ -68,13 +62,11 @@
                         {{ form_label(utilisateurForm.type_bien) }}
                         {{ form_widget(utilisateurForm.type_bien) }}
                         {{ form_errors(utilisateurForm.type_bien) }}
-
                     </div>
                     <div class="field-2">
                         {{ form_label(utilisateurForm.ancienneteEligible) }}
                         {{ form_widget(utilisateurForm.ancienneteEligible) }}
                         {{ form_errors(utilisateurForm.ancienneteEligible) }}
-
                     </div>
                 </div>
                 <div class="buttons">
@@ -89,11 +81,9 @@
                         {{ form_label(utilisateurForm.produit_vise) }}
                         {{ form_widget(utilisateurForm.produit_vise) }}
                         {{ form_errors(utilisateurForm.produit_vise) }}
-
                         {{ form_row(utilisateurForm.energie) }}
                         {{ form_row(utilisateurForm.chauffage) }}
                     </div>
-
                 </div>
                 <div class="foyer">
                     <div class="field">

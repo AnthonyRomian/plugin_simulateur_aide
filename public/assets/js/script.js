@@ -124,7 +124,7 @@ let current = 1;
 nextBtnFirst.addEventListener("click", function(event){
     event.preventDefault();
     slidePage.style.display = "block";
-    slidePage.style.marginLeft = "-25%";
+    slidePage.style.marginLeft = "-50%";
     current += 1;
     setTimeout(function(){
         reframe_top.scrollIntoView();

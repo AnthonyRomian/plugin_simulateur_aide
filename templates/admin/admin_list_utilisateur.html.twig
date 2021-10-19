@@ -136,6 +136,7 @@
         </table>
         <a class="btn btn-secondary mb-2" href="" onclick="functionDelete()">Supprimer</a>
         <a class="btn btn-secondary mb-2" id="edit_button" href="{{ path('utilisateur_list') }}">Editer</a>
+        <a class="btn btn-secondary mb-2" href="{{ path('export') }}">Export CSV</a>
 
         <div class="d-flex justify-content-center">
             {% do utilisateurs.setPageRange(10) %}
@@ -237,7 +238,7 @@
                                 // j'appelle la fonction de réactualisation de la page
                                 setTimeout(function () {
                                     window.reload();
-                                }, 5000);
+                                }, 3000);
                             } else {
                                 setTimeout(function () {
                                     window.reload();

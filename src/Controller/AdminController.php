@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Data\SearchData;
+use App\Entity\Resultat;
 use App\Entity\Utilisateur;
 use App\Entity\WpUsers;
 use App\Form\SearchForm;
@@ -13,8 +14,11 @@ use App\Service\Calculateur;
 use App\Service\MailerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
@@ -26,6 +30,18 @@ use Twig\Error\SyntaxError;
 
 class AdminController extends AbstractController
 {
+
+
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
+
+    public function __construct( EntityManagerInterface $entityManager)
+    {
+
+        $this->entityManager = $entityManager;
+    }
 
     // Afficher les villes
     /**
@@ -335,5 +351,82 @@ class AdminController extends AbstractController
         ]);*/
     }
 
+    private function getData(): array
+    {
+        /**
+         * @var $simulation_utilisateur Utilisateur[]
+         */
+        $list = [];
+        $list_simulation_utilisateur = $this->entityManager->getRepository(Utilisateur::class)->findAll();
 
+        foreach ($list_simulation_utilisateur as $simulation_utilisateur) {
+            $list[] = [
+                $simulation_utilisateur->getNom(),
+                $simulation_utilisateur->getPrenom(),
+                $simulation_utilisateur->getCodePostal(),
+                $simulation_utilisateur->getVille(),
+                $simulation_utilisateur->getTel(),
+                $simulation_utilisateur->getEmail(),
+                $simulation_utilisateur->getDateSimulation(),
+                $simulation_utilisateur->getRappel(),
+                $simulation_utilisateur->getProprietaire(),
+                $simulation_utilisateur->getTypeBien(),
+                $simulation_utilisateur->getAncienneteEligible(),
+                $simulation_utilisateur->getProduitVise(),
+                $simulation_utilisateur->getEnergie(),
+                implode(', ',$simulation_utilisateur->getChauffage()),
+                $simulation_utilisateur->getNbreSalleBain(),
+                $simulation_utilisateur->getNbrePersFoyer(),
+                $simulation_utilisateur->getRevenuFiscal(),
+                $simulation_utilisateur->getResultat()->getPrimeRenov(),
+                $simulation_utilisateur->getResultat()->getCee(),
+                $simulation_utilisateur->getResultat()->getCdpChauffage(),
+                $simulation_utilisateur->getResultat()->getMontantTotal()
+            ];
+        }
+        return $list;
+    }
+
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     * @Route("/admin/utilisateur/export",  name="export")
+     */
+    public function export()
+    {
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $sheet->setTitle('Liste des simulations');
+
+        $sheet->getCell('A1')->setValue('Nom');
+        $sheet->getCell('B1')->setValue('Prénom');
+        $sheet->getCell('C1')->setValue('Code postal');
+        $sheet->getCell('D1')->setValue('Ville');
+        $sheet->getCell('E1')->setValue('Téléphone');
+        $sheet->getCell('F1')->setValue('E-mail');
+        $sheet->getCell('G1')->setValue('Date de simulation');
+        $sheet->getCell('H1')->setValue('Rappel');
+        $sheet->getCell('I1')->setValue('Proprietaire');
+        $sheet->getCell('J1')->setValue('Type de bien');
+        $sheet->getCell('K1')->setValue('Anciennetée');
+        $sheet->getCell('L1')->setValue('Produit visé');
+        $sheet->getCell('M1')->setValue('Energie');
+        $sheet->getCell('N1')->setValue('Chauffage');
+        $sheet->getCell('O1')->setValue('Nbre de salle de bain');
+        $sheet->getCell('P1')->setValue('Nbre de personne au foyer');
+        $sheet->getCell('Q1')->setValue('Revenu fiscal');
+        $sheet->getCell('R1')->setValue('MaPrimeRenov');
+        $sheet->getCell('S1')->setValue('CEE');
+        $sheet->getCell('T1')->setValue('CDP Fioul');
+        $sheet->getCell('U1')->setValue('Montant total');
+
+        // Augmente le curseur de la ligne apres avoir fait le header
+        $sheet->fromArray($this->getData(),null, 'A2', true);
+
+        $writer = new Xlsx($spreadsheet);
+
+        $writer->save('assets/simul_File_list/liste_des_simulations.xlsx');
+
+        return $this->file('assets/simul_File_list/liste_des_simulations.xlsx'); // That's it! 😁
+    }
 }

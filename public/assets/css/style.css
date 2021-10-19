@@ -84,11 +84,11 @@ body {
 
 .container .form-outer form {
     display: flex;
-    width: 400%;
+    width: 200%;
 }
 
 .form-outer form .page {
-    width: 25%;
+    width: 50%;
     transition: margin-left 0.3s ease-in-out;
 }
 
